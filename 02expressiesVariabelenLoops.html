@@ -1,0 +1,1016 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Allison Parrish">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Expressies, variabelen en lussen
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/menu.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Creative Coding" href="/atom.xml">
+  <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+</head>
+
+
+  <body>
+
+<ul class="sidenav">
+  <li><a href="index.html">1 De eerste stappen</a></li>
+  <li><a class="active" href="02expressiesVariabelenLoops.html">2 Expressies, variabelen en lussen</a></li>
+  <li><a href="03veranderingInTijd.html">3 Animatie</a></li>
+  <li><a href="04interactie.html">4 Interactie</a></li>
+  <li><a href="05TransformatieFuncties.html">5 Functies</a></li>
+  <li><a href="06Media.html">6 Media</a></li>
+  <li><a href="07ArrayObjects.html">7 Arrays en Objecten</a></li>
+   <hr>
+  <li><a href="opdracht.html">Wat moet je inleveren?</a></li>
+  <hr>
+
+  <li><a href="https://editor.p5js.org/" target="_blank">p5 webeditor</a></li>
+  <li><a href="https://p5js.org/reference/" target="_blank">Referentie</a></li>
+<li><a href="https://www.youtube.com/user/shiffman/playlists?sort=dd&shelf_id=14&view=50" target="_blank">The Coding Train</a></li>
+</ul>
+    <div class="container content">
+      <main>
+        <article class="page">
+  <h1 class="page-title">Expressies, variabelen en lussen</h1>
+<small> <p>Deze site is grotendeels een vertaling van een tutorial van <a href="https://creative-coding.decontextualize.com/">Allison Parrish</a> en is vertaald en bewerkt door <a href="https://www.visualeditor.nl/">Marijn van der Meer</a> voor het gebruik bij Informatica lessen op het IJburg College</p></small>
+
+<p>Je kan nu iets op het scherm krijgen met p5.js en nog iets met vorm en kleur te doen. Nu is het tijd voor een aantal heel belangrijke concepten in het programmeren: expressies, variabelen en lussen.</p>
+
+<h2 id="expressions">Expressies</h2>
+
+<p>In de sketches in het vorige hoofdstuk, heb je geleerd <em>functies</em>
+(zoals <code>ellipse</code>) te gebruiken met parameters. De parameters waren vaste getallen, zoals <code>100</code>
+of <code>300</code> bijvoorbeeld. Getallen als <code>300</code> of <code>150</code> heten in Javascript een <em>waarde</em>.  (Later zal je ook nog leren dat waarden niet alleen getallen hoeven te zijn, maar laten we nu alleen even met getallen werken). In alle sketches uit het vorige hoofdstuk werd met in iedere functie een op zichzelf staand getal gebruikt voor de parameters. </p>
+
+<p>Deze individuele op zichzelf staande getallen zijn prima, maar ze zijn maar het begin van het programmeerverhaal. Je kan ieder individueel getal met behulp van <em>expressies</em> combineren met andere getallen. Dit klinkt moeilijker dan het is. Je doet het al met wiskunde. Een expressie is een manier om een nieuw getal te maken door waarden te combineren met <em>operatoren</em>! 
+
+<p>Hier gaan we zo verder op in. Eerst eens naar een voorbeeld kijken. Hier staat een simpele sketch die vier cirkels tekent: </p>
+
+  <script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+    createCanvas(400, 400);
+    noLoop();
+}
+
+function draw() {
+    background(255);
+    fill(255);
+    stroke(50);
+    strokeWeight(8);
+    ellipse(100, 100, 150, 150);
+    ellipse(300, 100, 150, 150);
+    ellipse(100, 300, 150, 150);
+    ellipse(300, 300, 150, 150);
+}
+</script>
+
+<p>Afgezien van de <code>noLoop()</code>, moet na het vorige hoofdstuk deze code nu kunnen begrijpen (op de <code>noLoop()</code> gaan we later nog in). Alle getallen uit de code kunnen vervangen worden door <em>expressies</em>. Een expressie bestaat uit een <em>operator</em> met twee waardes, een waarde links en rechts van de operator. Eigenlijk dus gewoon een som die je uit de wiskunde kent. 
+Hier is bijvoorbeeld dezelfde sketch, maar nu met de <em>optel</em>operator (<code>+</code>) om de y-positie van alle ellipsen met 50 pixels te veranderen: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+    createCanvas(400, 400);
+    noLoop();
+}
+
+function draw() {
+    background(255);
+    fill(255);
+    stroke(50);
+    strokeWeight(8);
+    ellipse(100, 100 + 50, 150, 150);
+    ellipse(300, 100 + 50, 150, 150);
+    ellipse(100, 300 + 50, 150, 150);
+    ellipse(300, 300 + 50, 150, 150);
+}
+</script>
+
+<p>Waar er <code>100 + 50</code> staat is een voorbeeld van een expressie: twee waardes in combinatie met een operator. De operator in dit geval was de <code>+</code>, maar alle bekende wiskundige operatoren uit je eerdere schooljaren kunnen gebruikt worden, alleen worden een aantal misschien iets anders geschreven dan als je gewend bent: </p>
+
+<table>
+  <thead>
+    <tr>
+      <th>naam</th>
+      <th>operator</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>optellen</td>
+      <td>+</td>
+    </tr>
+    <tr>
+      <td>aftrekken</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>vermenigvuldigen</td>
+      <td>*</td>
+    </tr>
+    <tr>
+      <td>delen</td>
+      <td>/</td>
+    </tr>
+        <tr>
+      <td>machtsverheffen</td>
+      <td>**</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Hier is nog een sketch voorbeeld dat een beetje speelt met deze operatoren:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100 + 50, 150, 150);
+  ellipse(300 - 25, 100, 150, 150);
+  ellipse(100, 300 + 50, 150 / 3, 150);
+  ellipse(300, 300, 150 * 2, 150);
+}
+</script>
+
+<p>De operator voor vermenigvuldiging wordt geschreven met een <code>*</code> en die voor delen met een
+<code>/</code> (Wiskundig zou je het zo kunnen zien: de teller van de breuk staat dus links van de gekantelde breukstreep <code>/</code> en de noemer rechts).</p>
+
+<p>Als je net begint met programmeren kan het voorbeeld van hierboven er raar en ingewikkeld uit zien. Neem bijvoorbeeld deze regel: </p>
+
+<pre><code>ellipse(100, 300 + 50, 150 / 3, 150);
+</code></pre>
+
+<p>Zo moet je hem hardop lezen:</p>
+
+<ul>
+  <li>Hier wordt de <code>ellipse</code> functie aangeroepen.</li>
+  <li>In functies worden parameters gescheiden door komma's. Er zijn drie komma's tussen de haakjes dus zijn er vier parameters (Komma's staan alleen <em>tussen</em> de parameters, dus er is een komma minder dan er parameters zijn). </li>
+  <li>De parameters van de functie zijn dan <code>100</code>, <code>300 + 50</code>, <code>150 / 3</code>en 
+<code>150</code>.</li>
+  <li><code>100</code> en <code>150</code> zijn gewoon vaste getallen, maar <code>300 + 50</code> en <code>150 / 3</code> zijn expressies. Javascript zal deze expressies in een vast getal omzetten als de sketch aangezet wordt (het resultaat is dus <code>350</code> voor de een en <code>50</code> voor de ander).</li>
+  <li>De volgorde van de parameters is van belang zoals we in het vorige hoofdstuk al zagen, als je niet meer weet wat welk getal bepaalt kijk dan weer even naar de <a href="https://p5js.org/reference/#/p5/ellipse">referentiepagina van de ellipse functie</a>. Zoals je ziet of misschien nog weet geeft de eerste parameter de X-positie, de tweede de Y-positie, de derde de breedte en de vierde parameter de hoogte van de ellipse.</li>
+  <li>Dus deze regel zorgt ervoor dat er een ellipse wordt getekend op de X-positie 100, de Y-positie 350 met een diameter in de breedte van 50 en in de hoogte van 150 (Precies wat je ziet in de sketch!). </li>
+</ul>
+
+<p>Als de computer een expressie omzet in een getal heet dat 
+<em>evaluatie</em>. Als je een expressie in je programma zet dan 
+<em>evalueert</em> Javascript deze om het in een waarde om te zetten.</p>
+
+<p>De spaties voor en na de operator zijn overigens niet nodig voor de computer maar maakt de code voor een mens wat leesbaarder soms. </p>
+
+<pre><code>300 + 50
+</code></pre>
+
+<p>… betekent precies hetzelfde als:</p>
+
+<pre><code>300+50
+</code></pre>
+
+<p>Iedere programmeur kiest zijn/haar eigen stijl dus kies wat je zelf fijner vindt maar hou je code netjes door een stijl te gebruiken in een programma. </p>
+
+<h3 id="using-p5js-as-a-calculator">p5.js als een rekenmachine gebruiken</h3>
+
+<p>De bovenstaande rekensommen zoals <code>300 + 50</code> zijn niet zo moeilijk, waarom zou je dan niet gewoon <code>350</code> in je code schrijven? Want je weet allang wat <code>300 + 50</code> is?
+Dat klopt, de voorbeelden van hierboven zijn niet echt nuttig. Maar in het programmeren worden operatoren wel veel gebruikt, zoals je later zult merken. Voornamelijk in combinatie met <em>variabelen</em> zijn ze handig, iets waar we zo op in gaan. Eerst wil ik laten zien dat je p5.js ook als rekenmachine kan gebruiken. Laten we een iets moeilijkere som nemen: </p>
+
+<pre><code>427 * 54
+</code></pre>
+
+<p>Je kan p5.js gebruiken om deze som uit te rekenen! Begin een nieuwe sketch maar nu in de <a href="https://editor.p5js.org/" target="_blank">
+web editor</a> en kopieer en plak de onderstaande code eens tussen de <code>{</code> en de <code>}</code> na de
+<code>function setup()</code>:</p>
+
+<pre><code>console.log(427 * 54);
+</code></pre>
+
+<p>Je kan iedere expressie tussen de haakjes typen die je wil en als je dan op de RUN knop klikt, blijft het sketch venster leeg, maar het antwoord van je som staat in het consolevenster of "Debug" venster onder het code venster. (Je kan het ook vinden in het Javascript console van je browser, maar dat is voor gevorderden!) </p>
+
+<p>De <code>console.log()</code> functie is een speciale functie dat niets op het scherm tekent: het enige doel van deze functie is het weergeven van het resultaat van evaluaties van expressies. Je zal later merken dat dit heel handig kan zijn voor het zoeken naar en analyseren van fouten in je programma, vandaar dat ik de <code>console.log()</code> al even noem. </p>
+
+<h3 id="more-complex-expressions-and-order-of-operation">Ingewikkeldere expressies en de volgorde van bewerkingen</h3>
+
+<p>Dit zal je waarschijnlijk al bij wiskunde gehad hebben, maar een operator kan een waarde aan beide kanten hebben, maar ook een andere 
+<em>expressie</em>. Je kan er zoveel aan elkaar plakken als je zelf wilt. </p>
+
+<p>Om een expressie deel uit te laten maken van een andere expressie zet je deze tussen haakjes Bijvoorbeeld:</p>
+
+<pre><code>console.log(4 + (5 * 6));
+</code></pre>
+
+<p>De expressie in deze code is <code>4 + (5 * 6)</code>, waar dus eigenlijk staat:
+“Tel iets bij elkaar op. Tel de waarde vier bij het antwoord op 5 maal 6 (het antwoord is 34).</p>
+
+<p>Of ingewikkelder:</p>
+
+<pre><code>console.log((18 / 3) - (3 + 2));
+</code></pre>
+
+<p>Hier halen we het antwoord van <code>3 + 2</code> af van het antwoord van <code>18 / 3</code>.
+Javascript rekent dit precies hetzelfde uit als je zelf waarschijnlijk doet. Van links naar rechts gaat het de expressies af en evalueert deze (rekent ze uit), zoiets: </p>
+
+<ul>
+  <li>(18 / 3) - (3 + 2)</li>
+  <li>6 - (3 + 2)</li>
+  <li>6 - 5</li>
+  <li>1</li>
+</ul>
+
+<blockquote>
+  <p>Oefening: Wat is het antwoord van de expressie <code>((1 + 2) * (3 + 4)) / (9 - 2)</code>? Probeer het eerst uit je hoofd en check daarna je antwoord met de 
+<code>console.log()</code>. </p>
+</blockquote>
+
+<p>Als je de haakjes weg laat gebruikt Javascript dezelfde regels die je bij wiskunde hebt geleerd:
+<a href="https://nl.wikipedia.org/wiki/Bewerkingsvolgorde">Hoe Moeten Wij Van De Onvoldoendes Afkomen?</a> (Haakjes,
+Machtsverheffen, Worteltrekken, Vermenigvuldigen, Delen, Optellen, Aftellen). Dus in de volgende expressie:</p>
+
+<pre><code>4 + 5 * 6
+</code></pre>
+
+<p>evalueert Javascript eerst het vermenigvuldigen (5 * 6) en daarna het optellen (4 + 30), en dat geeft als antwoord <code>34</code>. Om Javascript eerst het optellen te laten evalueren moeten we die expessie tussen haakjes zetten:</p>
+
+<pre><code>(4 + 5) * 6
+</code></pre>
+
+<p>… en dat geeft <code>54</code> als antwoord (negen keer zes).</p>
+
+<p>Zelf zet ik meestal haakjes om expressies die ik eerst wil laten evalueren, zonder aan de volgorde te denken. Dit omdat ik dan minder (onverwachte) fouten maak in mijn code en ik vind het makkelijker leesbaar.</p>
+
+<h2 id="variables">Variabelen</h2>
+
+<p>Nu dat je waarden en expressies begrijpt is het tijd voor een van de meest krachtige concepten in programmeren: <em>variabelen.</em></p>
+
+<h3 id="changing-values-with-search-and-replace">Waarden veranderen met zoek en vervang</h3>
+
+<p>Om variabelen uit te leggen gaan we terug naar de code van de vier cirkels van iets eerder:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+    createCanvas(400, 400);
+    noLoop();
+}
+
+function draw() {
+    background(255);
+    fill(255);
+    stroke(50);
+    strokeWeight(8);
+    ellipse(100, 100, 150, 150);
+    ellipse(300, 100, 150, 150);
+    ellipse(100, 300, 150, 150);
+    ellipse(300, 300, 150, 150);
+}
+</script>
+
+<p>Ziet er best aardig uit, maar de cirkels zijn wat groot! Ik wil ze wat kleiner, zeg 100 pixels in diameter in plaats van 150. Er staat wel heel vaak <code>150</code> om te veranderen. Maar ik ben slim in een teksteditor kan ik <em>zoek en vervang</em> gebruiken. Zoek alle <code>150</code> en vervang voor <code>100</code>. Het resultaat staat hieronder: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+    createCanvas(400, 400);
+    noLoop();
+}
+
+function draw() {
+    background(255);
+    fill(255);
+    stroke(50);
+    strokeWeight(8);
+    ellipse(100, 100, 100, 100);
+    ellipse(300, 100, 100, 100);
+    ellipse(100, 300, 100, 100);
+    ellipse(300, 300, 100, 100);
+}
+</script>
+
+<p>Maar nu vind ik ze toch weer wat klein. Wat ik nu toch heel wat anders wil en ik wil ze juist veel groter. Misschien wel 200 pixels diameter? Nog een keer een <em>zoek en vervang</em>, nu van <code>100</code> naar <code>200</code>.
+Wat krijgen we nu…</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+    createCanvas(400, 400);
+    noLoop();
+}
+
+function draw() {
+    background(255);
+    fill(255);
+    stroke(50);
+    strokeWeight(8);
+    ellipse(200, 200, 200, 200);
+    ellipse(300, 200, 200, 200);
+    ellipse(200, 300, 200, 200);
+    ellipse(300, 300, 200, 200);
+}
+</script>
+
+<p>Oh oh. Dit was niet de bedoeling. Wat gebeurde er?</p>
+
+<p>Ik zie nu dat de <code>100</code> niet alleen de nieuwe waarde was van de diameter van de cirkel, maar <em>ook</em> de waarde van een aantal X en Y coordinaten van de cirkels. Dus nu zijn met <em>zoek en vervang</em> deze waarden <em>per ongeluk</em> ook veranderd. Vervelend, irritant, ik vind de cirkels stom en ik haat vervolgens het vak informatica...
+</p>
+
+<h3 id="variables-to-the-rescue">Leve de variabelen!</h3>
+
+<p>Hoe zou je dit probleem kunnen oplossen? Je wilt eigenlijk dezelfde waarde op meerdere plekken gebruiken en als je die waarde wilt veranderen wil je dat maar een keer moeten doen in plaats van op meerdere plekken in je code. Zou het niet geweldig zijn als er een soort ladenkast zou zijn waar je in een laatje een waarde in zou kunnen stoppen en op de la zou kunnen schrijven wat er in zit? En als je die waarde nodig hebt dat je dan alleen de naam van de la hoeft te gebruiken en in die la ook makkelijk een andere waarde zou kunnen stoppen? Dus in dit geval zou je een laatje willen hebben met de naam <code>diameter</code> en daar de waarde <code>200</code> in stoppen... </p>
+
+<p>Er <em>bestaat</em> zo'n laatje in iedere programmeertaal, dus ook in Javascript en deze heet: een <em>variabele</em>.</p>
+
+<p>Ok, het is niet <em>echt</em> een laatje uiteraard. Er is is wel een virtuele ladenkast in de vorm van een regel in je code waarin je een waarde een <em>naam</em> geeft en die naam overal in je code kan gebruiken als je die waarde nodig hebt, in plaats van het typen van die waarde. Zo ziet dat eruit:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var diameter = 200;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, diameter, diameter);
+  ellipse(300, 100, diameter, diameter);
+  ellipse(100, 300, diameter, diameter);
+  ellipse(300, 300, diameter, diameter);
+}
+</script>
+
+<p>De regel helemaal bovenaan de sketch, zelfs boven de <code>function setup() {</code> is een
+<em>variabele declaratie</em>, het vaststellen van een variabele. Het declareren van een variabele heeft het volgende format:</p>
+
+<ul>
+  <li>Het woord <code>var</code>, gevolgd door</li>
+  <li>de naam van de variabele (zeg, maar de naam van het laatje, die mag je zelf bepalen!), gevolgd door </li>
+  <li>een "is" teken (<code>=</code>), gevolgd door</li>
+  <li>een expressie die de waarde "geeft" die jij wilt aan de variabele (die je in je laatje stopt).</li>
+</ul>
+
+<p>Dus in deze sketch is de variabele met de naam <code>diameter</code> vastgesteld met de waarde <code>200</code>. En overal in de sketch waar ik deze waarde wil gebruiken kan je het woord <code>diameter</code> gebruiken in plaats van de waarde zelf. Als ik nu de diameter van de cirkels wil <em>veranderen</em>, dus de waarde aanpassen, dan hoef ik dat op nog maar een plek te doen:
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var diameter = 40;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, diameter, diameter);
+  ellipse(300, 100, diameter, diameter);
+  ellipse(100, 300, diameter, diameter);
+  ellipse(300, 300, diameter, diameter);
+}
+</script>
+
+<p>Je kan zo veel variabelen in je code toevoegen als je zelf wilt. Dus als ik de hoogte en breedte van de cirkels nog niet zeker weet en ze misschien zou willen veranderen dan zou ik <em>twee</em> variabelen kunnen toevoegen, een voor de hoogte en een voor de breedte: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var cirkelHoogte = 40;
+var cirkelBreedte = 80;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, cirkelBreedte, cirkelHoogte);
+  ellipse(300, 100, cirkelBreedte, cirkelHoogte);
+  ellipse(100, 300, cirkelBreedte, cirkelHoogte);
+  ellipse(300, 300, cirkelBreedte, cirkelHoogte);
+}
+</script>
+
+<p>Laten we daar eens even mee spelen:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var cirkelHoogte = 250;
+var cirkelBreedte = 110;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, cirkelBreedte, cirkelHoogte);
+  ellipse(300, 100, cirkelBreedte, cirkelHoogte);
+  ellipse(100, 300, cirkelBreedte, cirkelHoogte);
+  ellipse(300, 300, cirkelBreedte, cirkelHoogte);
+}
+</script>
+
+<p>Zie dat er niets bijzonders is aan de namen van de variabelen die je kiest <code>diameter</code>,
+<code>cirkelBreedte</code> en <code>cirkelHoogte</code>. Je mag zelf de namen verzinnen, maar het is wel aan te raden en gebruikelijk om namen te kiezen die duidelijk maken wat de variabelen doet, waar deze voor gebruikt wordt. Zo weet je later nog wat je deed en kunnen anderen ook je code beter begrijpen. Maar je mag ook dit doen: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var informaticaIsStom = 250;
+var b7GxQrTto9 = 110;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, b7GxQrTto9, informaticaIsStom);
+  ellipse(300, 100, b7GxQrTto9, informaticaIsStom);
+  ellipse(100, 300, b7GxQrTto9, informaticaIsStom);
+  ellipse(300, 300, b7GxQrTto9, informaticaIsStom);
+}
+
+</script>
+
+<p>Zo lang je maar <em>exact</em> dezelfde spelling aanhoudt (inclusief hoofdletters en kleine letters), zullen je variabelennamen doen wat ze moeten doen, hoe je ze ook noemt. </p>
+
+<h3 id="naming-variables">Namen van variabelen</h3>
+
+<p>Er zijn toch wel een paar regels bij het geven van namen. De regels van Javascript zijn: </p>
+
+<ul>
+  <li>Je variabelenaam moet met een letter beginnen (hoofdletter of kleine letter, A tot Z). </li>
+  <li>Na de eerste letter, kan de variabele letters, getallen of een lagestreep (underscore) <code>_</code> bevatten.</li>
+  <li>Een variabelenaam kan zo kort zijn als een letter en zo lang als je zelf wilt (is dat handig denk je? En ja, <a href="http://stackoverflow.com/questions/1809153/maximum-length-of-variable-name-in-javascript">er zijn mensen die het uitgeprobeerd hebben met namen van meer dan 512.000 letters!</a>)
+</li>
+</ul>
+
+<p>Ook zijn er verschillende <em>gereserveerde keywords</em> in Javascript, die je niet als variabele kan gebruiken, omdat ze al voor iets anders worden gebruikt. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords">Hier zie je de lange lijst.</a>.</p>
+
+<p>En het is uiteraard ook niet verstandig om een naam te gebruiken van een van de ingebouwde p5.js variabelen of functienamen. Je code kan heel raar gaan doen als je een variabele <code>ellipse</code> noemt. <a href="http://p5js.org/reference/">Raadpleeg de p5.js referentie voor de hele lijst</a>. Maar over het algemeen hoef je je geen zorgen te maken en kom je vaak zelf wel op andere namen. Maar mocht je code iets onverwachts raars doen kan je dus controleren of het aan een gekozen variabelenaam ligt.</p>
+
+<h3 id="errors-with-variables">Foutmeldingen met variabelen</h3>
+
+<p>De foutmelding die het meeste voor komt en die je zeker een keer tegenkomt is het moment dat je de gekozen variabelenaam verderop in je code verkeerd spelt of vergeten bent aan te maken. Als dit gebeurt zal Javascript je een “Uncaught ReferenceError” foutmelding geven, dat betekent dat je een variabele hebt aangeroepen die Javascript niet herkent (hij kan het laatje niet vinden). Er staat vrijwel altijd ook een getal bij de foutmelding dat aangeeft in welke regel Javascript denkt dat de fout zit. Dit is heel fijn.
+
+<h3 id="variables-and-expressions">Variabelen en expressies</h3>
+
+<p>Ok, variabelen. Je snapt ze en kan ze gebruiken. Het zijn waarden waar je een naam aangeeft en je kan die naam gebruiken in je code in plaats van de originele waarde. Nu kan je de waarde makkelijk veranderen zonder je hele code weer te moeten doorlopen. Handig en fijn. </p>
+
+<p>Maar de kracht van variabelen is dat je ze kan gebruiken op precies zo'n manier als een waarde (getal) Dit betekent dat je variabelen bijvoorbeeld ook in <em>expressies</em> kan gebruiken. Hier zijn bijvoorbeeld weer onze vier cirkels, maar nu gebruiken we de <code>diameter</code> variabele in combinatie met een expressie om de grootte van de cirkels een klein beetje te veranderen, voor iedere cirkel weer: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var diameter = 100;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, diameter, diameter);
+  ellipse(300, 100, diameter+25, diameter+25);
+  ellipse(100, 300, diameter+50, diameter+50);
+  ellipse(300, 300, diameter+75, diameter+75);
+}
+</script>
+
+<p>De "basis" diameter van iedere cirkel wordt bepaald door de variabele, maar nu kunnen we de waarde van de variabele heel makkelijk een beetje veranderen voor een kleine variatie:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var diameter = 25;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, diameter, diameter);
+  ellipse(300, 100, diameter+25, diameter+25);
+  ellipse(100, 300, diameter+50, diameter+50);
+  ellipse(300, 300, diameter+75, diameter+75);
+}
+</script>
+
+<p>Je kan ook variabelen gebruiken die je daarvoor al gedeclareerd (gemaakt) hebt. Stel je voor dat we van iedere cirkel de hoogte precies twee keer zo groot willen als de breedte. Dat kan je zo doen: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ellipseBreedte = 110;
+var ellipseHoogte = ellipseBreedte * 2;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, ellipseBreedte, ellipseHoogte);
+  ellipse(300, 100, ellipseBreedte, ellipseHoogte);
+  ellipse(100, 300, ellipseBreedte, ellipseHoogte);
+  ellipse(300, 300, ellipseBreedte, ellipseHoogte);
+}
+</script>
+
+<p>Je kan nu de waarde van <code>ellipseBreedte</code> aanpassen en de verhouding van de ellips blijft hetzelfde zonder dat je hoeft te stoeien met de waarde van <code>ellipseHoogte</code>:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ellipseBreedte = 50;
+var ellipseHoogte = ellipseBreedte * 2;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  stroke(50);
+  strokeWeight(8);
+  ellipse(100, 100, ellipseBreedte, ellipseHoogte);
+  ellipse(300, 100, ellipseBreedte, ellipseHoogte);
+  ellipse(100, 300, ellipseBreedte, ellipseHoogte);
+  ellipse(300, 300, ellipseBreedte, ellipseHoogte);
+}
+</script>
+
+<p>Hier is een sketch dat alles samenvoegd: het tekent een rij van vijf rechthoeken door het gebruik van variabelen en expressies om kleine variaties aan te brengen in iedere rechthoek. Je kan de variabelen aanpassen zonder de eigenlijke code aan te passen (en eventueel per ongeluk te verpesten) die in de <code>draw()</code> functie staat.</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var fillG = 100;
+var fillstep = 25;
+var xpos = 50;
+var ypos = 100;
+var xstep = 50;
+var ystep = xstep / 2;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  noStroke();
+
+  fill(200, fillG, 200);
+  rect(xpos, ypos, 100, 100);
+
+  fill(200, fillG+fillstep, 200);
+  rect(xpos+xstep, ypos + ystep, 100, 100);
+
+  fill(200, fillG+(fillstep * 2), 200);
+  rect(xpos+(xstep*2), ypos+(ystep*2), 100, 100);
+
+  fill(200, fillG+(fillstep*3), 200);
+  rect(xpos+(xstep*3), ypos+(ystep*3), 100, 100);
+
+  fill(200, fillG+(fillstep*4), 200);
+  rect(xpos+(xstep*4), ypos+(ystep*4), 100, 100);
+}
+</script>
+
+<p>Probeer maar eens wat waarden in de variabelen te veranderen om te zien wat er gebeurt (en wat gebeurt er als je <em>negatieve</em> waarde invoert bij een variabele, zoals bijvoorbeeld <code>-25</code> for <code>xstep</code>?) Als je niet precies begrijpt wat er in de code gebeurt probeer dan regel voor regel door iedere functie te gaan en de expressie te evalueren (Wat komt er bijvoorbeeld uit de expressie <code>(xpos+(xstep*4))</code>?</p>
+
+<blockquote>
+  <p>Opmerking: <code>noStroke()</code> werkt precies als <code>stroke()</code> of <code>strokeWeight()</code>, alleen vertelt het p5.js om de omlijning <em>weg te laten</em> (dus niet te tekenen). De <code>noFill()</code> functie doet hetzelfde met de vulkleur van een vorm. Probeer het maar uit! </p>
+</blockquote>
+
+<h2 id="repetition-with-variation">Herhaling met variatie</h2>
+
+<p>Als je ondertussen al een beetje bent gaan denken als een programmeur en jezelf al een beetje een nerd gaat voelen, had je misschien al het idee bij het vorige voorbeeld. "Dit is wel heel veel herhaling" Als ik dit had moeten overtypen had ik wel heel veel <em>vrijwel</em> hetzelfde moeten typen. En veel typen doen alleen sukkels. Hadden we vorige periode niet iets geleerd over herhaling en was het niet juist een <em> computer</em> die dat goed kan en niet een mens? </p>
+
+<p>Laten we eerst een wat simpeler voorbeeld nemen. Deze sketch tekent vijf cirkels op een rij: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 200;
+var xpos = 80;
+var xstep = 60;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  ellipse(xpos, ypos, 40, 40);
+  ellipse(xpos + xstep, ypos, 40, 40);
+  ellipse(xpos + (xstep * 2), ypos, 40, 40);
+  ellipse(xpos + (xstep * 3), ypos, 40, 40);
+  ellipse(xpos + (xstep * 4), ypos, 40, 40);
+}
+</script>
+
+<p>Dus we hebben hier vijf precies dezelfde cirkels met het enige verschil dat de X-positie verandert. Dit is te doen, maar wat als ik iets wil veranderen. Bijvoorbeeld: </p>
+
+<ul>
+  <li>Wat als ik het aantal cirkels wil veranderen? Een extra cirkel toevoegen valt wel mee, maar wat als ik er honderd of misschien wel een miljoen wil tekenen? (Dat klinkt nu wat veel maar je zal later merken dat een miljoen dingen op het scherm tekenen misschien vaker gebeurt dan je denkt).</li>
+  <li>En wat als ik de diameter per cirkel zou willen veranderen? Ik zou variabelen kunnen gebruiken, maar moet ik er echt zoveel maken als er cirkels zijn? </li>
+  <li>En wat als ik <em>andere</em> attributen van de cirkel in een herhaling zou willen laten veranderen, zoals met de kleur van rechthoeken van het vorige voorbeeld?  </li>
+</ul>
+
+<p>Allemaal goede vragen. We willen een gereedschap hebben waarin we p5.js kunnen vertellen dat we niet een individuele vorm willen, maar een hele <em>serie</em> van vormen die bepaalde attributen delen. Met andere woorden we willen <em>herhalen met variatie</em>. </p>
+
+<p>Je ziet dat de regels met de <code>ellipse()</code> code eigenlijk de hele tijd hetzelfde doen en dezelfde waarden gebruiken. Om het nog wat duidelijker te maken herschrijven we het voorbeeld nog een beetje, zodat <em>iedere</em> aanroep van de <code>ellipse()</code> een vermenigvuldiging heeft en niet alleen de laatste drie: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 200;
+var xpos = 80;
+var xstep = 60;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  ellipse(xpos + (xstep * 0), ypos, 40, 40);
+  ellipse(xpos + (xstep * 1), ypos, 40, 40);
+  ellipse(xpos + (xstep * 2), ypos, 40, 40);
+  ellipse(xpos + (xstep * 3), ypos, 40, 40);
+  ellipse(xpos + (xstep * 4), ypos, 40, 40);
+}
+</script>
+<p>Deze code maakt het nog duidelijker dat <em>iedere</em> aanroep van de <code>ellipse()</code> functie eigenlijk exact hetzelfde is, behalve het getal aan de rechterkant van de vermenigvuldiging. Dit kan natuurlijk makkelijker.</p>
+
+<h3 id="the-for-loop">De <code>for</code> lus</h3>
+
+<p>En die is er uiteraard! Anders was ik er niet over begonnen (en zoals je je misschien kan herinneren van de vorige periode). Dit principe van herhalen heet in programmeertaal een <em>loop</em> (in het Nederlands een lus, maar ik zal het vanaf nu de Engelse benaming, loop, aanhouden). Het heet een lus of loop omdat het de computer na een lijst van instructies de weer opnieuw dezelfde instructies laat uitvoeren en waarschijnlijk nog wel een paar keer. 
+
+
+Er zijn verschillende manieren waarop je een loop kan maken in Javascript. Degene die we als eerste gaan leren is de <code>for</code> loop. De <code>for</code> loop heeft een heel flexibele structuur die daardoor op meerdere manieren is te gebruiken, maar we beginnen met een vorm en die ziet er zo uit: </p>
+
+<pre><code>for (var i = 0; i &lt; keer; i++) {
+    ... en schrijf hetgeen je wil laten herhalen hier ...
+}
+</code></pre>
+
+<p>Vervang het woord <code>keer</code> in het code stukje hierboven met het <em>aantal keer dat je wilt dat de loop wordt herhaald</em></p>
+
+<p>Tussen de accolades (<code>{</code> en <code>}</code>), moet je de statements schrijven die je wilt herhalen. Als je normaal een getal geleidelijk toe zou laten willen nemen, schrijf dan de variabele  <code>i</code> daarvoor in de plaats. (De variabele <code>i</code> is alleen aanwezig in de <code>for</code> loop.)</p>
+
+<p>Dit klinkt heel abstract en ingewikkeld, dus hier is een voorbeeld dat hopelijk veel verklaart: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 200;
+var xpos = 80;
+var xstep = 60;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  for (var i = 0; i < 5; i++) {
+    ellipse(xpos + (xstep * i), ypos, 40, 40);
+  }
+}
+</script>
+
+<p>En met deze korte code van twee regels hebben we de vijf regels uit het eerdere voorbeeld vervangen. Niet slecht! Hier is nog een versie van de code die nu negen cirkels tekent in plaats van vijf (de waarden voor de <code>xstep</code> en de diameter van de cirkels zijn wat aangepast om het te laten passen):</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 200;
+var xpos = 80;
+var xstep = 30;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  for (var i = 0; i < 9; i++) {
+    ellipse(xpos + (xstep * i), ypos, 20, 20);
+  }
+}
+</script>
+
+<p>Probeer eens te spelen met dit voorbeeld door de code te veranderen en probeer te bedenken wat je nog meer kan doen. De sketch hieronder brengt wat variatie in de grootte van de cirkels en heeft een <code>fill()</code> toegevoegd die ook gebruik maakt van de <code>i</code> variabele om de kleur van iedere vorm geleidelijk te veranderen en herhaalt zich wel 12 keer in plaats van 9:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 200;
+var xpos = 80;
+var xstep = 30;
+var hstep = 15;
+var fillstep = 20;
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  for (var i = 0; i < 12; i++) {
+    fill(200, 255-(fillstep*i), 200);
+    ellipse(xpos+(xstep*i), ypos, 20, 20+(hstep*i));
+  }
+}
+</script>
+
+<p>Je kan zo veel statements (regels) in een <code>for</code> loop stoppen als je wilt (en met "in een for loop stoppen" bedoel ik "tussen de accolades.") Elk statement zal keer op keer opnieuw weer worden uitgevoerd. </p>
+
+<blockquote>
+  <p>OEFENING: Neem een van de voorbeelden die een <code>for</code> loop gebruikt en schrijf het eens uit. Welke statements (regels) had je moeten schrijven als je geen for loop had gebruikt? </p>
+</blockquote>
+
+<h3 id="digging-deeper-into-for">Nog dieper de <code>for</code> loop in</h3>
+
+
+
+
+
+
+<p>In de basis is de <code>for</code> loop gewoon een manier van tellen. Het makkelijkst om dit te laten zien is met de <code>console.log()</code>. Kopieer en plak de volgende code tussen de  <code>{</code> en <code>}</code> na <code>de setup()</code> functie in een nieuwe sketch in de editor en klik op RUN:</p>
+
+<pre><code>for (var i = 0; i &lt; 10; i++) {
+    console.log(i);
+}
+</code></pre>
+
+<p>De console output zal er zo uit zien:</p>
+
+<pre><code>0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+</code></pre>
+
+<p>Zoals je kan zien print deze code heel simpel de getallen van nul tot negen (dat zijn tien herhalingen, startend met nul).</p>
+
+<p>De <code>for</code> loop kan ook gebruikt worden voor een iets geavanceerdere manier van tellen, gebruik het volgende code stukje: </p>
+
+<pre><code>for (var i = start; i &lt; eind; i += stap) {
+  ... your statements here ...
+}
+</code></pre>
+
+<p>In het bovenstaande code stukje moet je de volgende veranderening aanbrengen: </p>
+
+<ul>
+  <li><code>start</code>: Vervang dit woord voor het getal waar je wil beginnen met tellen.</li>
+  <li><code>eind</code>: Vervang dit woord met het getal waar je loop moet stoppen. </li>
+  <li><code>stap</code>: Vervang dit woord met hoeveel je getal moet toenemen met iedere stap.</li>
+</ul>
+
+<p>Hier bijvoorbeeld, telt de loop van 100 (maar niet inclusief honderd) tot 300 in stappen van 40: </p>
+
+<pre><code>for (var i = 100; i &lt; 300; i += 40) {
+  console.log(i);
+}
+</code></pre>
+
+<p>En deze laat alle even nummers zien vanaf 10 tot (en niet met) 50: </p>
+
+<pre><code>for (var i = 10; i &lt; 50; i += 2) {
+  console.log(i);
+}
+</code></pre>
+
+<p>Je kan de <code>for</code> loop op deze manier dus gebruiken om de stappen in de herhaling precies te bepalen zoals jij wilt. Bijvoorbeeld:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var origx = 200;
+var origy = 100;
+var destx = 200;
+var desty = 300;
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+    background(255);
+    fill(255);
+    strokeWeight(3);
+    for (var i = 25; i < 400; i += 25) {
+      stroke(50);
+      line(i, 200, origx, origy);
+      stroke(240);
+      line(i, 200, destx, desty);
+    }
+}
+</script>
+
+<h2 id="nested-loops">Geneste loops</h2>
+
+<p>Wat als we een <em>raster</em> van cirkels willen, in plaats van maar een lijn van cirkels? We zouden het zo kunnen doen, door te kopieren en te plakken: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 140;
+var ystep = 30;
+var xpos = 80;
+var xstep = 30;
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  for (var i = 0; i < 9; i++) {
+    ellipse(xpos+(xstep*i), ypos+(ystep*0), 20, 20);
+  }
+  for (var i = 0; i < 9; i++) {
+    ellipse(xpos+(xstep*i), ypos+(ystep*1), 20, 20);
+  }
+  for (var i = 0; i < 9; i++) {
+    ellipse(xpos+(xstep*i), ypos+(ystep*2), 20, 20);
+  }
+  for (var i = 0; i < 9; i++) {
+    ellipse(xpos+(xstep*i), ypos+(ystep*3), 20, 20);
+  }
+  for (var i = 0; i < 9; i++) {
+    ellipse(xpos+(xstep*i), ypos+(ystep*4), 20, 20);
+  }
+}
+</script>
+
+<p>Maar wacht. Doen we nu nou weer precies hetzelfde. Het herhalen van code met maar een kleine variatie net zoals iets eerder in dit hoofdstuk? En dan optellen van nul tot een ander getal? 
+En was dit precies het probleem waar de <code>for</code> loop voor was bedacht om dit op te lossen?
+En inderdaad. Je kan een <code>for</code> loop <em>in</em> een andere
+<code>for</code> loop. Wanneer je een tweede <code>for</code>
+loop gebruikt, moet je wel een andere variabele naam gebruiken dan <code>i</code> in de tweede loop. Het is gebruikelijk om voor de tweede loop dan de <code>j</code> te nemen. Zo ziet de code er nu uit: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ypos = 140;
+var ystep = 30;
+var xpos = 80;
+var xstep = 30;
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255);
+  fill(50);
+  noStroke();
+
+  for (var j = 0; j < 5; j++) {
+    for (var i = 0; i < 9; i++) {
+      ellipse(xpos+(xstep*i), ypos+(ystep*j), 20, 20);
+    }
+  }
+}
+</script>
+
+<blockquote>
+  <p>LET OP: Het aantal cirkels dat wordt getekend is precies 45, dus 5 keer 9. Leg in je eigen woorden uit waarom dat zo is. </p>
+</blockquote>
+
+<blockquote>
+  <p>OEFENING: Neem het voorbeeld hierboven over en probeer met de variabelen <code>i</code> en <code>j</code> wat variatie in te brengen. Verander bijvoorbeeld de vulkleur, de dikte van de lijn, de grootte van de cirkels enz.! </p>
+</blockquote>
+
+<h2 id="comments">Comments</h2>
+
+<p>Broncode kan rommelig en onduidelijk worden. Zeker als je de volgende dag weer verder gaat of iemand anders je code gaat lezen weet je soms niet meer (direct) wat er gebeurt. Dan helpt het als je bij je code kan schrijven wat het doet of wat je dacht toen je dat stukje code schreef. Je kan er niet zo maar eigen woorden tussen schrijven, want dan snapt de computer je code niet meer. Dus hier is ook een bepaalde syntax voor: de karakters <code>//</code>. Als er ergens <code>//</code> staat op een regel zal de computer de tekst <em>na</em> deze karakters <em>op die regel</em> niet uitvoeren tot het einde van de regel. Hier is een sketch die het gebruik van commentaar, <em>comments</em> in het Engels, demonstreert: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xpos = 200; // x position of ellipse
+var ypos = 150; // y position of ellipse
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  // smaller ellipse to the left
+  ellipse(xpos - 100, ypos, 45, 45);
+  // smaller ellipse to the right
+  ellipse(xpos + 100, ypos, 45, 45);
+  // the main attraction
+  ellipse(xpos, ypos, 75, 75);
+}
+</script>
+
+<p>Comments worden ook vaak gebruikt om regels code in je programma "tijdelijk" uit te schakelen.
+Als je de sketch hierboven uit laat voeren en graag even wilt zien hoe deze eruit ziet zonder de middelste cirkel, zonder de hele regel weg te gooien, kan je heel simpel even 
+<code>//</code> aan het begin van de regel zetten. (Dit heet onder programmeurs “commenting it out”).</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xpos = 200; // x position of ellipse
+var ypos = 150; // y position of ellipse
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  // smaller ellipse to the left
+  ellipse(xpos - 100, ypos, 45, 45);
+  // smaller ellipse to the right
+  ellipse(xpos + 100, ypos, 45, 45);
+  // the main attraction
+  //ellipse(xpos, ypos, 75, 75);
+}
+</script>
+
+<p>Comments zijn ook heel fijn als je met anderen samenwerkt aan een programmeerproject. Je kan andere wijzen op lastige stukken code of onduidelijkheden verduidelijken of nog even aangeven wat er nog moet gebeuren.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments">Je kan hier meer lezen over het gebruik van 
+comments in Javascript</a>, inclusief de syntax voor het maken van comments die meerdere regels bevatten.
+</p>
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2018-09-12T19:20:00-04:00">2018</time>. The text of this work is
+          licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
+              Commons Attribution-NonCommercial 4.0 International License</a>.
+          Additionally, code examples are provided as <a
+              href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+        </small>
+      </footer>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/public/sketchui.js"></script>
+  </body>
+</html>

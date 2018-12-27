@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Allison Parrish">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Media (Creative Coding)
+    
+  </title>
+
+<!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/menu.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Creative Coding" href="/atom.xml">
+  <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+</head>
+
+
+  <body>
+
+<ul class="sidenav">
+  <li><a href="index.html">1 De eerste stappen</a></li>
+  <li><a href="02expressiesVariabelenLoops.html">2 Expressies, variabelen en lussen</a></li>
+  <li><a href="03veranderingInTijd.html">3 Animatie</a></li>
+  <li><a href="04interactie.html">4 Interactie</a></li>
+  <li><a href="05TransformatieFuncties.html">5 Functies</a></li>
+  <li><a class="active" href="06Media.html">6 Media</a></li>
+  <li><a href="07ArrayObjects.html">7 Arrays en Objecten</a></li>
+   <hr>
+  <li><a href="opdracht.html">Wat moet je inleveren?</a></li>
+  <hr>
+  <li><a href="https://editor.p5js.org/" target="_blank">p5 webeditor</a></li>
+  <li><a href="https://p5js.org/reference/" target="_blank">Referentie</a></li>
+<li><a href="https://www.youtube.com/user/shiffman/playlists?sort=dd&shelf_id=14&view=50" target="_blank">The Coding Train</a></li>
+</ul>
+    <div class="container content">
+      <main>
+        <article class="page">
+  <h1 class="page-title">Media</h1>
+<small> <p>Deze site is grotendeels een vertaling van een tutorial van <a href="https://creative-coding.decontextualize.com/">Allison Parrish</a> en is vertaald en bewerkt door <a href="https://www.visualeditor.nl/">Marijn van der Meer</a> voor het gebruik bij Informatica lessen op het IJburg College</p></small>
+
+<p>In dit hoofdstuk wil ik uitleggen hoe je externe media (plaatjes, geluid e.d.) kan inladen. Het enige probleem is dat de widget geen externe data wil inladen uit veiligheidsoverwegingen. Dus worden de voorbeelden in de bekende P5-webeditor gegeven.</p>
+
+<h2 id="images">Foto's</h2>
+
+<p>Het is makkelijk om een beeld in te laden en weer te geven in p5.js. Voor het volgende voorbeeld moet je een afbeelding vinden (of maken) in een PNG of JPG formaat. (Als je je werk uiteindelijk online wilt delen moet je de rechten van je afbeelding wel op orde hebben, mag je het wel gebruiken? <a href="https://search.creativecommons.org/">Creative Commons
+Search</a> is een goede plek om afbeeldingen te vinden die je mag gebruiken.)</p>
+
+<p>Om je afbeelding te kunnen gebruiken in je p5.js sketch moet je het eerst uploaden naar de sketch folder. Het makkelijkst om dit te doen in de p5.js webeditor: kies in menu het <code>View &gt; Show Sketch Folder</code>. Nu kan je Finder gebruiken om je beeld te zoeken en naar deze folder te kopieren.</p>
+
+<p>Onthoudt de <em>naam</em> van de file: je hebt hem straks nodig om hem in je sketch te laden </p>
+
+<p>In het volgende voorbeeld, gebruik ik een afbeelding met de naam <code>kitty.jpg</code>, die je 
+<a href="/sketches/kitty.jpg">hier kan downloaden</a>. (<a href="https://www.flickr.com/photos/makoto-suzuki/8750156403">Bron</a>, gebruikt onder de 
+<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a> licentie.)</p>
+
+<p><iframe src="https://editor.p5js.org/marijnvandermeer@ijburgcollege.nl/embed/rkLjX-8nX" width="420" height="420"></iframe></p>
+
+<p>
+<a href="https://editor.p5js.org/marijnvandermeer@ijburgcollege.nl/sketches/rkLjX-8nX">Werken met plaatjes 1</a></p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+function preload() {
+  kitty = loadImage("https://raw.githubusercontent.com/visualeditorNL/data/master/pacman");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  image(kitty, mouseX, mouseY);
+}
+</script>
+<p>En nu hebben we een kat die de muis volgt!</p>
+
+
+
+<p>There are a few new functions and concepts in this example that are worth
+looking at in more detail. The first is the <code>preload()</code> function. This is a
+function, like <code>setup()</code> and <code>draw()</code>, that you define in your sketch and that
+is then called by p5.js automatically. The code in <code>preload()</code> gets run
+<em>before</em> <code>setup()</code> or <code>draw()</code> gets called, and generally it’s used to load any
+images (or other media) that you’re going to use in your sketch, in order to
+guarantee that those images have been successfully loaded before the rest of
+the sketch proceeds.</p>
+
+<p>The <code>loadImage()</code> function. This is the
+function that gets the data from the image and makes it available inside of
+your sketch. The function doesn’t draw anything to the screen: it <em>returns</em> the
+image data in a special kind of Javascript value called an <em>object</em>. This
+statement:</p>
+
+<pre><code>kitty = loadImage("kitty.jpg");
+</code></pre>
+
+<p>… <em>assigns</em> that object value to the variable <code>kitty</code>. (There’s nothing
+special about the variable name <code>kitty</code> here—it happens to match the filename
+of the image, but you don’t have to do that if you don’t want to. The variable
+can be named anything you want!)</p>
+
+<p>In order to keep our program clean and ensure that the <code>kitty</code> variable is
+available to the <code>draw()</code> function, I declared the <code>kitty</code> variable <em>before</em>
+<code>preload()</code> or <code>setup()</code>. This variable declaration is a little strange, since
+I didn’t actually <em>assign</em> a value to the variable when I declared it. This is
+the equivalent of telling Javascript: “Hey, I’m going to use a variable called
+<code>kitty</code> later—just a heads-up.” (More details about this below.)</p>
+
+<p>Finally, to actually draw the image to the screen, I called the <code>image()</code>
+function inside <code>draw()</code>. The <code>image()</code> function takes at least three
+parameters: the first is the image object that you want to draw, and the second
+and third specify the X and Y coordinates of where the image should be drawn.</p>
+
+<p>The <code>image()</code> function is a bit more versatile than this, however. You can add
+a fourth and fifth parameter to specify how wide and how high (in pixels) to
+draw the image to the screen. Also, Processing has an <code>imageMode()</code> function,
+analogous to the the <code>rectMode()</code> function, that allows you to make it so the
+image’s center is drawn at the X/Y coordinates specified in the call, instead
+of the upper left-hand corner. Here’s a sketch that illustrates both of these
+features:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+    background(255);
+    imageMode(CENTER);
+    image(kitty, mouseX, mouseY,
+        200+sin(frameCount*0.1)*100,
+        200+cos(frameCount*0.1)*100);
+}
+</script>
+<p>The possibilities… are endless.</p>
+
+<h3 id="preload-setup-and-draw">Preload, setup and draw</h3>
+
+<p>You might be asking: why not just write this as the first line of the program?</p>
+
+<pre><code>var kitty = loadImage("kitty.jpg"); // doesn't work!! whyyyyy
+</code></pre>
+
+<p>That is: why not just call the <code>loadImage()</code> function when we’re declaring the
+variable? This would be tidy and neat, but unfortunately it won’t work. That’s
+because some functions (including most of the <code>load...()</code> functions I discuss
+in this tutorial) can <em>only be called from inside <code>preload()</code></em>. The reasons for
+this are tied to the specific ways that p5.js is implemented and aren’t
+necessarily worth going into, but it’s a good thing to remember.</p>
+
+<p>Well, okay. Technically you <em>can</em> call <code>loadImage()</code> in other contexts, and
+often you’ll see people call it inside of <code>setup()</code> as a kind of shorthand.
+But one thing you don’t want to do is call <code>loadImage()</code> in <code>draw()</code>. Here’s a
+simple sketch to illustrate why:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+// this sketch illustrates how NOT to load an image. please see accompanying
+// tutorial!!
+var kitty;
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  kitty = loadImage("kitty.jpg");
+  background(255);
+  image(kitty, mouseX, mouseY);
+}
+</script>
+<p>Depending on your computer, one of several things might happen when you run
+this sketch. For me: it looks like <em>nothing</em> happens. That’s because p5.js runs
+the <code>draw()</code> function many dozens of times every second, which means that a
+single run of <code>draw()</code> might only take a hundredth of a second. Loading an
+image, on the other hand, even a <em>small</em> image, can take much longer—on the
+order of half a second. So what happens in the sketch above is this: we told
+p5.js to load the image, but before the image even gets loaded, we tell it to
+load the image <em>again</em>. Consequently, no image ever gets displayed!</p>
+
+<p>The thing to remember is that if you call <code>loadImage()</code> anywhere other than
+inside of <code>preload()</code>, p5.js will to run your sketch <em>even before</em> the
+image is loaded. This means that certain attributes of the image (like its
+width or height or pixel data) might not be available in your program until
+after the <code>draw()</code> function has already been called a few times. For this
+reason, it’s always safer to use <code>preload()</code>.</p>
+
+<h3 id="multiple-images">Multiple images</h3>
+
+<p>You’re not limited to a single image. In fact, you can create as many variables
+to store images as you’d like. You just need to remember to load in the images
+in <code>setup()</code>. In this example, our cat is transformed into a dog when the mouse
+is pressed. (I’m using <a href="/sketches/doggy.jpg">this image</a>, originally from
+<a href="https://flic.kr/p/s1iufR">here</a>, again under a <a href="https://creativecommons.org/licenses/by/2.0/">CC BY
+2.0</a> license.)</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var doggy;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  doggy = loadImage("doggy.jpg");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+    background(255);
+    imageMode(CENTER);
+    if (mouseIsPressed) {
+        image(doggy, mouseX, mouseY,
+            200+sin(frameCount*0.1)*100,
+            200+cos(frameCount*0.1)*100);
+    }
+    else {
+        image(kitty, mouseX, mouseY,
+            200+sin(frameCount*0.1)*100,
+            200+cos(frameCount*0.1)*100);
+    }
+}
+</script>
+<h3 id="alpha-channels">Alpha channels</h3>
+
+<p>The images I’ve shown you so far have been in JPEG format. Images in JPEG
+format are compressed and are generally of high quality while having a small
+file size. A limitation of the JPEG format is that it doesn’t store
+<em>transparency</em>. An easy way to illustrate this is by displaying the same kitty
+image twice:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+    background(255);
+    imageMode(CENTER);
+    image(kitty, 200+sin(frameCount*0.05)*100,
+        200+cos(frameCount*0.05)*100);
+    image(kitty, 200+cos(frameCount*0.06)*100,
+        200+sin(frameCount*0.06)*100);
+}
+</script>
+<p>You can see that when one kitty gets drawn on top of the other, the entire
+rectangle of the image gets drawn. Which is maybe okay for some purposes, but
+not what we expected.</p>
+
+<p>In order to help you understand how to draw images with a transparent
+background, I need to introduce the concept of the <em>alpha channel</em>.  The alpha
+channel is a fourth bit of information stored in a pixel, along with its
+red/green/blue value, that determines how transparent a pixel should look on
+the screen. An alpha value of 255 is entirely opaque, and an alpha value of 0
+is totally transparent.  The commands we’ve used so far to control color
+actually all support a fourth parameter to control this. Here’s an example:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+    background(255);
+    rectMode(CENTER);
+    noStroke();
+    // opaque red rectangle
+    fill(240, 50, 50);
+    rect(width/2, height/2, 300, 300);
+    // vary alpha value of blue rectangle
+    fill(50, 50, 240, 128+sin(frameCount*0.05)*128);
+    rect(mouseX, mouseY, 100, 100);
+}
+</script>
+<p>In this example, the fourth parameter to <code>fill()</code> controls <em>how transparent the
+fill color is</em>. (The expression with <code>sin()</code> uses the frame count to slowly
+oscillate this value.)</p>
+
+<h3 id="transparent-pngs">Transparent PNGs</h3>
+
+<p>There’s another image format, called PNG, which does store transparency
+information. In a PNG, every pixel in the data has a value for its red, blue,
+and green amounts, and then an extra value (the alpha channel) for its
+transparency. Many PNGs you’ll find on the Internet already have transparency
+information; for example, here’s a sketch using <a href="https://commons.wikimedia.org/wiki/File:Filet-O-Fish_transparent.png">an image of a Filet-O-Fish
+that I found on Wikimedia
+Commons</a>:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var img;
+function preload() {
+    img = loadImage("filetofish.png");
+}
+function setup() {
+    createCanvas(400, 400);
+}
+function draw() {
+    imageMode(CENTER);
+    image(img, random(width), random(height),
+        random(25,150), random(25,150));
+}
+</script>
+<p>This is nice, but what about our kitties? Unfortunately, turning a JPEG with a
+sort-of-plain background into a PNG with a transparent background isn’t as
+simple as opening the JPEG in an image editing program and saving it as a PNG.
+You need to manually <em>remove</em> the background. Removing backgrounds from images
+is a fine art and <a href="http://docs.gimp.org/en/gimp-tutorial-quickie-separate.html">there are many
+tutorials</a> about
+<a href="http://www.digitalartsonline.co.uk/tutorials/photoshop/how-to-remove-a-background-in-photoshop/">the
+process</a>
+on the web. I’ve taken the liberty of (poorly) removing the background from our
+kitty image so that this section of the tutorial has a proper denouement. <a href="/sketches/kitty_transparent.png">Here
+is the resulting image</a>.</p>
+
+<p>Here’s the same sketch as above, but with the transparent kitty PNG (and a
+solid color background!)</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+function preload() {
+  kitty = loadImage("kitty_transparent.png");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50, 50, 240);
+  imageMode(CENTER);
+  image(kitty, 200+sin(frameCount*0.05)*100,
+    200+cos(frameCount*0.05)*100);
+  image(kitty, 200+cos(frameCount*0.06)*100,
+    200+sin(frameCount*0.06)*100);
+}
+</script>
+<h2 id="working-with-image-data">Working with image data</h2>
+
+<p>You can do more with an image object than just display it to the screen. Image
+objects come with a few bits of associated data, and some associated functions,
+that allow you to read and manipulate the data inside the image in interesting
+ways.</p>
+
+<p>You can get an image’s width and height by accessing its <code>width</code> and <code>height</code>
+attributes. An object’s <em>attributes</em> are special values belonging to that
+object that are accessed by putting a dot (<code>.</code>) after the object’s variable
+name, and the name of the attribute after the dot. Assuming you’d already used
+<code>loadImage()</code> to load an image object into a variable called <code>img</code>, you would
+access that image’s <code>width</code> and <code>height</code> like so:</p>
+
+<pre><code>img.width
+img.height
+</code></pre>
+
+<p>In the following sketch, I’m drawing ten copies of of the same
+kitty image, increasing their size proportionally by writing expressions with
+the image’s width and height:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+function preload() {
+  kitty = loadImage("kitty_transparent.png");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50, 50, 240);
+  for (var i = 0; i &lt; 10; i++) {
+    image(kitty, (i*25), (i*25),
+      kitty.width*(i+1)/10,
+      kitty.height*(i+1)/10);
+  }
+}
+</script>
+<p>Every image object also supports a method called <code>.get()</code>, which takes two
+parameters, an X and a Y coordinate, and returns the <em>color</em> at that
+coordinate. Call this method like so:</p>
+
+<pre><code>img.get(x, y)
+</code></pre>
+
+<blockquote>
+  <p>NOTE: A <em>method</em> is a special kind of function that is associated with a type
+of value. The image objects that <code>loadImage()</code> returns, for example, have
+their own “library” of code snippets, called “methods,” that go along with
+each individual object. These code snippets are just like functions, except
+they specifically reference the data contained inside of the objet they’re
+associated with, and have to be called using a special syntax. We’ll discuss
+methods and attributes more when we talk about object-oriented programming.</p>
+</blockquote>
+
+<p>In order to use <code>.get()</code>, you must first call the image’s <code>.loadPixels()</code>
+method. The best place to do this is inside of <code>.setup()</code>.</p>
+
+<p>Here’s an example that uses <code>.get()</code> to make a canvas where you “draw” an
+underlying image with the <code>rect()</code> command by accessing the color of the pixel
+at the current mouse position. (The <a href="http://www.nasa.gov/feature/pluto-s-big-moon-charon-reveals-a-colorful-and-violent-history">image I
+used</a>
+is a stunningly beautiful photography of Pluto’s moon Charon taken by the New
+Horizons probe.)</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var charon;
+function preload() {
+  charon = loadImage("charon.jpg");
+}
+function setup() {
+  createCanvas(400, 400);
+  charon.loadPixels();
+  background(0);
+  noStroke();
+  rectMode(CENTER);
+}
+function draw() {
+  // set fill to color in image at mouse position
+  // with a lower alpha to make it painterly
+  fill(charon.get(mouseX, mouseY), 128);
+  rect(mouseX, mouseY, 40, 10);
+}
+</script>
+<p>Another classic Processing example is to use the pixel data from an image to
+create a mosaic. Here’s the same image of Charon drawn in chunks using a nested <code>for</code>
+loop:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var charon;
+var gridx = 25;
+var gridy = 25;
+function preload() {
+  charon = loadImage("charon.jpg");
+}
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+  charon.loadPixels();
+  background(0);
+  rectMode(CENTER);
+  noStroke();
+}
+function draw() {
+  for (var i = 0; i &lt; gridx; i++) {
+    for (var j = 0; j &lt; gridy; j++) {
+      fill(
+        charon.get(
+          i*(width/gridx),
+          j*(height/gridy)
+        )
+      );
+      push();
+      translate(i*(width/gridx), j*(height/gridy));
+      if (((i+j) % 2) == 0) {
+        ellipse(0,0,(width/gridx),(height/gridy));
+      }
+      else {
+        rect(0,0,(width/gridx),(height/gridy));
+      }
+      pop();
+    }
+  }
+}
+</script>
+<blockquote>
+  <p>NOTE: The arithmetic’s a little complicated with this one. If you’re confused
+about what’s going on, try working out what the expressions in the <code>draw()</code>
+function would evaluate to for a few different values of <code>i</code> and <code>j</code>. Draw it
+out by hand if you need to!</p>
+</blockquote>
+
+<h2 id="sounds">Sounds</h2>
+
+<p>It’s also easy to make your p5.js sketches play sounds! In this section, I’ll
+take you through the basics of how to make this happen.</p>
+
+<p>The basic workflow of using a sound file in a p5.js sketch looks a lot like
+using an image: find the sound that you want to use, copy it to your sketch
+folder, and then load the sound file data inside the sketch.</p>
+
+<h3 id="sound-formats">Sound formats</h3>
+
+<p>For simplicity’s sake, all of the example audio files in this section will be in
+<a href="https://en.wikipedia.org/wiki/MP3">MP3</a> format. But you should be aware that
+<em>not every web browser supports MP3</em>. In particular, <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats">MP3 support in Firefox is
+operating-system
+dependent</a>. 
+<a href="http://p5js.org/examples/examples/Sound_soundFormats.php">This example sketch</a>
+in the p5.js reference shows how you can provide your audio files in different
+formats for maximum cross-platform compatibility.</p>
+
+<h3 id="loading-and-playing-a-sound">Loading and playing a sound</h3>
+
+<p>The basic workflow of using a sound file in a p5.js sketch looks a lot like
+using an image: find the sound that you want to use, copy it to your sketch
+folder, and then load the sound file data inside the sketch.</p>
+
+<p>You need to create an empty variable to hold the sound object, and then use the
+<code>loadSound()</code> function in <code>preload()</code> to load the data and assign the variable
+to the object. Once you’ve done so, you can call the object’s <code>.play()</code> method
+inside of <code>draw()</code> in order to trigger the sound. Here’s an example, using
+<a href="/sketches/meow.mp3">this audio file</a>
+(<a href="https://freesound.org/people/Yoyodaman234/sounds/156643/">source</a>).</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var meow;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  meow = loadSound("meow.mp3");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  imageMode(CENTER);
+  image(kitty, width/2, height/2);
+  if (frameCount == 30) {
+    meow.play();
+  }
+}
+</script>
+<h3 id="cats-should-not-be-robots">Cats should not be robots</h3>
+
+<p>The example above called the <code>.play()</code> function when the <code>frameCount</code> variable
+reached 30, so that the audio snippet plays shortly after the sketch starts
+running. What if we wanted to trigger the file to play whenever the mouse is
+pressed? You might think you could do it like this:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var meow;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  meow = loadSound("meow.mp3");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  imageMode(CENTER);
+  image(kitty, width/2, height/2);
+  if (mouseIsPressed) {
+    console.log("play!");
+    meow.play();
+  }
+}
+</script>
+<p>But that does something weird. The kitty sounds robotic or something. What
+gives? I put the <code>console.log()</code> function in there in order to give you a clue:
+you can see that it prints <em>multiple</em> times whenever the mouse is pressed.
+That’s because <code>draw()</code> runs over and over again, many times a second, while a
+common mouse click lasts for (let’s say) a half second or so. That means that
+the audio file will be triggered with <code>play()</code> <em>many times</em> over the course of
+a single mouse press. (This is what gives it the metallic quality; the sample
+is being triggered over itself, making it sound like an echo in a very small
+metal can.)</p>
+
+<p>Clearly, we need some way to trigger the sample when a mouse button is pressed,
+but only when the mouse is <em>first</em> pressed and not subsequently during the same
+press. One way to do this would be with the sound object’s <code>.isPlaying()</code>
+method, which returns true if the sound is playing, and false if not:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var meow;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  meow = loadSound("meow.mp3");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  imageMode(CENTER);
+  image(kitty, width/2, height/2);
+  if (mouseIsPressed) {
+    // only trigger the sound if the mouse
+    // is pressed and the sound isn't
+    // already playing
+    if (meow.isPlaying() == false) {
+      console.log("play!");
+      meow.play();
+    }
+  }
+}
+</script>
+<p>Hey! It works!</p>
+
+<h3 id="event-functions">Event functions</h3>
+
+<p>Another approach would be to use a feature of p5.js that we haven’t yet
+discussed: <em>event functions</em>. These are functions that you can define in your
+program that p5.js will call when some external event happens. <a href="http://p5js.org/reference/#group-Events">The p5.js
+reference has a full list</a>, but the
+simplest to understand is <code>mousePressed()</code>. If you define a function called
+<code>mousePressed()</code> in your sketch, p5.js will call it whenever the person using
+your sketch presses the mouse button. The benefit of <code>mousePressed()</code> for our
+purposes is that it only gets called <em>once</em> per mouse press!</p>
+
+<p>Here’s the example above, reworked to use <code>mousePressed()</code>:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var meow;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  meow = loadSound("meow.mp3");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  imageMode(CENTER);
+  image(kitty, width/2, height/2);
+}
+function mousePressed() {
+  meow.play();
+}
+</script>
+<p>Another event function that may be useful is <code>keyTyped()</code>. This function gets
+called whenever a key is pressed. Here’s the same sketch as above, but the
+sound is triggered by a keypress instead of a mouse click. (You may need to
+click inside of the sketch to give it focus for your keypresses to have any
+effect.)</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var meow;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  meow = loadSound("meow.mp3");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  imageMode(CENTER);
+  image(kitty, width/2, height/2);
+}
+function keyTyped() {
+  meow.play();
+}
+</script>
+<h3 id="a-simple-drum-kit">A simple drum kit</h3>
+
+<p>Inside of the <code>keyTyped()</code> function, a special variable named <code>key</code> contains
+the current key being pressed. To check to see if a particular key is being
+pressed, use the following expression:</p>
+
+<pre><code>key == "X"
+</code></pre>
+
+<p>… where <code>X</code> is the key you want to check for (make sure to keep the quotes!).</p>
+
+<p>The following sketch exploits this functionality to create a simple
+keyboard-controlled drum kit. (“A” is the kick drum; “L” is a closed hihat; “S”
+is the snare drum. Any other key makes a meow.)</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var kitty;
+var meow;
+var kick;
+var snare;
+var hihat;
+var extraScale = 0;
+function preload() {
+  kitty = loadImage("kitty.jpg");
+  meow = loadSound("meow.mp3");
+  kick = loadSound("kick.mp3");
+  snare = loadSound("snare.mp3");
+  hihat = loadSound("hihat.mp3");
+}
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(255);
+  imageMode(CENTER);
+  translate(width/2, height/2);
+  scale(1 + extraScale);
+  image(kitty, 0, 0);
+  if (extraScale &gt; 0) {
+    extraScale -= 0.05;
+  }
+}
+function keyTyped() {
+  extraScale = 1;
+  if (key == "a") {
+    kick.play();
+  }
+  else if (key == "l") {
+    hihat.play();
+  }
+  else if (key == "s") {
+    snare.play();
+  }
+  else {
+    meow.play();
+  }
+}
+</script>
+<h2 id="uploading-sketches-that-use-media">Uploading sketches that use media</h2>
+
+<p>When you’re uploading your sketches to the Internet, make sure to upload your 
+media files as well! They need to be in the same folder as your <code>index.html</code>
+file. If something doesn’t work, check the Javascript Console in your browser
+(in Chrome, <code>View &gt; Developer &gt; Javascript Console</code>) for error messages.</p>
+
+<p>Also, make sure that you upload the <code>p5.sound.js</code> file along with your sketch
+(in the <code>libraries</code> folder). This should happen by default if you’re using the
+files produced by the p5.js IDE, but if you’re not using the IDE, you may need
+to upload it manually.</p>
+
+<h2 id="further-reading">Further reading</h2>
+
+<ul>
+  <li>The <a href="http://p5js.org/reference/#/libraries/p5.sound">p5.sound</a> library
+documentation has a complete reference. In particular, the
+<a href="http://p5js.org/reference/#/p5.SoundFile">p5.SoundFile</a> page shows you all
+of the methods you can use with the sound objects returned from
+<code>loadSound()</code>.</li>
+  <li>See the “Sound” examples at the <a href="http://p5js.org/examples/">p5.js examples
+page</a> for examples of how to do more sophisticated
+things with sound files, such as filtering and frequency analysis.</li>
+</ul>
+
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2018-09-12T19:20:00-04:00">2018</time>. The text of this work is
+          licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
+              Commons Attribution-NonCommercial 4.0 International License</a>.
+          Additionally, code examples are provided as <a
+              href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+        </small>
+      </footer>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/public/sketchui.js"></script>
+  </body>
+</html>

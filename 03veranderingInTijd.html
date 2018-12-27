@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Allison Parrish">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Veranderingen in tijd
+    
+  </title>
+
+<!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/menu.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Creative Coding" href="/atom.xml">
+  <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+</head>
+
+
+  <body>
+
+<ul class="sidenav">
+  <li><a href="index.html">1 De eerste stappen</a></li>
+  <li><a href="02expressiesVariabelenLoops.html">2 Expressies, variabelen en lussen</a></li>
+  <li><a class="active" href="03veranderingInTijd.html">3 Animatie</a></li>
+  <li><a href="04interactie.html">4 Interactie</a></li>
+  <li><a href="05TransformatieFuncties.html">5 Functies</a></li>
+  <li><a href="06Media.html">6 Media</a></li>
+  <li><a href="07ArrayObjects.html">7 Arrays en Objecten</a></li>
+   <hr>
+  <li><a href="opdracht.html">Wat moet je inleveren?</a></li>
+  <hr>
+  <li><a href="https://editor.p5js.org/" target="_blank">p5 webeditor</a></li>
+  <li><a href="https://p5js.org/reference/" target="_blank">Referentie</a></li>
+<li><a href="https://www.youtube.com/user/shiffman/playlists?sort=dd&shelf_id=14&view=50" target="_blank">The Coding Train</a></li>
+</ul>
+    <div class="container content">
+      <main>
+        <article class="page">
+  <h1 class="page-title">Veranderingen in tijd</h1>
+<small> <p>Deze site is grotendeels een vertaling van een tutorial van <a href="https://creative-coding.decontextualize.com/">Allison Parrish</a> en is vertaald en bewerkt door <a href="https://www.visualeditor.nl/">Marijn van der Meer</a> voor het gebruik bij Informatica lessen op het IJburg College</p></small>
+
+<p>In dit hoofdstuk zal je leren hoe je een simpele p5.js sketch moet maken die animeren. Dus waar beweging in tijd in zit. Voor we daar aan beginnen zal ik eerst even uitleggen hoe tijd werkt in de programmeertaal Processing en p5.js. Want dit is anders dan in veel andere programmeertalen.</p>
+
+<h2 id="setup-and-draw">Setup en draw</h2>
+
+<p>Alle sketches die we tot nu toe hebben gemaakt bestonden uit twee delen, zoals ze misschien al is opgevallen: er ging code in de <code>function setup() { ... }</code> en er ging code in de <code>function
+draw() { ... }</code>. Ik heb nog niet precies uitgelegd wat deze twee delen precies doen, omdat het misschien een beetje veel was om het allemaal vanaf het begin allemaal in een keer te begrijpen. Ik hoop dat je er nu wel aan toe bent. </p>
+
+<p>Maar om een lang verhaal kort te maken, wat er gebeurt is: alle 
+code die je in <code>setup()</code> staat wordt maar een keer uitgevoerd, aan het begin van het programma. Alle code die je in <code>draw()</code> stopt wordt <em>steeds opnieuw</em> uitgevoerd, normaal gesproken heel veel keer per seconde.</p>
+
+<p>“Maar wacht?” zal je denken. “Wat bedoel je? Het ziet er helemaal niet uit dat mijn sketch steeds opnieuw wordt getekend. Het lijkt gewoon een stilstaande tekening met cirkels of rechthoeken." En dat klopt! Alle sketches die je tot nu toe hebt gemaakt en die ik tot nu toe heb laten zien tekenen achter elkaar <em>precies hetzelfde op dezelfde plek</em>. Dus ze lijken helemaal niet opnieuw getekend te worden. </p>
+
+<p>Maar neem het maar van mij aan, de code in <code>draw()</code> wordt echt steeds opnieuw uitgevoerd. Je kan dit testen door de volgende code in de webeditor te schrijven:</p>
+
+<pre><code>function setup() {
+    createCanvas(400, 400);
+}
+
+function draw() {
+    console.log("markeer"); 
+}
+</code></pre>
+
+<p>Let op het console (of debug) venster (onder waar je de code typt). En je ziet het woord "markeer" <em>vele</em> keren en <em>heel snel</em> verschijnen.</p>
+
+<p>Wat gebeurt er nu eigenlijk? Even als herinnering, de <code>console.log()</code> functie is een functie die er alleen maar is om een bepaalde waarde in het console te printen. Alles in de <code>draw()</code> wordt heel veel keer per seconde uitgevoerd, zoals ik hierboven al zei. Dus het resultaat van de code hierboven is een eindeloze herhaling van precies dezelfde <code>console.log()</code> functie aanroep, steeds maar opnieuw.</p>
+
+<h2 id="frames">Frames</h2>
+
+<p>In computeranimatie heet het een keer draaien (en dus iets op het scherm tekenen) van de <code>draw()</code> functie, een "frame" (net als bij het maken van films). Processing en p5.js komen met twee handige functies om te werken met frames: de functie <code>frameRate()</code> en de variabele <code>frameCount</code>.</p>
+
+<p>Met de <code>frameRate()</code> functie kan je <em>vast stellen</em> hoe vaak de code in de <code>draw()</code> per seconde uitgevoerd zal worden. Voer deze sketch maar eens uit:</p>
+
+<pre><code>function setup() {
+    createCanvas(400, 400);
+    frameRate(1);
+}
+
+function draw() {
+    console.log("markeer"); 
+}
+</code></pre>
+
+<p>De aanroep voor <code>frameRate()</code> moet in het <code>setup()</code> gedeelte van je code, niet in de <code>draw()</code>, omdat je de frame rate maar een keer hoeft vast te stellen. Het getal dat je tussen de haakjes zet bepaald hoe <em>vaak per seconde</em> de code in 
+<code>draw()</code> uitgevoerd wordt. Je zal zien dat de code hierboven nog steeds het woord <code>markeer</code> print in het consolevenster, maar nu veel langzamer. </p>
+
+<p>De<code>frameCount</code> variabele is ingebouwd in p5.js. Je hoeft hem niet zelf te definieren, dat doet p5.js voordat de schets begint. De <code>frameCount</code> variabele is bijzonder omdat deze variabele iedere frame <em>verandert</em>: als de <code>draw()</code> voor het eerst wordt uitgevoerd is de <code>frameCount</code> gelijk aan nul; de tweede keer is dat de code in <code>draw()</code> wordt uitgevoerd is de <code>frameCount</code> gelijk aan één, enzovoort. De onderstaande schets is precies als die hierboven, maar nu print het niet het woord "markeer", maar print het de huidige waarde van de <code>frameCount</code> variabele:</p>
+
+<pre><code>function setup() {
+    createCanvas(400, 400);
+    frameRate(1);
+}
+
+function draw() {
+    console.log(frameCount); 
+}
+</code></pre>
+
+<p>Als je deze sketch in de webeditor laat uitvoeren zie je dat de sketch langzaam optelt, een getal per seconde, en de getallen in het consolevenster print. </p>
+
+<p>(Natuurlijk kan je het getal in de <code>frameRate()</code> aanpassen om het getal sneller te laten optellen.)</p>
+
+Als je benieuwd bent naar het aantal frames per seconde dat de computer standaard uitvoert (en wat je browser haalt) kan je deze code eens in de webeditor zetten en eens laten uitvoeren:
+
+<pre><code>function setup() {
+    createCanvas(400, 400);
+
+}
+
+function draw() {
+    console.log(frameRate()); 
+}
+</code></pre>
+
+<h3 id="animation-with-framecount">Animeren met <code>frameCount</code></h3>
+
+<p>De <code>frameCount</code> variabele is, net als iedere andere variabele, iets wat je kan gebruiken in expressies en functies. En omdat <code>frameCount</code> iedere frame wijzigt kan je deze variabele gebruiken om een simpele animatie te maken. Hier is een voorbeeld: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(frameCount, 200, 100, 50+(frameCount/2));
+}
+</script>
+
+<p>Je zou een kleine ellips moeten zien die links van het scherm begint en dan langzaam naar rechts beweegt en langzaam groter wordt. </p>
+
+<blockquote>
+  <p>OEFENING: Gebruik de <code>frameCount</code> variabele eens in een andere functie, bijvoorbeeld <code>fill()</code> en/of gebruik de <code>frameCount</code> variabele als onderdeel van een expressie. Kijk eens wat er gebeurt!</p>
+</blockquote>
+
+<h3 id="retaining-the-content-of-the-previous-frame">De inhoud behouden van de vorige frame</h3>
+
+<p>Hier is nog een versie van de bovenstaande sketch met een klein, maar belangrijk verschil. Kan je zien wat er gebeurt en waarom? </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  background(50);
+}
+function draw() {
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(frameCount, 200, 100, 50+(frameCount/2));
+}
+</script>
+
+<p>Dat ziet er bijzonder uit! Het lijkt alsof iedere frame <em>over</em> de vorige frames wordt getekend. Hoe komt dat? </p>
+
+<p>Het is belangrijk om te weten dat p5.js <em>niet automatisch</em> het scherm na iedere frame weer leeg maakt. Normaal blijft wat er na het vorige frame op het canvas staat gewoon staan in het volgende frame. </p>
+
+<p>Dus het verschil tussen de twee sketches zit in het moment waarop we de 
+<code>background()</code> functie aanroepen. In het voorbeeld hierboven is dat ergens in de <code>setup()</code> code, wat betekent dat de achtergrond maar <em>eenmaal</em> wordt getekend. In de <code>draw()</code> code, wordt de <code>background()</code> code niet meer gebruikt, dus krijgt de achtergrond niet iedere frame een "reset" tot een egale kleur</p>
+
+<p>Als je dus de achtergrond niet ieder frame opnieuw laat tekenen is het effect dat het lijkt alsof de sketch iedere keer over zichzelf wordt getekend, steeds opnieuw. En als je de <code>background()</code> in de <code>draw()</code> zet wordt deze ieder frame opnieuw getekend en geeft dit een veel beter animatie effect. Je kan met beide situaties hele mooie effecten bereiken! </p>
+
+
+
+
+<h2 id="simple-oscillation">Herhalende bewegingen</h2>
+
+<p>Het is echt wel cool om zo snel animaties te kunnen maken, maar het probleem met 
+<code>frameCount</code> is dat het lineair toeneemt, van laag naar hoog, en dat is geen herhalende beweging, je kan alleen iets maken dat steeds groter wordt en/of in een richting beweegt. Nu zullen we gebruik gaan maken van een wiskundige berekening die in de wiskunde niet veel wordt gebruikt. Deze kan voor een herhalende beweging zorgen, een <em>oscillatie</em>, zodat is heen en weer gaat tussen twee momenten, met alleen het gebruik maken van de lineaire <code>frameCount</code> waarde als basis van de verandering. Hoe zit dat?</p>
+
+<h3 id="modulo">Modulo</h3>
+
+<p>In de wiskunde is er een operator die “<a href="https://nl.wikipedia.org/wiki/Modulo_operation">modulo</a>” heet. Deze operator geeft je het <em>restgetal</em> van het resultaat van het delen van twee hele getallen. Het antwoord op 11 modulo 5 is bijvoorbeeld het restgetal van het delen van 11 door 5, dus dat is 1 (twee keer vijf is tien en dan hou je 1 over om tot elf te komen).</p>
+
+<p>In Javascript is het teken, de operator, voor modulo: <code>%</code>. Deze kan je net zo gebruiken als alle andere operatoren. Type dit voorbeeld maar eens in de p5.js webeditor en kijk wat er gebeurt:</p>
+
+<pre><code>console.log(11 % 5)
+</code></pre>
+
+<p>Je zou nu <code>1</code> in het consolevenster moeten zien. Probeer maar eens verschillende getallen en zie wat er gebeurt!</p>
+
+<p>Wat kunnen we nu met de modulo? We kunnen hiermee een hele makkelijke herhalende teller maken. Omdat de modulo zorgt voor het volgende patroon in uitkomsten: </p>
+
+<pre><code>0 % 5 =&gt; 0 (nul gedeeld door vijf is nul, met een restgetal van nul)
+1 % 5 =&gt; 1 (een gedeeld door vijf is nul, met een restgetal van een) 
+2 % 5 =&gt; 2
+3 % 5 =&gt; 3
+4 % 5 =&gt; 4
+5 % 5 =&gt; 0 (vijf gedeeld door vijf is een, met een restgetal van nul) 
+6 % 5 =&gt; 1 (zes gedeeld door vijf is een, met een restgetal van een) 
+7 % 5 =&gt; 2 (enzovoort)
+...
+</code></pre>
+
+<p>In andere woorden, je hebt een constant toenement getal aan de linkerkant van de modulo operator (de frameCount()) en een vast getal aan de rechterkant en het evalueren van de modulo expressie zal ons een repeterende teller geven van nul tot het getal dat we aan de rechterkant hebben geplaatst. </p>
+
+<p>We kunnen dit principe van de modulo gebruiken om "loops" te creeeren die zich iedere <em>n</em> frames zal herhalen, waar <em>n</em> een getal is dat we zelf kiezen. Hier is bijvoorbeeld een sketch dat een ellips tekent die gedurende dertig frames groeit en zich dan reset naar zijn orginele grootte:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(200, 200, (frameCount % 30)*10, 50);
+}
+</script>
+
+<p>En hier is een sketch die een cirkel tekent die beweegt van links naar rechts en zich dan "reset" naar zijn originele plek links. Ik heb er een tweede beweging ingestopt waarbij de lijndikte op en neer gaat:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(4 + (frameCount % 16));
+  ellipse(frameCount % 400, 200, 100, 100);
+}
+</script>
+
+<blockquote>
+  <p>OEFENING: Maak een sketch met meerdere bewegingen die verschillende modulo's gebruikt, dus door verschillende getallen aan de rechterzijde van het % teken te zetten. </p>
+</blockquote>
+
+<h3 id="sine">Sinus</h3>
+
+<p>De modulo techniek is leuk (en de modulo kan je met programmeren vaker gebruiken), maar je kan er alleen makkelijk loops mee maken die lineair groeien en ineens weer opnieuw beginnen. Een andere makkelijke wiskundige tool die we kunnen gebruiken voor animaties die lijken te groeien en te krimpen is de sinus. Als we de <a href="https://nl.wikipedia.org/wiki/Sinus">sinus</a> berekenen van de <code>frameCount</code> variabele.</p>
+
+<p>Hier behoeven we niet in detail te gaan over wat de sinus precies is of hoe het werkt. Dat krijg je wel bij wiskunde. Het belangrijkste is dat we de sinus-functie kunnen gebruiken om mooie vloeiende regelmatige bewegingen te krijgen. In p5.js is de sinus-functie te gebruiken met de <code>sin()</code> functie. Anders dan de meeste functies die we tot nu toe hebben gebruikt, wordt de <code>sin()</code> niet gebruikt om iets op het scherm te krijgen. We gebruiken het om van een waarde (de frameCount) een andere waarde te krijgen na een wiskundige berekening, die we vervolgens kunnen gebruiken. </p>
+
+<p>De<code>sin()</code> functie heeft maar een parameter en berekent deze tot een waarde tussen 
+-1 en 1. De <code>sin()</code> functie evalueert (berekent) verschillende waarden zo: </p>
+
+<pre><code>sin(0) = 0
+sin(0.39) = 0.38
+sin(0.78) = 0.70
+sin(1.17) = 0.92
+sin(1.57) = 1
+sin(1.96) = 0.92
+sin(2.35) = 0.70
+sin(2.74) = 0.38
+sin(3.14) = 0
+sin(3.53) = -0.38
+sin(3.92) = -0.70
+sin(4.31) = -0.92
+sin(4.71) = -1
+sin(5.10) = -0.92
+sin(5.49) = -0.70
+sin(5.89) = -0.38
+sin(6.28) = 0
+</code></pre>
+
+<p>In andere woorden, de sinus van nul is nul, de sinus van pi/2 (~1.57) is een; de sinus van pi is weer nul; de sinus van 3/2pi (~4.71) is min een; en de sinus van 2*pi (~6.28) is opnieuw nul. Hogere waarden in de <code>sin()</code> functie zullen altijd tot waarden tussen -1 and 1 komen.</p>
+
+<p>Dus wat gebeurt er als we de <code>frameCount</code> variabele in de <code>sin()</code> stoppen? Dan krijg je zoiets als dit:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(200, 200, 100+sin(frameCount), 100);
+}
+</script>
+
+<p>… nou dat is ook niet indrukwekkend. De cirkel.... wiebelt alleen een beetje?
+Dat is omdat de <code>sin()</code> functie <em>altijd</em> een waarde retourneert tussen -1 to 1. Als we dit willen veranderen tot iets <em>echt</em> zichtbaars, moeten we het resultaat nog vermenigvuldigen zodat de waarde groter wordt dan 1 pixel beweging: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(200, 200, 100+(sin(frameCount)*50), 100);
+}
+</script>
+
+<p>Ok, dat is beter! Maar het is een beetje, uhm, onrustig. Dat is omdat de <code>sin()</code>
+functie de hele cyclus van 1 naar -1 afgaat in zes tellen en <code>frameCount</code> gaat heel snel in stappen van zes (in de default frame rate wel 10 keer per seconde). Om de bewegingen langzamer te maken moeten we de <code>frameCount</code> <em>delen</em> door een andere waarde. Laten we het eens tien keer zo langzaam gaan door te delen door tien:  </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(200,200,100+(sin(frameCount/10)*50),100);
+}
+</script>
+
+<p>Dus meestal als je de <code>sin()</code> functie zal gebruiken, zal je dat in combinatie met twee andere waarden doen, een die de <em>amplitude</em> van de beweging bepaalt (dat wil zeggen, hoe groot de beweging wordt) en de <em>frequentie</em> van de beweging (dus hoe snel de beweging is). En het zal er zo uit zien: </p>
+
+<pre><code>basis + (sin(frameCount / freq) * ampl)
+</code></pre>
+
+<p>… waar <code>basis</code>, <code>freq</code> en <code>ampl</code> allemaal getallen zijn. Als je <code>freq</code> groter maakt wordt de beweging langzamer; als je <code>ampl</code> groter maakt wordt de beweging groter en de <code>basis</code> waarde is het centrumpunt van de beweging, waar gaat de beweging "omheen". </p>
+
+<h3 id="repetition-and-variation">Herhaling en variatie</h3>
+
+<p>Hier is een sketch dat een aantal cirkels tekent die bewegen over het scherm en de <code>sin()</code> functie gebruiken voor het bepalen van de horizontale posities:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  for (var i = 0; i < 5; i++) {
+    ellipse(200 + sin(frameCount/10) * 20,
+      100+(i*50), 40, 40);
+  }
+}
+</script>
+
+<p>En hier is een wat bijzonderdere versie, die de loop variabele <code>i</code> gebruikt om subtiele variaties in iedere cirkel te krijgen: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  for (var i = 0; i < 5; i++) {
+    fill(frameCount % 255);
+    ellipse(
+      200+(sin(frameCount/(i+10))*(i+20)),
+      100+(i*50),
+      40,
+      40);
+  }
+}
+</script>
+
+<p>Het ingewikkelde gedeelte van deze code zit in deze expressie:</p>
+
+<pre><code>200+(sin(frameCount/(i+10))*(i+20))
+</code></pre>
+
+<p>Om deze expressie te begrijpen, probeer hem eens in het Nederlands te vertalen en bereken dan zelf eens de waarde voor verschillende waarden van <code>frameCount</code> en <code>i</code>.</p>
+
+<blockquote>
+<p>Ongeveer hetzelfde werkt de cosinus, de <code>cos()</code>. En vooral samen met de sinus kan je daar hele mooie bewegingen mee simuleren. Als je bij bijvoorbeeld een ellips, de x-positie door de sinus laat bepalen en de y-positie door de cosinus, krijg je een mooie circulaire beweging:</p>
+</blockquote>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  ellipse(200 + sin(frameCount/50) * 150,
+      200 + cos(frameCount/50) * 150, 40, 40);
+}
+</script>
+
+<h2 id="changing-variables-over-time">Variabelen laten veranderen in tijd</h2>
+
+<p>In vorige voorbeelden hadden de variabelen die we gebruikten maar een waarde: de waarde die we voor ze instelden (initialiseerde) aan het begin van de code, voor <code>setup()</code>.
+Maar de waarde van variabelen kan <em>veranderen</em> tijdens het programma: als we een variabele gemaakt hebben kunnen we Javascript de opdracht geven de huidige waarde van de variabelen te veranderen in iets anders (een andere waarde in het laatje stoppen). Je kan deze eigenschap van Javascript gebruiken om sketches te maken die in tijd veranderen, maar wel op een iets mooiere en zorgvuldigere manier dan met alleen de <code>frameCount</code> variabele.</p>
+
+<p>Als je je goed kan herinneren, de syntax voor het vaststellen (declare) van een variabele zag er zo uit: </p>
+
+<pre><code>var x = expr;
+</code></pre>
+
+<p>… waarbij <code>x</code> de naam van de variabele is, en <code>expr</code> een expressie is waarvan de waarde gekoppeld moet worden aan <code>x</code>. Je kan de waarde van een variabele <em>veranderen</em> door de volgende syntax te gebruiken:</p>
+
+<pre><code>x = expr;
+</code></pre>
+
+<p>… waarbij, opnieuw, <code>x</code> de naam van de variabele is, en <code>expr</code> een expressie is die een waarde geeft aan <code>x</code>.</p>
+
+<p>Hier een sketch die twee variabelen declareert (aanmaakt), <code>foo</code> en <code>bar</code> (gebruikelijke variabele-namen bij voorbeelden in de programmeerwereld), en de waarden van deze variabelen
+<em>veranderen</em> in de <code>draw()</code> code.</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var foo = 0;
+var bar = 400;
+
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(foo, 150, 45, 45);
+  ellipse(bar, 250, 45, 45);
+
+  foo = foo + 1;
+  bar = bar - 1;
+}
+</script>
+
+<p>Zoals je kan zien wordt, bij iedere frame, 1 opgetelt bij <code>foo</code> en 1 afgetrokken bij 
+<code>bar</code>.</p>
+
+<p>De expressie van de variabele neemt de huidige waarde van de variabele en stopt dan de oude waarde plus of min 1 weer terug in de variabele. Dit gebeurt bij het programmeren zo vaak dat er een shortcut voor is. Deze expressie:  </p>
+
+<pre><code>foo = foo + 1;
+</code></pre>
+
+<p>kan ook worden geschreven als:</p>
+
+<pre><code>foo += 1;
+</code></pre>
+
+<p>Je kan overigens ook andere waarden dan <code>1</code> in deze expressie gebruiken.</p>
+
+<p>Hier is een voorbeeld hoe we een bovenstaande code met de <code>sin()</code> functie veel logischer en leesbaarder kunnen schrijven. Door de waarde van de variabele maar een klein beetje te laten toenemen bij iedere frame in plaats van de <code>frameCount</code> te moeten delen: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xpos = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(200 + sin(xpos) * 100, 200, 45, 45);
+  xpos += 0.05;
+}
+</script>
+
+<p>Laten we ook een y-positie toevoegen:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xpos = 0;
+var ypos = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(
+    200+sin(xpos)*100,
+    200+sin(ypos)*100,
+    45, 45);
+  xpos += 0.05;
+  ypos += 0.04;
+}
+</script>
+
+<blockquote>
+  <p>OEFENING: Wat zou er gebeuren als het getal waarmee je de <code>xpos</code> en <code>ypos</code> op iedere frame laat toenemen <em>zelf</em> gedurende de tijd laat toenemen, in plaats van een vaste waarde? Waar was deze ook alweer voor?</p>
+</blockquote>
+
+<h2 id="random-changes">Willekeurige veranderingen</h2>
+
+<p>Ik vind dat kunst, gegenereerd door de computer, alleen leuk wordt als het lijkt dat het niet allemaal vastgesteld is wat er gaat gebeuren. Dus laten we wat onvoorspelbaarheid in onze sketches stoppen. </p>
+
+<p>p5.js (en vele programmeertalen) heeft een functie met de naam <code>random()</code> dat een willekeurig (random) getal genereerd tussen nul en een. <a href="http://p5js.org/reference/#/p5/random">Bekijk de referentiepagina voor meer informatie en alternatieve manieren om de functie aan te roepen.</a>
+Het getal dat door een random functie wordt gegenereerd zal iedere keer dat de sketch wordt gebruikt anders zijn. En ook als deze in de <code>draw()</code> staat zal het getal iedere frame anders zijn. </p>
+
+<p>Je kan de <code>random()</code> functie gebruiken om vormen op willekeurige plekken in de sketch te laten tekenen:  </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  background(50);
+}
+function draw() {
+  noStroke();
+  fill(random() * 255);
+  ellipse(random()*400, random()*400, 50, 50);
+}
+</script>
+
+<p>Je kan de <code>random()</code> functie ook met twee parameters gebruiken. In dat geval zal de functie een willekeurig getal geven dat tussen de waarde van de eerste en tweede parameter zit. Om een vorm te maken die "ronddoolt" over het scherm:  </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xpos = 200;
+var ypos = 200;
+
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(xpos, ypos, 45, 45);
+  xpos += random(-2, 2);
+  ypos += random(-2, 2);
+}
+</script>
+
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2018-09-12T19:20:00-04:00">2018</time>. The text of this work is
+          licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
+              Commons Attribution-NonCommercial 4.0 International License</a>.
+          Additionally, code examples are provided as <a
+              href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+        </small>
+      </footer>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/public/sketchui.js"></script>
+  </body>
+</html>

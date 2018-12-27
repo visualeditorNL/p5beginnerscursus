@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Allison Parrish">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Arrays en objects (Creative Coding)
+    
+  </title>
+
+ <!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/menu.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Creative Coding" href="/atom.xml">
+  <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+</head>
+
+
+  <body>
+
+<ul class="sidenav">
+  <li><a href="index.html">1 De eerste stappen</a></li>
+  <li><a href="02expressiesVariabelenLoops.html">2 Expressies, variabelen en lussen</a></li>
+  <li><a href="03veranderingInTijd.html">3 Animatie</a></li>
+  <li><a href="04interactie.html">4 Interactie</a></li>
+  <li><a href="05TransformatieFuncties.html">5 Functies</a></li>
+  <li><a href="06Media.html">6 Media</a></li>
+  <li><a class="active" href="07ArrayObjects.html">7 Arrays en Objecten</a></li>
+   <hr>
+  <li><a href="opdracht.html">Wat moet je inleveren?</a></li>
+  <hr>
+  <li><a href="https://editor.p5js.org/" target="_blank">p5 webeditor</a></li>
+  <li><a href="https://p5js.org/reference/" target="_blank">Referentie</a></li>
+<li><a href="https://www.youtube.com/user/shiffman/playlists?sort=dd&shelf_id=14&view=50" target="_blank">The Coding Train</a></li>
+</ul>
+    <div class="container content">
+      <main>
+        <article class="pleeftijd">
+  <h1 class="pleeftijd-title">Arrays en objecten</h1>
+<small> <p>Deze site is grotendeels een vertaling van een tutorial van <a href="https://creative-coding.decontextualize.com/">Allison Parrish</a> en is vertaald en bewerkt door <a href="https://www.visualeditor.nl/">Marijn van der Meer</a> voor het gebruik bij Informatica lessen op het IJburg College</p></small>
+
+<p>In dit hoofdstuk komen nog twee heel belangrijke onderwerpen bij het programmeren ter sprake. Je zal leren hoe je <em>informatie van het gedrag van de gebruiker</em> kan opslaan in je sketch. Om dit te kunnen doen moet je twee nieuwe programmeerconcepten leren die in iedere programmeertaal gebruikt worden: arrays en objecten. </p>
+
+<p>Het doel van dit hoofdstuk is om een sketch te maken met het volgende gedrag: wanneer de gebruiker op de sketch klikt wordt er een rechthoek gecreeërd. En iedere rechthoek daalt dan langzaam tot het uit het beeld verdwijnt. </p>
+
+<h2 id="rectangles-everywhere">Overal rechthoeken</h2>
+
+<p>Je hebt al gezien hoe blijvende rechthoeken worden getekend. Je kan p5.js gewoon vertellen om niet iedere frame de achtergrond opnieuw te laten tekenen:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  background(50);
+  rectMode(CENTER);
+  noStroke();
+  fill(255);
+}
+function draw() {
+  // draw hoeft niets te doen! Het tekenen vindt plaats in de functie mousePressed
+}
+function mousePressed() {
+  rect(mouseX, mouseY, 50, 25);
+}
+</script>
+<p>We weten ook hoe we een rechthoek moeten laten bewegen over het scherm. Met een beetje nadenken en uitproberen lukt het waarschijnlijk ook wel om de rechthoek te laten beginnen op het punt waar met de muis wordt geklikt: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var hasClicked = false;
+var xpos = 0;
+var ypos = 0;
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  if (hasClicked) {
+    rect(xpos, ypos, 50, 25);
+    ypos += 1;
+  }
+}
+function mousePressed() {
+  hasClicked = true;
+  xpos = mouseX;
+  ypos = mouseY;
+}
+</script>
+<p>(Het is de moeite waard om even de tijd te nemen om de bovenstaande code goed te begrijpen. Desnoods vraag je even aan een klasgenoot of de docent extra uitleg. De tekst hieronder wacht wel!) </p>
+
+<p>Dit is mooi zal je zeggen, maar we zijn nog wel ver van ons doel: <em>meerdere</em> bewegende rechthoeken op het scherm laten verschijnen als reactie op input van de gebruiker. Dit is uiteraard te doen als we al meerdere rechthoeken zouden hebben vantevoren: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectY_0 = 0;
+var rectY_1 = 15;
+var rectY_2 = 30;
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  rect(100, rectY_0, 50, 25);
+  rect(200, rectY_1, 50, 25);
+  rect(300, rectY_2, 50, 25);
+  rectY_0 += 1;
+  rectY_1 += 1;
+  rectY_2 += 1;
+}
+</script>
+<p>Maar dit staat in conflict met onze regel voor het programmeren: "voorkom dat je jezelf (en vooral code) herhaald", maar het werkt. </p>
+
+<h2 id="an-array-of-coordinates">Een array van coordinaten</h2>
+
+<p>Denk eens even na hoe je de herhaling in het bovenstaande voorbeeld zou kunnen voorkomen, en hoe we het makkelijker zouden kunnen maken om <em>meerdere</em> rechthoeken in de sketch toe te voegen (dit is weer een stap naar ons einddoel, het maken van rechthoeken die door de gebruiker worden getekend).</p>
+
+<p>Eerder hebben we een <code>for</code> loop gebruikt om herhaling te voorkomen en op het eerste gezicht lijkt het nu ook wel handig om <code>for</code> loop te gebruiken voor deze taak. Iets als:</p>
+
+<pre><code>// let op: dit is geen echte javascriptcode! Dit heet pseudocode...
+for (var i = 0; i &lt; 3; i++) {
+    rect(100, rectY_&lt;i&gt;, 50, 25);
+    rectY_&lt;i&gt; += 1
+}
+</code></pre>
+
+<p>Javascript, en alle andere programmertalen, heeft een bepaalde <em>data structuur</em> die ontworpen is voor precies dit, en deze heet een <em>array</em>.</p>
+
+<p>Een array een waarde waarin een <em>lijst</em> van andere waardes wordt bewaard. Om weer de lade analogie te gebruiken. Een array is een lade met vakjes waarin ook weer waarden in gestopt kunnen worden. Je kan weer bij al die individuele waarden door de positie die ze hebben in de lijst. Je kan ook waarden toevoegen, of juist weggooien of waarden aanpassen die er al in staan. Dus alle vakjes in de lade hebben een nummer van 0 tot het aantal waarden dat je erin hebt gestopt. </p>
+
+<p>Hier het voorbeeld van hierboven, maar nu met een array: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectY = [0, 15, 30];
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectY.length; i++) {
+    rect((i+1)*100, rectY[i], 50, 25);
+    rectY[i] += 1;
+  }
+}
+</script>
+<p>Dit is heel veel nieuwe informatie! Laten we de code stap voor stap doornemen. Als eerste is er de There’s a lot of new stuff in here, so let’s pick it apart one piece at a time.
+<em>declaratie</em> (het aanmaken) van de array:</p>
+
+<pre><code>var rectY = [0, 15, 30];
+</code></pre>
+
+<p>Wanneer je een array aanmaakt in Javascript kan je de waarden direct in de array typen in je programma (dit heet een <em>array literal</em>; we gaan het later hebben over andere manier om arrays in je programma te maken). Het statement hierboven creeert een array en bewaart het in een variabele met de naam <code>rectY</code>.</p>
+
+<p>Alle arrays hebben een <code>.length</code> attribuut die het aantal items in de array teruggeeft. In de eerste regel van de <code>for</code> loop gebruiken we deze om de bovengrens van de loop te bepalen:</p>
+
+<pre><code>for (var i = 0; i &lt; rectY.length; i++) {
+</code></pre>
+
+<p>In de loop, evalueert de volgende expressie:</p>
+
+<pre><code>rectY[i]
+</code></pre>
+
+<p>… tot de <em>waarde die bewaart wordt bij een bepaalde index van de array</em>. (Een <em>index</em> is de plaats die het getal inneemt in de array, beginnend bij nul. Dus bij <code>var rectY = [0, 15, 30];
+</code> geeft rectY[0] het eerste getal uit de array terug, 0 in dit geval. rectY[1] geeft 15 en rectY[2] geeft 30).
+Dus, in een loop, tekent dit statement: </p>
+
+<pre><code>rect((i+1)*100, rectY[i], 50, 25);
+</code></pre>
+
+<p>… een rechthoek dat gebruik maakt van de waarde die is opgeslleeftijdn op de specifieke index van de array  (<code>0</code>, <code>1</code>, of <code>2</code>). Deze indexwaarde kan ook aangepast worden, met de onderstaande regel: </p>
+
+<pre><code>rectY[i] += 1;
+</code></pre>
+
+<h3 id="arrays-in-more-detail">Arrays in meer detail</h3>
+
+<p>Hierboven worden <em>veel</em> mogelijkheden van arrays in p5.js besproken. Maar het is de moeite waard om iets dieper in te gaan in het gebruik van een array. We zullen weer even beginnen met een lege sketch.  </p>
+
+<p>Om een array te maken begonnen we met vierkante haakjes met waarden daartussen gescheiden door komma's: </p>
+
+<pre><code>var stuff = [5, 10, 15, 20];
+</code></pre>
+
+<p>Een array kan zoveel waarden herbergen als je maar wilt. Het kan zelfs helemaal leeg zijn: </p>
+
+<pre><code>var helemaalNietsInHier = [];
+</code></pre>
+
+<p>Een array heeft een bepaald aantal <em>waarden</em> in zich. Om te zien hoeveel zleeftijdn we hierboven al dat je de <code>.length</code> attribuut konden gebruiken:</p>
+
+<pre><code>console.log(stuff.length); // geeft 4
+console.log(helemaalNietsInHier.length); // geeft 0
+</code></pre>
+
+<p>Om een specifiek item uit een array te halen schrijf je vierkante haakjes direct achter de naam van de array en tussen die haakjes schrijf je dan het getal dat de positie weergeeft van dat item: </p>
+
+<pre><code>console.log(stuff[2]); // geeft 15 ... waarom niet 10?! Zie hieronder
+</code></pre>
+
+<p>Als je een getal invoert dat een positie vraagt dat buiten de lengte van de array ligt, dan zal je een <code>undefined</code> (ongedefinieerd) terug krijgen:</p>
+
+<pre><code>console.log(stuff[152]); // geeft "undefined"
+</code></pre>
+
+<p>In de <code>console.log()</code> functie kan je ook de naam van een array schrijven als parameter, je krijgt dan alle inhoud van een array. Dat kan zeer behulpzaam zijn bij het debuggen:  </p>
+
+<pre><code>console.log(stuff); // geeft [5,10,15,20]
+</code></pre>
+
+<p>Je kan de waarde van een bepaalde positie (index) in een array veranderen door de naam van de array met tussen de vierkante haakjes de positie van de waarde die je wilt veranderen gevolgt door de toewijzingsoperator (<code>=</code>) gevolgd door de nieuwe waarde:</p>
+
+<pre><code>stuff[2] = 999;
+console.log(stuff); // geeft nu [5,10,999,20]
+</code></pre>
+
+<h3 id="the-zero-index">De nul-index</h3>
+
+<p>Maar wacht eens even, waarom verwijst <code>stuff[2]</code> naar <code>15</code>? Dat is toch al het <em>derde</em> item in de array en niet het tweede? Daar heb je zeker gelijk in. Maar de index (positie) begint bij <em>nul</em>. Misschien in het begin wat raar, maar bij vrijwel alle programmeertalen is dat zo.</p>
+
+<p><em>Gebaseerd op nul</em> betekent dat het <em>eerste</em> element van een array een index van <code>0</code> heeft in Javascript. Dus als je het eerste element uit het array <code>stuff</code> wilt halen, moet je <code>stuff[0]</code> schrijven. En om het laatste element uit een array van vier elementen te halen moet je <code>stuff[3]</code> schrijven (en dus niet <code>stuff[4]</code>).</p>
+
+<p>De reden voor deze rare gewoonte ligt in de historie van het programmeren <a href="https://en.wikipedia.org/wiki/Zero-based_numbering">Wikipedia heeft een goede uitleg over de geschiedenis van het nul-indexen</a>.</p>
+
+<p>Als je er gewoon vanuit gaat dat de index in een array de afstand van het begin weergeeft en niet het aantal elementen telt dat er in een array zitten wordt dit wat makkelijker om te onthouden. Het eerste element is dus nul stappen van het begin verwijderd; het tweede element is een stap verwijderd, enzovoort. Maar je zal dit in het begin gewoon wel eens fout doen, dus doet je code niet wat je dacht dat het moest doen en gebruik je een array... controleer even of je de juiste index hebt gebruikt. </p>
+
+<h2 id="adding-items-to-an-array">Elementen toevoegen aan een array</h2>
+
+<p>Arrays hebben een methode (dat is een functie die specifiek hoort bij, in dit geval, een array) genaamd <code>.push()</code>. Deze voegt items toe aan de lijst. In het volgende voorbeeld gebruiken we deze methode om eindelijk tot iets te komen wat <em>ongeveer</em> lijkt op ons eigenlijke doel: een vallende rechthoek toevoegen als de gebruiker klikt: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectY = []; // begin met een lege lijst
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectY.length; i++) {
+    rect(200, rectY[i], 50, 25);
+    rectY[i] += 1;
+  }
+}
+function mousePressed() {
+  rectY.push(0);
+}
+</script>
+
+
+<h2 id="keeping-track-of-multiple-properties">Het bijhouden van meerdere eigenschappen</h2>
+
+<p>Eindelijk! We hebben <em>bijna</em> ons doel bereikt: als we op de sketch klikken wordt er een rechthoek toegevoegd die vervolgens naar beneden beweegt. Maar het is niet precies wat we bedoelde, toch? Laten we ons doel verder leggen door iets toe te voegen: als je op het scherm klikt verschijnt de rechthoek <em>exact op de coordinaten van de muisklik</em> en beweegt vervolgens naar beneden. </p>
+
+<p>Om dit te doen moeten we <em>twee</em> dingen bijhouden voor iedere rechthoek. Dit wordt interessant want er zijn meerdere manieren om dit te doen met allemaal zijn voor- en nadelen. We gaan ze allemaal om de beurt toepassen. </p>
+
+<h3 id="more-than-one-array">Meer dan één array</h3>
+
+<p>De makkelijkste oplossing is misschien wel het maken van een array om de X-coordinaten van iedere rechthoek op te slaan, en een array voor de Y-coordinaten. De X van de eerste rechthoek bevindt zich op index 0 van de <code>rectX</code> array, en de Y waarde van de eerste rechthoek bevindt zich op de index 0 van de <code>rectY</code> array, enzovoort. Zo ziet dat er uit: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectX = []; // start with empty list
+var rectY = []; // start with empty list
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectY.length; i++) {
+    rect(rectX[i], rectY[i], 50, 25);
+    rectY[i] += 1;
+  }
+}
+function mousePressed() {
+  rectX.push(mouseX);
+  rectY.push(mouseY);
+}
+</script>
+<p>Dit ziet er goed uit! Maar er zijn wat nadelen als je je code wilt uitbreiden: </p>
+
+<ul>
+  <li>Om een <em>andere attribuut toe te voegen</em> aan de data die we opslaan voor iedere rechthoek moeten we een derde array maken (en vierde en vijfde...) </li>
+  <li>Om een "rechthoek" te verwijderen uit onze data, moeten we dat item uit <em>alle arrays halen</em>. (Later meer over het verwijderen van data uit een array.)</li>
+  <li>De relatie tussen <code>rectX</code> en <code>rectY</code> wordt niet weergegeven in de syntax van het programma. Een andere programmeur die naar de code kijkt zal niet onmiddellijk zien dat beide variabelen altijd samen gebruikt dienen te worden.</li>
+</ul>
+
+<h3 id="arrays-inside-arrays">Arrays in een array</h3>
+
+<p>Een andere oplossing komt voort uit het feit dat <em>arrays zelf gewoon waarden zijn</em>, en kunnen we dus een array <em>in</em> een andere array bewaren. Om dit te zien type eens de volgende code in een lege sketch en kijk eens naar de output in het console:</p>
+
+<pre><code>var stuff = [];
+stuff.push([24, 25]);
+stuff.push([26, 27]);
+console.log(stuff); // geeft [[24,25],[26,27]]
+</code></pre>
+
+<p>Als je deze code uitvoert, bestaat de variabele <code>stuff</code> uit een array met twee items. En beide items zijn <em>zelf ook</em> weer een array. Als je de waarde van index 0 (de eerste positie) vraagt, krijg je een array terug: </p>
+
+<pre><code>console.log(stuff[0]); // geeft [24,25]
+</code></pre>
+
+<p>Om nu weer een van de twee waarden van <em>deze</em> array te krijgen moet je twee keer vierkante haakjes gebruiken. De eerste keer om de array uit de array te halen en de tweede om uit die gekozen array een waarde te halen die daar in staat, snap je het nog? Zo ziet dat eruit: </p>
+
+<pre><code>console.log(stuff[0][1]); // De eerste array en dan de tweede waarde geeft 25
+</code></pre>
+
+<p>We kunnen deze structuur gebruiken om een nieuwe versie van onze vallende-rechthoeken-sketch te maken met behulp van maar <em>een</em> array om de informatie op te slaan van alle rechthoeken. Elk element van dat array is zelf ook weer een array. </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectXY = []; // begin met een lege array
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectXY.length; i++) {
+    rect(rectXY[i][0], rectXY[i][1], 50, 25);
+    rectXY[i][1] += 1;
+  }
+}
+function mousePressed() {
+  rectXY.push([mouseX, mouseY]);
+}
+</script>
+<p>Het mooie van deze constructie is dat we nu makkelijk een <em>derde</em> attribuut kunnen toevoegen bij iedere rechthoek door een derde element toe te voegen aan de array die we al toevoegen aan de 
+<code>rectXY</code> array bij iedere muisklik. In het volgende voorbeeld wordt een random waarde toegevoegd op index 2 (derde positie) bij iedere muisklik. Deze waarde wordt gebruikt om iedere rechthoek een willekeurige kleur te geven in de <code>draw()</code> functie:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectXY = []; // begin met een lege array
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectXY.length; i++) {
+    fill(rectXY[i][2]);
+    rect(rectXY[i][0], rectXY[i][1], 50, 25);
+    rectXY[i][1] += 1;
+  }
+}
+function mousePressed() {
+  rectXY.push([mouseX, mouseY, random(255)]);
+}
+</script>
+<blockquote>
+  <p>OEFENING: Probeer een vierde element toe te voegen aan de array dat de valsnelheid van iedere rechthoek bepaalt. </p>
+</blockquote>
+
+<h2 id="objects">Objecten</h2>
+
+<p>Het nadeel van arrays-in-arrays is dat je al snel vergeet wat de elementen in de binnenste arrays ook al weer betekenden. De getallen zelf zeggen niet zo veel (waarom is de X-coordinaat opgeslleeftijdn op index 0? Wat heeft 'X' te maken met '0'?). Zou het niet handig zijn als er een manier in Javascript was om data in een datastructuur te stoppen dat <em>lijkt</em> op een array in die zin dat het meerdere waarden kan bevatten, maar dan met de mogelijkheid om de elementen een begrijpbare naam te geven.</p>
+
+<p>Er blijkt uiteraard zo'n datastructuur te bestaan! (anders was ik er vast niet over begonnen). Het heet een <em>object</em>. Een object kan meerdere waarden bevatten, net zoals een array, maar alle individuele waarden kunnen een <em>key</em> krijgen, een naam. Objects zijn verder net als iedere andere waarde in Javascript: je kan ze in variabelen opslaan, ze in arrays stoppen, of zelfs objecten in objecten opslaan.</p>
+
+<p>De basis syntax om een object te creëren ziet er zo uit:</p>
+
+<pre><code>var asteroide = {radius: 100, massa: 460, populatie: 17};
+</code></pre>
+
+<p>Dit statement creëert een object en koppelt deze aan de variabele <code>asteroide</code>. Dit object heeft drie “keys”: <code>radius</code>, <code>massa</code>, and <code>populatie</code>.
+(Je kan zelf de namen van de keys verzinnen; ik kies hier alleen voor de lol een ruimtereis-thema-object.) Om nu toegang te krijgen tot een waarde bij een specifieke key, gebruik je een van de volgende syntaxen: </p>
+
+<pre><code>console.log(asteroide["radius"]);
+// of:
+console.log(asteroide.radius)
+</code></pre>
+
+<p>Je kan een nieuwe key/value paar toevoegen aan een object door de syntax van hierboven te gebruiken voor het "=-teken" en de waarde die je wilt toevoegen aan de rechterkant:</p>
+
+<pre><code>asteroide.albedo = 7;
+// of:
+asteroide["albedo"] = 7;
+</code></pre>
+
+<p>Het <code>console.log()</code> commando zal alle key/value paren die in een object zitten laten zien als je een objectnaam als parameter invoert:  </p>
+
+<pre><code>// geeft {"radius":100,"massa":460,"populatie":17,"albedo":7}
+console.log(asteroide);
+</code></pre>
+
+<p>Het is ook makkelijk om een <em>array</em> van objecten te maken en dit de meest gebruikte manier van het gebruiken van objecten. Je zal het veelvuldig gebruiken in je net begonnen carriere als computerprogrammeur. Meestal zal je arrays inladen van een bron van buiten (zoals een API), of je zal een object laten genereren gedurende je programma (bijvoorbeeld voor het opslaan van data van gebruikersinput). Maar je kan ook direct een eigen object schrijven, zo ziet dat eruit: </p>
+
+<pre><code>var katten = [
+  {leeftijd: 14, gewicht: 12.2},
+  {leeftijd: 3, gewicht: 8.9},
+  {leeftijd: 8, gewicht: 11.0}
+];
+</code></pre>
+
+<p>Nu is <code>katten</code> een <em>array van objecten</em>. Om één object uit deze array te halen moet je een expressie schrijven als: </p>
+
+<pre><code>console.log(katten[0]); // geeft {"leeftijd":14,"gewicht":12.2}
+</code></pre>
+
+<p>En om de waarde van een key uit een object te krijgen in de lijst schrijf je: </p>
+
+<pre><code>console.log(katten[0]["leeftijd"]);
+// of
+console.log(katten[0].leeftijd);
+</code></pre>
+
+<p>Hier is een voorbeeld van hoe je een loop maakt om door een lijst van objecten heen te gaan. Deze loop print de <em>som van het gewicht</em> van alle katten uit de lijst: </p>
+
+<pre><code>var gewichtSom = 0;
+for (var i = 0; i &lt; katten.length; i++) {
+    gewichtSom += katten[i].gewicht;
+}
+// geeft 32.1
+console.log(gewichtSom);
+</code></pre>
+
+<h3 id="rectangles-as-objects">Rechthoeken als objecten</h3>
+
+<p>Hier is een versie van onze rechthoek sketch die alles bij elkaar brengt. Op iedere klik creeert deze sketch een nieuw object en stopt deze in de <code>rectObjs</code>
+array. In <code>draw()</code>, wordt iedere rechthoek getoond door gebruik te maken van de waarden met de juiste keys: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectObjs = []; // begin met een lege lijst
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectObjs.length; i++) {
+    fill(rectObjs[i].fillColor);
+    rect(rectObjs[i].xpos,
+        rectObjs[i].ypos, 50, 25);
+    rectObjs[i].ypos += 1;
+  }
+}
+function mousePressed() {
+  rectObjs.push({xpos: mouseX, ypos: mouseY,
+    fillColor: random(255)});
+}
+</script>
+<blockquote>
+  <p>OEFENING: Pas het bovenste voorbeeld aan zodat iedere rechthoek ook een aparte <em>snelheid</em> for de X- en Y-coordinaten op slaat. Pas vervolgens de <code>draw()</code> loop aan zodat de rechthoeken ook bewegen in een andere richting dan naar beneden. BONUSOEFENING: schrijf de code zo dat iedere rechthoek "stuitert" op de rand als het de randen van de sketch raakt.
+</p>
+</blockquote>
+
+<!-- <h2 id="removing-items-from-an-array">Removing items from an array</h2>
+
+<p>Notes TK</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var rectObjs = []; // start with empty list
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  rectMode(CENTER);
+  fill(255);
+  for (var i = 0; i < rectObjs.length; i++) {
+    fill(rectObjs[i].fillColor);
+    rect(rectObjs[i].xpos,
+        rectObjs[i].ypos, 50, 25);
+    rectObjs[i].ypos += 1;
+  }
+  for (var i = rectObjs.length - 1; i >= 0; i--) {
+    if (rectObjs[i].ypos > height) {
+        rectObjs.splice(i, 1);
+    }
+  }
+}
+function mousePressed() {
+  rectObjs.push({xpos: mouseX, ypos: mouseY,
+    fillColor: random(255)});
+  console.log(rectObjs); // look at debug area!
+}
+</script> -->
+<h2 id="using-other-peoples-data-csv-format">Gebruik maken van andermans data (in CSV formaat)</h2>
+
+<p>Niet alle data die je gebruikt hoef je zelf te maken of te laten genereren in je sketch. Je kan p5.js ook gebruiken om data in te laden van <em>andere</em> databronnen. Ik zal je nu laten zien hoe je met data werkt in het <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV
+formaat</a>.</p>
+
+<p>Plekken om data te vinden:</p>
+
+<ul>
+  <li><a href="https://data.amsterdam.nl/">Open data Amsterdam</a></li>
+  <li><a href="https://data.overheid.nl/">Open data Nederland</a></li>
+  <li><a href="https://data.europa.eu/">Open data Europese Unie</a></li>
+  <li><a href="https://data.worldbank.org/">Open data Wereldbank</a></li>
+  <li><a href="http://data.un.org/">Open data Verenigde Naties</a></li>
+</ul>
+
+<p>We gaan werken met een <a href="https://raw.githubusercontent.com/visualeditorNL/data/master/ajax.csv">CSV met de data van alle Ajax competitie wedstrijden van het seizoen 2017-2018</a>.</p>
+
+<p>“CSV” staat voor “comma separated values” (komma gescheiden waarden). Het is een platte tekst bestand (dus geen opmaak, zoals word of google documenten) dat een data in een vaste structuur bevat. 
+Het is eigenlijk gewoon een spreadsheet waarin de namen van de kolommen op de eerste regel van het bestand staan. Iedere volgende "rij" staat op een volgende regel met aparte cellen die door komma's worden gescheiden. Het CSV formaat wordt door heel veel programmeertalen begrepen, maar ook Excel of Google Spreadsheets weten raad met dit formaat. Veel organisaties en bedrijven gebruiken het CSV formaat om data te delen met anderen. Dus er zijn veel bronnen te vinden online waar je CSV kan downloaden.</p>
+
+<p>Eigenlijk is een CSV-bestand een soort van array van rijen, en iedere rij is een object waarvan de key de kolomnaam is en de waarden in de cellen in die kolom staan. </p>
+
+<p>De p5.js library geeft een heel aantal functies die horen bij het het werken met CSV-bestanden.
+De <code>loadTable()</code> functie laat een CSV-bestand in het geheugen als een bijzonder soort
+<code>tabel</code> waarde. De <code>loadTable()</code> functie moet in een <code>preload()</code> worden ingeladen; de syntax ziet er zo uit: </p>
+
+<pre><code>tabelVar = loadTable('je_bestand.csv', 'csv', 'header');
+</code></pre>
+
+<p>De <code>tabelVar</code> variabele kan wederom genoemd worden zoals je wilt. De <code>'csv'</code> en
+<code>'header' </code> parameters vertellen de <code>loadTable()</code> dat dit een CSV-bestand is en dat het "header" waarden heeft op de eerste regel (die gebruikt worden als kolomnamen). </p>
+
+<p>De tabel waarde heeft verschillende methodes die we kunnen gebruiken om met de ingelezen data te werken:  </p>
+
+<ul>
+  <li><code>.getRowCount()</code>: geeft het aantal rijen in de tabel weer</li>
+  <li><code>.getNum(i, "foo")</code>: geeft de waarde van de cel in de rij <code>i</code>  met de kolomnaam <code>"foo"</code></li>
+</ul>
+
+<p>(Er zijn meer functies om data uit andere formaten te halen; zie
+<a href="http://p5js.org/reference/#/p5.Table">de referentie</a> voor meer informatie.)</p>
+
+<p>Hier is een voorbeeld dat het Ajax CSV-bestand gebruikt om de scores weer te geven per wedstrijd van Ajax. Vertikale lijnen geven de wedstrijden aan (waarbij rode lijnen UIT-wedstrijden zijn en witte THUIS-wedstrijden). De horizontale lijnen zijn het aantal doelpunten een rode cirkel is het aantal doelpunten van Ajax en de witte cirkels de doelpunten van de tegenpartij: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var ajaxdata;
+function preload() {
+  ajaxdata = loadTable(
+    'https://raw.githubusercontent.com/visualeditorNL/data/master/ajax.csv',
+    'csv',
+    'header');
+}
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  //horizontale lijnen van 0 tot 8 doelpunten
+  for (var i = 0; i < 9; i++){
+    line(0,300+i*-20,400,300+i*-20);
+  }
+  
+  
+  //rode verticale lijn is thuiswedstrijd, wit is uit
+  for (var j = 0; j < ajaxdata.getRowCount(); j++) {
+    if(ajaxdata.getString(j,"uitthuis") == "U") {
+      stroke(255,100);
+    } else {
+      stroke(255,0,0,100);
+    }
+    
+    line(34+j*10,0,34+j*10,400);
+    noStroke();
+    //rode cirkels doelpunten ajax, witte doelpunten tegenstander
+    fill(255,0,0,150);
+    ellipse(34+j*10, 300 + ajaxdata.getNum(j, "goalsAjax")*-20, 10, 10);
+    fill(255,150);
+    ellipse(34+j*10, 300 + ajaxdata.getNum(j, "goalsOpp")*-20, 10, 10);
+    
+  }
+}
+</script>
+
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2018-09-12T19:20:00-04:00">2018</time>. The text of this work is
+          licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
+              Commons Attribution-NonCommercial 4.0 International License</a>.
+          Additionally, code examples are provided as <a
+              href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+        </small>
+      </footer>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/public/sketchui.js"></script>
+  </body>
+</html>

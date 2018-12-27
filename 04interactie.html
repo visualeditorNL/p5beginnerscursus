@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Allison Parrish">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Interactie 
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/menu.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Creative Coding" href="/atom.xml">
+  <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+</head>
+
+
+  <body>
+
+<ul class="sidenav">
+  <li><a href="index.html">1 De eerste stappen</a></li>
+  <li><a href="02expressiesVariabelenLoops.html">2 Expressies, variabelen en lussen</a></li>
+  <li><a href="03veranderingInTijd.html">3 Animatie</a></li>
+  <li><a class="active" href="04interactie.html">4 Interactie</a></li>
+  <li><a href="05TransformatieFuncties.html">5 Functies</a></li>
+  <li><a href="06Media.html">6 Media</a></li>
+  <li><a href="07ArrayObjects.html">7 Arrays en Objecten</a></li>
+   <hr>
+  <li><a href="opdracht.html">Wat moet je inleveren?</a></li>
+  <hr>
+  <li><a href="https://editor.p5js.org/" target="_blank">p5 webeditor</a></li>
+  <li><a href="https://p5js.org/reference/" target="_blank">Referentie</a></li>
+<li><a href="https://www.youtube.com/user/shiffman/playlists?sort=dd&shelf_id=14&view=50" target="_blank">The Coding Train</a></li>
+</ul>
+    <div class="container content">
+      <main>
+        <article class="page">
+  <h1 class="page-title">Interactie</h1>
+<small> <p>Deze site is grotendeels een vertaling van een tutorial van <a href="https://creative-coding.decontextualize.com/">Allison Parrish</a> en is vertaald en bewerkt door <a href="https://www.visualeditor.nl/">Marijn van der Meer</a> voor het gebruik bij Informatica lessen op het IJburg College</p></small>
+
+<p>In dit hoofdstuk ga je leren hoe je in p5.js sketches kan maken die reageren op input van de gebruiker.</p>
+
+<h2 id="built-in-processing-variables">Ingebouwde p5.js variabelen</h2>
+
+<p>Je hebt gezien hoe je variabelen in je sketch moet gebruiken om ze flexibeler te maken: je kan de waarde van de variabele steeds opnieuw gebruiken. p5.js heeft een aantal ingebouwde variabelen die je zo in je sketch kan gebruiken zonder ze te moeten aanmaken. Deze variabelen geven informatie over dingen die normaal buiten je sketch zouden liggen.</p>
+
+<p>Je hebt al een handige ingebouwde variabele geleerd,<code>frameCount</code>, <a href="/changes-over-time/">in een vorig hoofdstuk</a>.</p>
+
+<h3 id="width-and-height">Breedte en hoogte</h3>
+
+<p>De <code>width</code> en <code>height</code> variabelen bevatten altijd de waarde die gelijk zijn aan de breedte en hoogte van je sketch (in pixels). Dit is eigenlijk altijd gelijk aan de waarde die je aan de parameters van de <code>createCanvas()</code> functie geeft.</p>
+
+<p>De <code>width</code> en <code>height</code> variabelen zijn handig omdat ze je in staat stellen om sketches te maken die rekening houden met de grootte van het canvas. Hier zijn bijvoorbeeld twee versies van dezelfde sketch, beiden hebben alleen een andere grootte, maar beiden laten de cirkel op exact een derde van het canvas zien:  </p>
+
+<script type="text/p5" data-preview-width="300" data-height="300">
+function setup() {
+    createCanvas(200, 200);
+    noLoop();
+}
+function draw() {
+    background(0);
+    fill(255);
+    ellipse(width/2, height/2, width/3, height/3);
+}
+</script>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+    createCanvas(400, 400);
+    noLoop();
+}
+function draw() {
+    background(0);
+    fill(255);
+    ellipse(width/2, height/2, width/3, height/3);
+}
+</script>
+
+<p>Deze verhouding blijft zelfs bestaan als we het canvas rechthoekig maken in plaats van vierkant: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="300">
+function setup() {
+    createCanvas(400, 300);
+    noLoop();
+}
+function draw() {
+    background(0);
+    fill(255);
+    ellipse(width/2, height/2, width/3, height/3);
+}
+</script>
+
+<h2 id="mouse-position">Muispositie</h2>
+
+<p>p5.js heeft twee heel speciale variabelen, <code>mouseX</code> en <code>mouseY</code>, die
+<em>de X en Y coordinaten van de muis cursor</em> bevatten van het huidige frame. Als je bedenkt dat de code in <code>draw()</code> continue draait en heel snel: tot zestig keer per seconde. Een stukje code van p5.js dat deel uitmaakt van de library roept continue deze functie aan en iedere keer dat p5.js dat doet wordt de waarde van de <code>mouseX</code> en de <code>mouseY</code> variabelen geupdated met de huidige positie van de cursor op het scherm. De twee variabelen samen maken het heel makkelijk om je sketch te laten reageren met input van de gebruiker in de vorm van muisbewegingen.</p>
+
+<p>Hier is een kort en simpel voorbeeld dat een cirkel tekent op de postitie van de muisaanwijzer: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  ellipse(mouseX, mouseY, 45, 45);
+}
+</script>
+
+<p>Natuurlijk kan je de <code>mouseX</code> en <code>mouseY</code> niet alleen gebruiken voor de <em>positie</em> van de vormen die je tekent, maar ook voor andere elementen. Hier is een sketch die de  
+<code>mouseX</code> waarde gebruikt om de breedte van de lijn en de <code>mouseY</code> waarde om de grootte van de ellips te bepalen:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(mouseX / 10);
+  ellipse(200, 200, mouseY, mouseY);
+}
+</script>
+
+<p>Een klassieke voorbeeld sketch van p5.js is om de <code>background()</code>  functie in
+<code>draw()</code> weg te laten, terwijl je de muispositie variabelen gebruikt. Nu heb je eigenlijk de basis van een tekenprogramma:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  background(50);
+}
+function draw() { 
+  noStroke(); 
+  ellipse(mouseX, mouseY, 10, 10);
+}
+</script>
+
+<p>We kunnen een wat onvoorspelbaarder tekenprogramma maken door wat veranderingen in tijd in te voeren en wat andere kleine aanpassingen:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var greenVal = 0;
+function setup() {
+  createCanvas(400, 400);
+  background(50);
+}
+function draw() {
+  noFill();
+  stroke(255, sin(greenVal)*255, 255);
+  strokeWeight(3);
+  ellipse(mouseX, 400-mouseY, 45, 45);
+  greenVal += 0.05;
+}
+</script>
+
+<h2 id="contingent-behavior-with-if">Gedrag sturen met <code>if</code></h2>
+
+<p>Wanneer je te maken hebt met input van een gebruiker zou je vaak willen dat je sketch verschillende soorten reacties geeft. Onder de ene omstandigheid zou je willen dat je sketch op de ene manier reageert; en onder een tweede omstandigheid wil je dat je sketch anders reageert op de gebruiker. </p>
+
+<p>Stel je bijvoorbeeld eens voor dat je een sketch wil maken waarbij er alleen een rechthoek verschijnt wanneer de muiscursor zich op de onderste helft van de sketch bevindt. Dus als de muispositie groter is dan de helft van de hoogte dan moet de rechthoek te zien zijn (en anders niets).</p>
+
+<p>Om deze taak te volbrengen moeten we de sketch <em>sturen</em>. We moeten een mogelijkheid hebben om te vragen "controleer of iets zo is; als dat zo <em>is</em> doe dan dit." Javascript (en iedere andere programmeertaal) heeft speciale syntax voor juist dit doel: het <code>if</code> statement.</p>
+
+<p>Hier is de sketch die precies de bovenstaande situatie uitvoert.</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  fill(255);
+  if (mouseY > height/2) {
+    rect(100, 100, 200, 200);
+  }
+}
+</script>
+
+<p>Het nieuwe gedeelte van deze code zijn deze drie regels:</p>
+
+<pre><code>if (mouseY &gt; height/2) {
+    rect(100, 100, 200, 200);
+}
+</code></pre>
+
+<p>Dit is een voorbeeld van een <code>if</code> statement. Schematisch gezien ziet een <code>if</code> statement er zo uit:</p>
+
+<pre><code>if (expr) {
+    code-die-uitgevoerd-moet-worden
+}
+</code></pre>
+
+<p>… waarbij <code>expr</code> een <em>relationale expressie</em> (uitleg volgt hieronder) is en 
+<code>code-die-uitgevoerd-moet-worden</code> een of meer Javascript statements zijn (zoals functie aanroepen, <code>for</code>
+loops, of zelfs andere <code>if</code> statements). Als de relationale expressie <code>waar</code> is, dan wordt de <code>code-die-uitgevoerd-moet-worden</code> uitgevoerd. Anders worden de statements <em>niet</em> uitgevoerd en wordt de betreffende code overgeslagen.</p>
+
+<h3 id="relational-expressions">Relationele expressies</h3>
+
+<p>Relationale expressies lijken op <a href="expressions-variables-and-loops.md">die andere expressies</a> waar we al naar hebben gekeken maar zij hebben de volgende structuur:</p>
+
+<pre><code>expr operator expr
+</code></pre>
+
+<p>Dus een operator met aan beide kanten een expressie. Het verschil tussen relationele operatoren en andere operator is dat de relationele operatoren niet een ander getal als antwoord krijgen maar een van de twee bijzondere waarden: <code>true (waar)</code> of <code>false (onwaar)</code>. Relationele expressies worden gebruikt om vast te stellen hoe twee waarden relateren met elkaar. Meer specifiek: of een waarde groter is dan de andere of dat beide waarden gelijk zijn. </p>
+
+<p>De meest gebruikte relationele operatoren zijn:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>operator</th>
+      <th>betekenis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&gt;</td>
+      <td>groter dan</td>
+    </tr>
+    <tr>
+      <td>&lt;</td>
+      <td>kleiner dan</td>
+    </tr>
+    <tr>
+      <td>==</td>
+      <td>gelijk aan</td>
+    </tr>
+    <tr>
+      <td>&gt;=</td>
+      <td>groter of gelijk aan</td>
+    </tr>
+    <tr>
+      <td>&lt;=</td>
+      <td>kleiner dan of gelijk aan</td>
+    </tr>
+        <tr>
+      <td>=!</td>
+      <td>niet gelijk aan</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Probeer de volgende statement eens uit in de p5.js webeditor zie wat de antwoorden zijn in het consolevenster:</p>
+
+<pre><code>console.log(15 &gt; 10);
+console.log((3 * 30) &lt; (2 * 40));
+console.log((3 + 5) * 2 == (10 +  6));
+</code></pre>
+
+<p>Je zou dit moeten zien in het consolevenster:</p>
+
+<pre><code>true
+false
+true
+</code></pre>
+
+<h3 id="multiple-ifs">Meerdere ifs</h3>
+
+<p>Je kan meerdere <code>if</code> statements in de <code>draw()</code> sectie van je code plaatsen. (In
+feite, kan je <code>if</code> statements overal plaatsen waar je zou willen, zelfs in <code>for</code> loops of andere <code>if</code> statements!). Hier een voorbeeldsketch dat een rechthoek tekent als de muis in de de onderste helft is en een cirkel als de muis op de rechterhelft van de sketch is: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  if (mouseY > height/2) {
+    fill(255);
+    rect(100, 100, 200, 200);
+  }
+  if (mouseX > width/2) {
+    fill(50, 50, 240);
+    ellipse(200, 200, 210, 210);
+  }
+}
+</script>
+
+<p>Je kan ook een <code>if</code> statement <em>in</em> een andere <code>if</code> plaatsen. Hier dezelfde sketch, maar nu wordt de cirkel alleen getoond wanneer de muis aan de rechterkant <em>en</em> op de onderste helft van het scherm is:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  if (mouseY > height/2) {
+    fill(255);
+    rect(100, 100, 200, 200);
+    if (mouseX > width/2) {
+      fill(50, 50, 240);
+      ellipse(200, 200, 210, 210);
+    }
+  }
+}
+</script>
+<h2 id="mouse-clicks">Muiskliks</h2>
+
+<p>p5.js heeft een speciale ingebouwde variabele genaamd <code>mouseIsPressed</code> waar de waarde <code>true</code> is als de gebruiker de muisknop ingedrukt houdt en <code>false</code> als dat niet zo is. Je kan dit gebruiken om je sketch verschillende dingen te laten doen afhankelijk van of de gebruiker de muisknop ingedrukt houdt of niet.</p>
+
+<p>Hier een voorbeeld waarbij alleen een cirkel te zien als de muisknop ingedrukt wordt: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  if (mouseIsPressed) {
+    ellipse(200, 200, 300, 300);
+  }
+}
+</script>
+<h2 id="otherwise">Anders…</h2>
+
+
+
+
+
+
+<p>Stel dat je de volgende opdracht krijgt: maakt een sketch waarbij een cirkel wordt getoond aan de bovenkant van de sketch als de muis bovenin de sketch is en een cirkel onderin de sketch in de andere gevallen. </p>
+
+<p>Je eerste poging zal er waarschijnlijk zoiets uit zien: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  if (mouseY < height/2) {
+    ellipse(200, 100, 150, 150);
+  }
+  ellipse(200, 300, 150, 150);
+}
+</script>
+<p>Maar dat is niet helemaal goed! De onderste cirkel wordt nu <em>altijd</em> getoond en niet alleen wanneer de relationele conditie in de <code>if</code> statement daarboven <code>false</code> is. Dit voorbeeld laat zien dat iedere code die <em>na</em> een <code>if</code> statement’s sluitingsaccolade  wordt uitgevoerd, ongeacht of de <code>if</code> statement slaagt.</p>
+
+<p>Je zou dit kunnen oplossen door <em>twee verschillende</em> <code>if</code> statements te gebruiken, een om te checken of de muispositie in de bovenste helft is en een andere om te checken of de muispositie op de onderste helft is: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  if (mouseY < height/2) {
+    ellipse(200, 100, 150, 150);
+  }
+  if (mouseY >= height/2) {
+    ellipse(200, 300, 150, 150);
+  }
+}
+</script>
+<blockquote>
+  <p>OEFENING: Waarom gebruikt de tweede <code>if</code> statement  <code>&gt;=</code> als operator,
+in plaats van de <code>&gt;</code>?</p>
+</blockquote>
+
+<p>Dit werkt, maar het kan veel makkelijker. Het blijkt dat heel gebruikelijk is bij het programmeren dat je een bepaald gedrag wilt bij een bepaalde conditie en een ander gedrag wanneer <em>niet</em> aan deze conditie voldaan wordt. Om je tijd te besparen in het typen van een <em>tweede</em> <code>if</code> statement dat eigenlijk het omgekeerde is van het eerste statement heeft Javascript een <code>else</code> statement die je na iedere <code>if</code> statement kan plaatsen.</p>
+
+<p>Het ziet er zo uit:</p>
+
+<pre><code>if (expr) {
+  wat-code
+}
+else {
+  wat-andere-code
+}
+</code></pre>
+
+<p>… waarbij <code>expr</code> een expressie dat als antwoord <code>true</code> of <code>false</code> heeft (net als een relationele expressie of een variabele als <code>mouseIsPressed</code>). Als deze expressie als antwoord <code>true</code> heeft zal de code uit <code>wat-code</code> uitgevoerd worden.
+Anders zal <code>wat-andere-code</code> uitgevoerd worden.</p>
+
+<p>Dus we kunnen het bovenstaande voorbeeld wat herschrijven in nog kortere code:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  if (mouseY < height/2) {
+    ellipse(200, 100, 150, 150);
+  }
+  else {
+    ellipse(200, 300, 150, 150);
+  }
+}
+</script>
+<p>En hier een voorbeeld dat een rechthoek tekent als de muis wordt ingedrukt en anders een lijn:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  ellipse(150, 150, 40, 40);
+  ellipse(250, 150, 40, 40);
+  if (mouseIsPressed) {
+    rect(100, 250, 200, 50);
+  }
+  else {
+    line(100, 275, 300, 275);
+  }
+}
+</script>
+<h3 id="odd-one-out">Een vreemde eend</h3>
+
+<p>Het komt voor dat je in een <code>for</code> loop bij een keer tijdens die loop eigenlijk net iets anders wil laten gebeuren. Een <code>if</code> statement is het perfecte gereedschap in dit geval! Je kan een <code>if</code> statement in een <code>for</code> loop stoppen om te zien of de loop variabele (meestal de i) een bepaalde waarde heeft en juist op dat moment iets anders laten gebeuren, zoals hier: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  noStroke();
+  for (var i = 0; i < 5; i++) {
+    if (i == 3) {
+      fill(50, 50, 240);
+    }
+    else {
+      fill(255);
+    }
+    ellipse(100 + (i*50), 200, 45, 45);
+  }
+}
+</script>
+<h2 id="more-than-two-else-if">Meer dan twee: else if</h2>
+
+<p>We leven niet in een het-een-of-het-ander wereld en is een het hebben van alleen een <code>if</code> en een <code>else</code> niet genoeg. Neem bijvoorbeeld eens het <code>if</code>/<code>else</code> voorbeeld van eerder, waar een cirkel bovenaan het scherm wordt getoond als de muis over de bovenste helft gaat en een cirkel aan de onderkant als de muis over de onderste helft gaat. Als je bijvoorbeeld een zelfde soort sketch wil maar dan met drie cirkels met een scherm dat in <em>drie delen</em> wordt gedeeld: als de muis op de bovenste derde deel gaat moet daar een cirkel verschijnen; over het midden dan een cirkel daar en op het onderste deel een cirkel daar.</p>
+
+<p>In dit voorbeeld hebben we drie <em>absoluut andere</em> condities die we moeten testen. En de logica van de code zit er ongeveer zo uit:  </p>
+
+<ul>
+  <li>Is de muisaanwijzer boven het bovenste derde deel van het scherm?</li>
+  <li>Als dat zo is: teken daar een cirkel.</li>
+  <li>Als dat niet zo is, vraag: Is de muisaanwijzer boven het middelste derde deel van het scherm?</li>
+  <li>Als dat zo is: teken daar een cirkel.</li>
+  <li>Als dat niet zo is: moet de muisaanwijzer over het onderste derde deel gaan, dus teken de cirkel daar.</li>
+</ul>
+
+<p>Het makkelijkst om deze logica te beschrijven in Javascript is om de <code>else if</code> clausule te gebruiken. Qua syntax ziet deze structuur er zo uit: </p>
+
+<pre><code>if (test) {
+    statements
+}
+else if (test) {
+    statements
+}
+else {
+    statements
+}
+</code></pre>
+
+<p>Hier een code die de boven beschreven situatie uitvoerd met het gebruik van een <code>else if</code>:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  if (mouseY < height * 0.33) {
+    ellipse(200, 66, 100, 100);
+  }
+  else if (mouseY < height * 0.67) {
+    ellipse(200, 200, 100, 100);
+  }
+  else {
+    ellipse(200, 333, 100, 100);
+  }
+}
+</script>
+<p>Iedere <code>if</code> statement kan een ongelimiteerde hoeveelheid <code>else if</code> clausules bevatten. Een <code>else</code> clausule is zelfs helemaal niet altijd nodig bij een <code>else if</code>.</p>
+
+<h2 id="combining-relational-expressions-with--and-">Relationele expressies combineren met &amp;&amp; en ||</h2>
+
+<p>Ik heb hierboven al uitgelegd dat relationele expressies met <code>&lt;</code> en <code>&gt;</code>
+altijd bijzondere waarden als uitkomst hebben, namelijk <em>booleans</em>. Een booleaanse waarde is <code>true</code> (waar) of <code>false</code> (onwaar).</p>
+
+<p>Er zijn nog twee speciale operatoren die gebruikt worden met booleaanse waarden: <code>&amp;&amp;</code> en <code>||</code>. De <code>&amp;&amp;</code> heet de “logische <em>EN</em>” en de <code>||</code> is de “logische <em>OF</em>.”
+Wanneer expressies met deze operatoren worden geevalueerd (het antwoord van deze vergelijking) is de waarde van het resultaat <em>zelf</em> ook een boolean. Je kan met deze operatoren relationele expressies <em>combineren</em> om nog diepere relationele expressies te formeren. </p>
+
+<p>De <code>&amp;&amp;</code> en <code>||</code> operatoren werken net als iedere andere Javascript operator die je tot nu toe hebt gezien: ze verwachten een expressie links en een expressie rechts van de operator om te vergelijken. De uitkomst van de <code>&amp;&amp;</code> operator is alleen true (waar) las <em>zowel</em> de expressie aan de linkerkant als aan de rechterkant true zijn, en de uitkomst is anders false (onwaar). De <code>||</code> operator daarintegen evalueert alleen tot true als <em>een van beide</em> expressies aan de linker- of rechterkant waar is, en alleen tot false als beide expressies niet waar zijn.</p>
+
+<p>Je kan deze operatoren, net als de eerder getestte operatoren, in de <code>console.log()</code> testen in de webeditor. Dus, bijvoorbeeld: </p>
+
+<pre><code>console.log((6 &gt; 5) &amp;&amp; (7 &gt; 6))
+</code></pre>
+
+<p>… zal <code>true</code> laten zien in het consolevenster, en </p>
+
+<pre><code>console.log((6 &gt; 5) &amp;&amp; (10 &lt; 9))
+</code></pre>
+
+<p>… zal tot <code>false</code> leiden. En als we de <code>||</code> operator gebruiken:</p>
+
+<pre><code>console.log((6 &gt; 5) || (10 &lt; 9))
+</code></pre>
+
+<p>… laat <code>true</code> zien (omdat alleen <em>een</em> van de expressies waar hoeft te zijn voor de <<code>||</code> operator om te slagen), en leidt</p>
+
+<pre><code>console.log((4 &gt; 5) || (10 &lt; 9))
+</code></pre>
+
+<p>… tot <code>false</code> (omdat beide expressies links en rechts van de <code>||</code>
+<code>false</code>) zijn.</p>
+
+<p>Hier is een voorbeeld dat de <code>&amp;&amp;</code> operator gebruikt om te zien of de muispositie <em>in een bepaald gebied is</em>. Net als het voorbeeld in het vorige stuk, alleen wordt nu een cirkel in het midden getoond als de muispositie groter is dan een derde van boven en lager is dan een derde van onderen. Anders wordt er boven <em>en</em> onder een cirkel getekend.</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noStroke();
+  fill(255);
+  if ((mouseY > height*0.33) &&
+      (mouseY < height*0.67)) {
+    ellipse(200, 200, 100, 100);
+  }
+  else {
+    ellipse(200, 66, 100, 100);
+    ellipse(200, 333, 100, 100);
+  }
+}
+</script>
+<p>Hier wordt een cirkel getekend als <em>of</em> de muisknop wordt ingedrukt <em>of</em> de muiscursor zich bevind op de onderste helft van het scherm:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  noFill();
+  stroke(255);
+  strokeWeight(8);
+  if (mouseIsPressed || (mouseY > height / 2)) {
+    ellipse(200, 200, 300, 300);
+  }
+}
+</script>
+<blockquote>
+  <p>OEFENING: Maak een sketch dat een rechthoek tekent, die blauw is wanneer de muiscursor
+<em>over</em> de rechthoek gaat, en anders rood. </p>
+</blockquote>
+
+<h2 id="synthesis-keeping-it-in-bounds">Samenwerken: alles binnenboord houden</h2>
+
+<p>Men gebruikt <code>if</code> statements in combinatie met relationele expressies om <em>dingen binnenboord te houden</em>. Als je een waarde hebt die met de tijd verandert wil je kunnen checken of die waarde een bepaalde grens is overschreden en als dat zo is moet er iets met die waarde gebeuren om deze te resetten of om van richting te laten veranderen. </p>
+
+<p>Het klassieke voorbeeld is de stuiterende bal: teken een ellips die van links naar rechts beweegt. En wanneer het de rand van de sketch raakt moet de ellips van rechts naar links bewegen tot het weer de rand raakt, enzovoort: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xspeed = 4;
+var xpos = 0;
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  ellipse(xpos, 200, 50, 50);
+  if (xpos > width) {
+    xspeed = -4;
+  }
+  if (xpos < 0) {
+    xspeed = 4;
+  }
+  xpos += xspeed;
+}
+</script>
+<p>Je kan dit bereiken door de <code>xspeed</code> variabele te vermenigvuldigen met <code>-1</code>,
+dus eigenlijk de richting omkeren, wanneer de X-positie “buitenboord raakt":</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xspeed = 4;
+var xpos = 0;
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  ellipse(xpos, 200, 50, 50);
+  if ((xpos > width) || (xpos < 0)) {
+    xspeed = xspeed * -1;
+  }
+  xpos += xspeed;
+}
+</script>
+<blockquote>
+  <p>OEFENING: Pas de bovenstaande sketch zo aan dat het de snelheid van de ellips in zowel de X- als de Y-dimensie bijhoudt. Voeg een tweede <code>if</code> statement toe dat de ellips binnenboord houdt ook in de Y-richting (net zoals dat gebeurt met de bestaande <code>if</code>
+statement voor de X-as).</p>
+</blockquote>
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2018-09-12T19:20:00-04:00">2018</time>. The text of this work is
+          licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
+              Commons Attribution-NonCommercial 4.0 International License</a>.
+          Additionally, code examples are provided as <a
+              href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+        </small>
+      </footer>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/public/sketchui.js"></script>
+  </body>
+</html>

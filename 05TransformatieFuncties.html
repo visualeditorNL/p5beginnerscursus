@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Allison Parrish">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Transformaties en functies
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/menu.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Creative Coding" href="/atom.xml">
+  <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+</head>
+
+
+  <body>
+
+<ul class="sidenav">
+  <li><a href="index.html">1 De eerste stappen</a></li>
+  <li><a href="02expressiesVariabelenLoops.html">2 Expressies, variabelen en lussen</a></li>
+  <li><a href="03veranderingInTijd.html">3 Animatie</a></li>
+  <li><a href="04interactie.html">4 Interactie</a></li>
+  <li><a class="active" href="05TransformatieFuncties.html">5 Functies</a></li>
+  <li><a href="06Media.html">6 Media</a></li>
+  <li><a href="07ArrayObjects.html">7 Arrays en Objecten</a></li>
+   <hr>
+  <li><a href="opdracht.html">Wat moet je inleveren?</a></li>
+  <hr>
+  <li><a href="https://editor.p5js.org/" target="_blank">p5 webeditor</a></li>
+  <li><a href="https://p5js.org/reference/" target="_blank">Referentie</a></li>
+  <li><a href="https://www.youtube.com/user/shiffman/playlists?sort=dd&shelf_id=14&view=50" target="_blank">The Coding Train</a></li>
+</ul>
+    <div class="container content">
+      <main>
+        <article class="page">
+  <h1 class="page-title">Transformaties en functies</h1>
+<small> <p>Deze site is grotendeels een vertaling van een tutorial van <a href="https://creative-coding.decontextualize.com/">Allison Parrish</a> en is vertaald en bewerkt door <a href="https://www.visualeditor.nl/">Marijn van der Meer</a> voor het gebruik bij Informatica lessen op het IJburg College</p></small>
+
+<p>In dit hoofdstuk ga je leren hoe je <em>transformaties</em> kan gebruiken. Dit is een handige en elegante manier om te bepalen waar en hoe vormen worden getekend op het scherm. Ook zal je de basis gaan leren van het maken van <em>functies</em>. Deze gebruik je om je code leesbaarder, vaak korter te maken en om de code mooi in te delen.</p>
+
+<h2 id="translation">Translate</h2>
+
+<p>In een eerder voorbeeld maakten we een "offset" variabele om de plek <em>waar</em> een vorm werd getekend op het scherm te veranderen. Hier is bijvoorbeeld een sketch dat een soort van smiley tekent waarbij je de positie van het gezicht kan veranderen door de <code>xoffset</code> en <code>yoffset</code> variablen aan te passen (probeer maar eens):</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xoffset = 40;
+var yoffset = 50;
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  // teken een smiley!
+  ellipse(xoffset, yoffset, 40, 40);
+  ellipse(xoffset+100, yoffset, 40, 40);
+  arc(xoffset+50, yoffset+50, 100, 50, 0, PI);
+}
+</script>
+<p>Dit is op zich prima, maar er lijkt een hoop herhaling in de code te staan: de namen <code>xoffset</code> en <code>yoffset</code> worden een aantal keer opgeschreven.</p>
+
+<p>Je zult het nu wel doorhebben dat veel programmeurs een <em>hekel</em> hebben aan het continue opnieuw hetzelfde te typen. In dit geval, en ik veel andere gevallen, hebben programmeurs een manier bedacht om deze herhaling te "omzeilen" door de <code>translate()</code> functie te bedenken.</p>
+
+<p>Voordat ik precies ga uitleggen hoe de <code>translate()</code> werkt, is het misschien behulpzaam om de functie al een keer in actie te zien. Hier is hetzelfde voorbeeld als hierboven, maar nu herschreven met de <code>translate()</code> functie:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+var xoffset = 40;
+var yoffset = 50;
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  translate(xoffset, yoffset);
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>Wat gebeurt er hier? In het kort: de <code>translate()</code> functie verandert het nulpunt van de coordinaten. Voor iedere functie die iets tekent na de <code>translate()</code> functie, is de positie van <code>0, 0</code> op de coordinaten die je als parameters in de <code>translate()</code> functie hebt ingevoerd.</p>
+
+<p>Het grote voordeel van het <code>translate()</code> commando is dat je eerst een aantal vormen kan tekenen zonder je druk te maken over de uiteindelijke positie die ze in moeten nemen. Je kan dat stukje code heel simpel kopieren naar een andere sketch zolang je de <code>translate()</code> gebruikt om de positie te veranderen hoef je verder niks aan de code te veranderen.  </p>
+
+<p>Hier een versie van de bovenstaande sketch waarbij de smiley de muiscursor volgt. Om dit te laten werken is het niet nodig om in iedere vorm (twee ogen en een mond) om daar de <code>mouseX</code> en <code>mouseY</code> functie toe te voegen in ieder vorm; nee, ik moet alleen de <code>translate()</code> functie te veranderen.</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  translate(mouseX, mouseY);
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<h2 id="translates-accumulate">Translate telt op!</h2>
+
+<p>Met dit in gedachten denk je misschien: "Ok ik wil TWEE smileys! Een die de muis volgt en een die stil blijft staan in de linkerbovenhoek. Dat ga ik doen!" Je eerste poging zal er misschien zoiets uitzien:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  // follow the mouse
+  translate(mouseX, mouseY);
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+
+  // upper left-hand corner???
+  translate(50, 50);
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>Ho wacht? Dit is bizar. Ze volgen <em>allebei</em> de muis. Hoezo?</p>
+
+<p>Dit is het probleem: <em>transformaties tellen op</em>. De eerste aanroep voor <code>translate()</code>
+in het bovenstaande voorbeeld verplaatst het nulpunt naar de positie van de muis. De tweede aanroep herstelt het nulpunt niet naar <code>50, 50</code>, maar verplaatst het nulpunt naar <code>50,
+50</code> <em>relatief van het bestaande nulpunt</em>, dat is hier dus de muispositie!</p>
+
+<h2 id="pushing-and-popping-the-matrix">Het Pushen en poppen van de matrix</h2>
+
+<p>Ondanks dat ik het bovenstaande voorbeeld expres heb laten mislukken is dit gedrag eigenlijk heel fijn. (om te zien waarom probeer eens te bedenken hoe je het gedrag van de bovenstaande sketch eens zou moeten uitvoeren als je dat zou willen. Met andere woorden probeer te bedenken hoe je anders twee gezichten zou willen tekenen die de muis volgen waarbij eentje net naast de andere staat als de <code>translate()</code> functie het nulpunt continue helemaal opnieuw zou zetten.)</p>
+
+<p>Maar het zou wel handig zijn om transformaties te kunnen <em>isoleren</em>, zodat een deel van de code zijn eigen nulpunt heeft en een ander deel van de code een ander nulpunt ergens anders. Je doet dit door gebruik te maken van twee verschillende functies: de <code>push()</code> en <code>pop()</code>.</p>
+
+<p>De <code>push()</code> functie zegt, “He, p5.js, onthoudt alle <code>translate()</code> functies vanaf hier moet je onthouden! Waarom, omdat ik ze later weer ongedaan wil maken." De <code>pop()</code> functie zegt, “He, p5.js. Herinner je nog dat ik je vroeg dat je al die translates moest onthouden? Vergeet ze maar, dank en doei." </p>
+
+<p>Om dit te demonstreren is hier een voorbeeld van een stukje hierboven, maar nu herschreven zodat het doet wat we eigenlijk wilden: een smiley volgt de muis en de andere blijft in de linkerbovenhoek stil staan: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  // follow the mouse
+  push();
+  translate(mouseX, mouseY);
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+  pop();
+
+  // upper left-hand corner
+  translate(50, 50);
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+
+<h2 id="a-function-of-ones-own">Een eigen functie</h2>
+
+<p>De meest luie leerlingen zullen opgemerkt hebben dat in de bovenstaande code weer een nutteloze herhaling staat: de code om het gezicht te tekenen staat er TWEE keer in! Zou het niet fijn zijn om deze herhaling er ook nog eens uit te halen? Bijvoorbeeld door de code die de smiley tekent ergens onder een naam op te slaan en dan Javascript te vragen om die code uit te voeren als we ergens weer die naam opschrijven in plaats van de code te kopieren? Eigenlijk net als met variabelen. Toch? </p>
+
+<p>Yes! Javascript heeft uiteraard een manier om dit te doen: je kan <em>een functie definieren</em>. Een functie is niets minder dan een verzameling van opdrachten die je een naam geeft, zodat je deze opdrachten niet iedere keer opnieuw hoeft te typen. </p>
+
+<p>We hebben tot nu toe continue met functies gewerkt, maar tot nu toe alleen met functies die de makers van p5.js (of Javascript) voor ons gemaakt hebben. Maar het is heel makkelijk om ook zelf functies te maken. De syntax ziet er zo uit: </p>
+
+<pre><code>function naam_van_functie() {
+  statements
+}
+</code></pre>
+
+<p>… waar je <code>naam_van_functie</code> moet veranderen met de naam die je aan de functie wilt geven, en <code>statements</code> met de code die je in de functie wilt plaatsen: dit kunnen ook weer aanroepen naar (andere) functies zijn, <code>for</code> loops, <code>if</code> statements,
+wat je maar wilt.</p>
+
+<blockquote>
+  <p>LET OP: Namen van functies moeten dezelfde regels volgen als de <a href="02expressiesVariabelenLoops.html">variabele namen</a>. (Eigenlijk zijn functies ook een vorm van een variabele.)</p>
+</blockquote>
+
+
+
+<p>Wanneer je deze code in je sketch stopt heet dat een “functie definitie.”
+Je kan functie overal in je broncode definieren. Maar leer wel een stijl aan met een logische volgorde. Zodat je code niet van de hak op de tak springt. Dat is heel lastig lezen voor iemand anders. Ik zou functies in p5.js zo veel mogelijk onderaan je code zetten, na <code>setup()</code> en
+<code>draw()</code>. Om vervolgens een functie te gebruiken moet je de functie "aanroepen" ("run" of "call" in het Engels), dus Javascript vertellen dat het de code in de functie moet gaan uitvoeren. Dat doe je door de naam van de functie te schrijven meteen gevolgt door haakjes (<code>()</code>)</p>
+
+<p>Hier is een versie van een functie van het bovenstaande voorbeeld waar nu de functie 
+<code>maakSmiley()</code> wordt gedefinieerd met de code om een smiley te tekenen en daarboven in de <code>draw()</code> wordt de functie aangeroepen:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  // volg de muis
+  push();
+  translate(mouseX, mouseY);
+  maakSmiley();
+  pop();
+
+  // linkerbovenhoek
+  translate(50, 50);
+  maakSmiley();
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>Maar dat is nog niet alles! Nu we onze smiley-teken-functie hebben, kunnen we deze functie gebruiken waar en wanneer we maar willen. Hier zijn twintig smileys over elkaar, gewoon omdat dat kan:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  for (var i = 0; i < 20; i++) {
+    push();
+    translate(width/2, i*20);
+    maakSmiley();
+    pop();
+  }
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+
+
+
+
+<p>Het gebruik van functies zorgt er niet alleen voor dat er veel minder herhaling in je broncode voor komt, maar ze geven ook een mogelijkheid om je code in <em>logische stukken</em> in te delen. Het idee is dat het makkelijker is om een <code>for</code> loop te begrijpen waar een functie <code>maakSmiley()</code> in staat, zoals het voorbeeld hierboven: je ziet in een oog opslag wat de code in loop doet. En het is ook nog makkelijker om code van de ene sketch te kopieren naar de andere sketch: dus recyclen. Je hoeft nu een functie alleen te copy-pasten (in plaats van het zoeken naar de relevante delen in het <code>draw()</code> blok.</p>
+
+<h2 id="scale">Schalen</h2>
+
+<p>De  <code>translate()</code> functie is niet de enige transformatie die je kan gebruiken bij je tekencommando's. Een andere transformatie is <code>scale()</code>, deze functie schaalt hetgeen je tekent, dus verandert de <em>grootte</em>. Waar <code>translate()</code> bepaalt waar het nulpunt van de coordinaten zich bevinden, zo bepaalt <code>scale()</code> de afstand van het nulpunt. Dus het schaalt vanaf het nulpunt. Misschien makkelijker om even te zien wat er gebeurt. </p>
+
+<p>We gaan verder met het vorige voorbeeld, we roepen weer de <code>maakSmiley()</code> functie op en nu wel 3 keer: een keer op een halve schaal, een keer op normale schaal en een keer op dubbele schaal. </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  // klein
+  push();
+  translate(30, 20);
+  scale(0.5);
+  maakSmiley();
+  pop();
+
+  // gewoon
+  push();
+  translate(30, 100);
+  scale(1); // 1 is the default
+  maakSmiley();
+  pop();
+
+  // groot
+  push();
+  translate(30, 250);
+  scale(2);
+  maakSmiley();
+  pop();
+
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>En nog een voorbeeld waar twee smileys worden getekend die de muis volgen en geschaald worden met behulp van de sinus en het framenummer in de <code>scale()</code> functie, wat zie je nu gebeuren:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  // links
+  push();
+  translate(mouseX - 50, mouseY);
+  scale(0.5+sin(frameCount*0.1)*0.25);
+  maakSmiley();
+  pop();
+
+  // rechts
+  push();
+  translate(mouseX + 50, mouseY);
+  scale(0.5+cos(frameCount*0.05)*0.25);
+  maakSmiley();
+  pop();
+
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>Nu is het ook heel makkelijk om wel 50 smileys te tekenen, met allemaal verschillende grootte en kleuren:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  for (var i = 0; i < 50; i++) {
+    push();
+    stroke(random(255));
+    translate(random(width), random(height));
+    scale(random(1.5));
+    maakSmiley();
+    pop();
+  }
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>De <code>scale()</code> functie kan ook in de X- en Y-dimensie apart schalen; om dit te bereiken moet je een tweede parameter toevoegen in de functie. De eerste parameter bepaalt de X-schaal en de tweede de Y-schaal. Nu lijkt de tekening 'uitgetrokken' te worden in een bepaalde richting. Hier wederom het smiley voorbeeld, maar nu random geschaald in beide richtingen: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  for (var i = 0; i < 50; i++) {
+    push();
+    stroke(random(255));
+    translate(random(width), random(height));
+    scale(random(1.5), random(1.5));
+    maakSmiley();
+    pop();
+  }
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+
+
+<h2 id="rotation">Rotation</h2>
+
+<p>De laatste transformatie die we behandelen is <em>rotatie</em>. De <code>rotate()</code>
+functie verandert de <em>orientatie</em> van het coordinatensysteem. Dit is ook het makkelijkst te begrijpen met een voorbeeld:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+
+  for (var i = 0; i <= 10; i++) {
+    push();
+    strokeWeight(i+1);
+    rotate((PI/2) * (0.1 * i));
+    line(0, 0, 350, 0);
+    pop();
+  }
+}
+</script>
+<p>Zoals je ziet zijn in iedere herhaling van de <code>for</code> loop, de parameters van de <code>line()</code> precies hetzelfde. Het enige verschil is de rotatie. MetThe only difference is the rotation. Bij een rotatie van nul wordt een lijn getekend van het nulpunt <code>(0, 0)</code> naar 350 pixels links.
+Door het coordinatensysteem te roteren blijft het nulpunt gelijk, maar draait de locatie van <code>(350, 0)</code> met de klok mee.</p>
+
+<p>Het <code>rotate()</code> commando leest de waarde van de parameter in radialen en niet in graden. Radialen werken met PI. De waarde van PI (~3.14) is een halve cirkel (180 graden), en de waarde van twee keer PI (~6.28) is een heel rondje (360 graden).</p>
+
+<p>Hier een voorbeeld dat de <code>maakSmiley()</code> functie aanroept en vervolgens het resultaat laat ronddraaien met behulp van de muispositie:</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  push();
+  rotate((mouseX/width)*(PI/2));
+  maakSmiley();
+  pop();
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<h3 id="rotation-and-translation">Rotatie en translate</h3>
+
+<p>Het is een beetje een anticlimax om de smiley alleen helemaal in de bovenhoek van het scherm te tekenen. Laten we de smiley tekenen in het midden van het scherm te tekenen met behulp van de 
+<code>translate()</code> functie. Hier is de eerste poging:  </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  push();
+  rotate((mouseX/width)*(PI/2));
+  translate(150, 150);
+  maakSmiley();
+  pop();
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>… op zich prima, maar niet helemaal wat we bedoelde. Wat er hier gebeurt is dat we eerst de <code>rotate()</code> en dan de <code>translate()</code> aanroepen, wat betekent dat eerst het coordinatensysteem gedraaid wordt en <em>dan</em> vindt de translatie plaats <em>binnen de gedraaide coordinaten</em>. Dus de aanroep voor de <code>translate()</code> gaat niet 150 pixels naar rechts en dan 150 pixels naar beneden... Nee; het beweegt 150 pixels langs de orientatie van het coordinatensysteem, en dan 150 pixels haaks van dat punt. </p>
+
+<p>Als we <em>eerst</em> de translatie toepassen (dus dat gebeurt in de standaard orientatie) en pas <em>daarna</em> de rotatie ziet het resultaat er iets meer uit als wat we hadden verwacht: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  push();
+  translate(width/2, height/2);
+  rotate((mouseX/width)*(PI/2));
+  maakSmiley();
+  pop();
+}
+
+function maakSmiley() {
+  // teken een smiley!
+  ellipse(0, 0, 40, 40);
+  ellipse(100, 0, 40, 40);
+  arc(50, 50, 100, 50, 0, PI);
+}
+</script>
+<p>Deze twee voorbeelden laten zien dat, omdat transformaties bij elkaar optellen, is de <em>volgorde van de transformaties</em> van belang. Iedere transformatie heeft op een of andere manier effect op het coordinatensysteem en de daarop volgende transformaties veranderen de al gewijzigde coordinaten nog een keer. </p>
+
+<p>Al deze veranderingen zijn moeilijk te laten zien en vervolgens uit te leggen. Je moet het vooral uitproberen om ze te leren kennen en te leren te begrijpen. Een vuistregel die meestal werkt voor vrij simpele gevallen: <em>translate</em> eerst (dus verplaats het nulpunt naar de gewenste plek), 
+<em>roteer</em> vervolgens (om de orientatie van de vorm te veranderen en pas als laatste pas de <em>schaal</em> toe (om de vorm te vergroten of te verkleinen).</p>
+
+<h3 id="designing-around-the-origin">Ontwerpen rond het nulpunt</h3>
+
+<p>Een probleem dat veel beginnende programmeurs tegenkomen is dat ze al hun code hebben geschreven ten opzichte van het het nulpunt <code>(0, 0)</code>, en alle vormen zijn dus getekend met het nulpunt in de linkerbovenhoek. Deze programmeurs zijn vervolgens verbaasd als sketches zoals hierboven zich ineens raar gaan gedragen als ze de vormen willen transformeren: intuitief denken we "roteer deze vorm" en dan gaan we ervan uit dat de vorm rond zijn middelpunt draait. Maar de vorm draait dus rond het nulpunt (0,0) en deze ligt normaal gesproken in de linkerbovenhoek, en zal na een <code>rotate()</code> de vorm <em>rond</em> de linkerbovenhoek gaan draaien. </p>
+
+<p>In het geval van de bovenstaande sketch is het het makkelijkst om het probleem op te lossen door simpelweg de functie te <em>herschrijven</em> zodat het middelpunt van de smiley ook echt op de coordinaat <code>(0, 0)</code> zit. Om dit voor elkaar te krijgen moeten we even iets raars doen, we moeten <em>negatieve</em> getallen gebruiken voor een aantal coordinaten van de vormen in de sketch. Hier is een nieuwe versie van de sketch waar deze verandering is doorgevoerd: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  push();
+  translate(width/2, height/2);
+  rotate((mouseX/width)*2*PI);
+  maakSmiley();
+  pop();
+}
+
+function maakSmiley() {
+  // teken een smiley, rond het nulpunt
+  ellipse(-50, -25, 40, 40);
+  ellipse(50, -25, 40, 40);
+  arc(0, 25, 100, 50, 0, PI);
+}
+</script>
+<h3 id="the-center-of-the-rectangle">Het middelpunt van een rechthoek</h3>
+
+<p>Je zal waarschijnlijk al gemerkt hebben dat een heel aantal p5.js teken-functies georienteerd zijn rond de linkerbovenhoek van de vorm. De <code>rect()</code> functie bijvoorbeeld, gebruikt de eerste twee parameters als de X- en Y-positie van de linkerbovenhoek. Dit maakt het draaien van een rechthoek rond zijn middelpunt nogal lastig. Gelukkig is er nog een functie beschikbaar, de <code>rectMode()</code>, waarin je kan bepalen of je de eerste twee parameters van de <code>rect()</code> wil gebruiken voor het <em>middelpunt</em> van de rechthoek in plaats van de linkerbovenhoek. Hier een voorbeeld dat het verschil laat zien: </p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+
+  if (mouseIsPressed) {
+    rectMode(CENTER);
+  }
+  else {
+    rectMode(CORNER); // standaardinstelling
+  }
+
+  push();
+  translate(width/2, height/2);
+  rotate((mouseX/width)*2*PI);
+  rect(0, 0, 300, 125);
+  pop();
+}
+</script>
+<p>Zoals je kan zien zorgt het aanroepen van <code>rectMode(CENTER)</code> er voor dat p5.js de rechthoek tekent om het middelpunt van de rechthoek, en wordt de rechthoek met <code>rectMode(CORNER)</code> (het standaard gedrag) door p5.js met de gegeven coordinaten in de linkerbovenhoek getekend.</p>
+
+<h2 id="creepy-denoument">Een griezelige ontknoping</h2>
+
+<p>In dit voorbeeld tekenen we heel veel smileys met willekeurige posities, groottes en rotaties.</p>
+
+<script type="text/p5" data-preview-width="400" data-height="400">
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+function draw() {
+  background(50);
+  stroke(255);
+  strokeWeight(8);
+  noFill();
+  for (var i = 0; i < 50; i++) {
+    push();
+    stroke(random(255));
+    translate(random(width), random(height));
+    rotate(random(2*PI));
+    scale(random(1.5), random(1.5));
+    maakSmiley();
+    pop();
+  }
+}
+
+function maakSmiley() {
+  // teken een smiley, rond het nulpunt
+  ellipse(-50, -25, 40, 40);
+  ellipse(50, -25, 40, 40);
+  arc(0, 25, 100, 50, 0, PI);
+}
+</script>
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2018-09-12T19:20:00-04:00">2018</time>. The text of this work is
+          licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
+              Commons Attribution-NonCommercial 4.0 International License</a>.
+          Additionally, code examples are provided as <a
+              href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+        </small>
+      </footer>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/public/sketchui.js"></script>
+  </body>
+</html>
