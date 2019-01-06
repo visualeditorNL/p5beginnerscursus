@@ -57,7 +57,7 @@
 
 <p>Deze tutorial zal je door de eerste stappen helpen die nodig zijn om je eerste 
 <a href="http://p5js.org">p5.js</a> schets te maken. <br>
-<em>BELANGRIJK: (leren) programmeren is doorzetten, fouten maken, zoeken waar de fout zit en fouten oplossen. Dit kost tijd, frustratie, doorzettingsvermogen en uiteindelijk als het lukt... voldoening, trots gevoel en blijdschap. Dus ga aan de slag op je eigen manier. Door te lezen, gewoon uitproberen of filmpjes te kijken. Maar zet door en leer vooral van je fouten. Denk eraan er is geen app op je iPad geschreven zonder dit alles, ook bij ervaren programmeurs lukt niks in 1 keer!</em> </p>
+<em>BELANGRIJK: (leren) programmeren is doorzetten, fouten maken, zoeken waar de fout zit en fouten oplossen. Dit kost tijd, frustratie, doorzettingsvermogen en uiteindelijk als het lukt... voldoening, trots gevoel en blijdschap. Dus ga aan de slag op je eigen manier. Door te lezen, gewoon uitproberen of filmpjes te kijken. Maar zet door en leer vooral van je fouten. Denk eraan: er is geen app op je iPad geschreven zonder dit alles, ook bij ervaren programmeurs lukt niks in 1 keer!</em> </p>
 
 <h2 id="what-is-p5js">Wat is p5.js?</h2>
 
@@ -67,7 +67,7 @@
 <p>Het voordeel van het gebruiken van Javascript is dat het op vrijwel iedere computer werkt en ondersteund wordt: iedere webbrowser heeft een Javascript interpreter ingebouwd, wat betekent dat p5.js programma's in vrijwel iedere browser uitgevoerd kunnen worden. Bovendien is Javascript taal vastgesteld door een 
 <a href="https://nl.wikipedia.org/wiki/ECMAScript">internationale standaard</a> en zijn de meeste Javascript interpreters (inclusief die in je webbrowser), open source en vrij beschikbaar. Niemand 'bezit' Javascript en iedereen kan het gratis gebruiken. </p>
 
-<p>Een ander belangrijk idee achter Processing is dat het heel makkelijk zou moeten zijn voor programmeurs om software  <em>prototypes</em> snel te kunnen maken, om nieuwe ideeen uit te probreren om te zien of het werkt. Om deze reden hebben de bedenkers de Processing (en p5.js) programma's 'sketches' (schetsen) genoemd. Een benaming die we hier zullen aanhouden.</p>
+<p>Een ander belangrijk idee achter Processing is dat het heel makkelijk zou moeten zijn voor programmeurs om software  <em>prototypes</em> snel te kunnen maken, om nieuwe ideeën uit te proberen om te zien of het werkt. Om deze reden hebben de bedenkers de Processing (en p5.js) programma's 'sketches' (schetsen) genoemd. Een benaming die we hier zullen aanhouden.</p>
 
 
 
@@ -93,17 +93,17 @@ function draw() {
 <p>Je hebt een computer programma laten draaien, maar wat gebeurde er? Hier is een uitleg (een beetje versimpeld):</p>
 
 <ul>
-  <li><code>ellipse(50, 50, 60, 60);</code> is een voorbeeld van een <em>function call</em>. p5.js heeft verschillende ingebouwde 'functies' die verschillende taken kunnen uitvoeren, zoals bijvoorbeeld vormen op het scherm tekenen of getallen uitrekenen met wiskundige formules. Het leren programmeren in p5.js is voornamelijk het leren gebruiken van deze commando's en te ontdekken wat ze doen. De <code>ellipse</code> functie tekent een ellips op het scherm, als je dat niet al geraden had. </li>
+  <li><code>ellipse(50, 50, 60, 60);</code> is een voorbeeld van een <em>function call</em>. p5.js heeft verschillende ingebouwde 'functies' die verschillende taken kunnen uitvoeren, zoals bijvoorbeeld vormen op het scherm tekenen of getallen uitrekenen met wiskundige formules. Het leren programmeren in p5.js is voornamelijk het leren gebruiken van deze commando's en ontdekken wat ze doen. De <code>ellipse</code> functie tekent een ellips op het scherm, als je dat niet al geraden had. </li>
   <li><code>ellipse</code> is de <em>naam</em> van de functie. Functienamen worden altijd direct gevolgd door twee haakjes; tussen deze haakjes kunnen (en soms moeten) een of meerdere waardes, gescheiden door komma's. Deze waardes heten de <em>parameters</em> van een functie. Iedere functie gebruikt de parameters op een iets andere manier en je moet dus ontdekken of opzoeken wat de parameters van een functie betekenen. </li>
   <li>Bij de <code>ellipse</code>, is de eerste parameter de X-coordinaat van de ellips, de tweede parameter de Y-coordinaat, de derde parameter de breedte van de ellips en de laatste parameter de hoogte van de ellips. Verander deze waarden maar eens een beetje om te zien wat het doet en klik dan nog eens op <em>Play</em>. </li>
   <li>Het aanroepen van een functie <em>eindigt</em> in Javascript altijd met een puntkomma (<code>;</code>). Je moet altijd een puntkomma aan het eind van iedere functie-call (aanroep) zetten. </li>
   <li>Je kan zo veel functies aanroepen als je wilt tussen de regel 
-<code>function draw() {</code> en de regel met <code>}</code> die daarop volgt (de ruimte tussen de accolades heet een blok). (Later zullen we het hebben over wat
-<code>function draw()</code> precies betekent, of wat de accolades (curly brackets) betekenen. Nu is het alleen van belang dat je begrijpt dat je meer functies kan schrijven tussen deze accolades als je wilt dat er meer gebeurt). </li>
+<code>function draw() {</code> en de regel met <code>}</code> die daarop volgt (de ruimte tussen de accolades heet een blok). Later zullen we het hebben over wat
+<code>function draw()</code> precies betekent, of wat de accolades (curly brackets) betekenen. Nu is het alleen van belang dat je begrijpt dat je meer functies kan schrijven tussen deze accolades als je wilt dat er meer gebeurt. </li>
 </ul>
 
 <p>Je kan een enorme lijst met alle p5.js functies vinden op de <a href="http://p5js.org/reference/">p5.js
-referentiepagina</a> (Iedere programmeertaal heeft ergens een referentielijst staan met de ingebouwde functies). Voor nu gaan we alleen nog aan de slag met de meest simpele functies die vormen op het scherm tekenen. Als we verder komen zullen we het ook over andere functies gebruiken die meer interessante dingen kunnen. </p>
+referentiepagina</a> (Iedere programmeertaal heeft ergens een referentielijst staan met de ingebouwde functies). Voor nu gaan we alleen nog aan de slag met de meest simpele functies die vormen op het scherm tekenen. Als we verder komen zullen we ook andere functies gaan gebruiken die meer interessante dingen kunnen. </p>
 
 <h2 id="add-another-shape">Vormen toevoegen</h2>
 
@@ -129,7 +129,7 @@ function draw() {
   <li>parameter 4: de hoogte van de rechthoek </li>
 </ul>
 
-<p>Verander ook hier maar eens wat van de getallen in de parameters om te zien wat er gebeurt. En zie je dat de functies in dezelfde volgorde worden getekend als dat ze worden aangeroepen. Eerst wordt de ellips getekend en vervolgens daar boven op de rechthoek. Als je de opdrachten omdraait  dan wordt de ellips <em>bovenop</em> de rechthoek getekend: 
+<p>Verander ook hier maar eens wat van de getallen in de parameters om te zien wat er gebeurt. En zie je dat de functies in dezelfde volgorde worden getekend als dat ze worden aangeroepen? Eerst wordt de ellips getekend en vervolgens daar boven op de rechthoek. Als je de opdrachten omdraait  dan wordt de ellips <em>bovenop</em> de rechthoek getekend: 
 
 <script type="text/p5">
 function setup() {
@@ -174,14 +174,14 @@ function draw() {
 }
 </script>
 
-<p>Verander de waarde eens in <code>240</code> voor een lichtgrijze tint of kies zelf eens een waarde tussen 0 en 255. (waarom is de waarde tussen 0 en 255? Weet je dat nog?)</p>
+<p>Verander de waarde eens in <code>240</code> voor een lichtgrijze tint of kies zelf eens een waarde tussen 0 en 255. (Waarom is de waarde tussen 0 en 255? Weet je dat nog?)</p>
 
 
 <p>Als je de  <code>background</code> functie met <em>drie</em> parameters aanroept dan kan je vrijwel iedere <em>kleur</em> kiezen (en niet alleen grijswaarden).  De drie parameters corresponderen met de Rood, Groen en Blauw (RGB) waarde.  (Zie <a href="https://www.processing.org/tutorials/color/">de Processing kleur
-tutorial</a> voor een uitgebreide uitleg over waarom de kleuren op de computere in RGB worden weergegeven en waarom de waarden van 0 tot 255 gaan). </p>
+tutorial</a> voor een uitgebreide uitleg over waarom de kleuren op de computer in RGB worden weergegeven en waarom de waarden van 0 tot 255 gaan). </p>
 
-<p>Een goede plek om kleurencodes te vinden is op deze site <a href="https://www.w3schools.com/colors/colors_rgb.asp">www.w3schools.com</a>. Mix een mooie kleur met de sliders. Ik vind denk ik een blauwige kleur wel mooi, en je ziet de RGB waarde voor die kleur. Ik kom bijvoorbeeld tot een mooie korenblauw, de RGB waarde is <code>(100,
-149, 237) is</code>; laten we deze waardes eens invoeren om de achtergrond van onze sketch korenblauw te maken:</p>
+<p>Een goede plek om kleurencodes te vinden is op deze site <a href="https://www.w3schools.com/colors/colors_rgb.asp">www.w3schools.com</a>. Mix een mooie kleur met de sliders. Ik vind een blauwige kleur wel mooi, en je ziet de RGB waarde voor die kleur. Ik kom bijvoorbeeld tot een mooie korenblauw, de RGB waarde is <code>(100,
+149, 237)</code>; laten we deze waardes eens invoeren om de achtergrond van onze sketch korenblauw te maken:</p>
 
 <script type="text/p5">
 function setup() {
@@ -197,8 +197,8 @@ function draw() {
 
 <h2 id="coordinates">Coordinaten</h2>
 
-<p>Nu je de achtergrond van je sketch kan bepalen zal je je misschien afvragen: waarom deze zo ongelooflijk klein is. Kan deze niet groter? En wat betekenen die getallen eigenlijk in de <code>ellipse</code> of <code>rect</code> functie. Ze bepalen de positie en grootte, maar in welke <em>eenheden</em> is dat? Als  <code>50</code> de X-positie is van een vorm, wat is dan de eenheid? Zijn het milimeters, centimeters of zijn het <a href="https://en.wikipedia.org/wiki/List_of_obsolete_units_of_measurement">Furlongs of Lachters? of misschien Spats?</a>
-Nee! afstanden op de computer zijn vrijwel altijd gemeten in <em>pixels</em>.</p>
+<p>Nu je de achtergrond van je sketch kan bepalen zal je je misschien afvragen waarom deze zo ongelooflijk klein is. Kan deze niet groter? En wat betekenen die getallen eigenlijk in de <code>ellipse</code> of <code>rect</code> functie. Ze bepalen de positie en grootte, maar in welke <em>eenheden</em> is dat? Als  <code>50</code> de X-positie is van een vorm, wat is dan de eenheid? Zijn het milimeters, centimeters of zijn het <a href="https://en.wikipedia.org/wiki/List_of_obsolete_units_of_measurement">Furlongs of Lachters? of misschien Spats?</a>
+Nee! Afstanden op de computer zijn vrijwel altijd gemeten in <em>pixels</em>.</p>
 
 <p>Vrijwel alle digitale schermen zijn opgedeeld in hele kleine vierkantjes, de <em>pixels</em>.
 Iedere pixel is op zichzelf een piepklein apparaatje dat een kleur kan weergeven. Het scherm waar je nu naar kijkt bestaat uit honderden, duizenden, nee, waarschijnlijk miljoenen van deze kleine apparaatjes. Ze zijn allemaal even groot en vormen met elkaar een 'raster'. </p>
@@ -334,7 +334,7 @@ function draw() {
 }
 </script>
 
-<p>Mocht je helemaal geen lijn om je vorm willen bestaat er ook nog de functie <code>NoStroke()</code> Probeer deze maar eens in de onderstaande code ergens toe te passen!</p>
+<p>Mocht je helemaal geen lijn om je vorm willen bestaat er ook nog de functie <code>noStroke()</code> Probeer deze maar eens in de onderstaande code ergens toe te passen!</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -360,7 +360,7 @@ function draw() {
 
 <h2 id="other-shapes">Andere vormen</h2>
 
-<p>Er zijn nog meer functie om vormen te maken. Elke functie werkt weer net iets anders, en betekenen de parameters ook weer iets anders. Dit hoef je allemaal niet te onthouden daar zijn referentiepagina's voor. Daar staat per functie informatie en de instructie hoe ze te gebruiken.</p>
+<p>Er zijn nog meer functies om vormen te maken. Elke functie werkt weer net iets anders, de parameters betekenen ook weer iets anders. Dit hoef je allemaal niet te onthouden daar zijn referentiepagina's voor. Daar staat per functie informatie en de instructie hoe ze te gebruiken.</p>
 
 <ul>
   <li><a href="http://p5js.org/reference/#/p5/point"><code>point()</code></a></li>
@@ -386,11 +386,11 @@ crateCanvas is not defined&quot;" /></p>
 
 <h2 id="what-software-to-use">Wat voor software moeten we gebruiken om grotere sketches te maken?</h2>
 
-<p>Er zijn talloze manieren om p5.js sketches te maken. Doordat p5.js een 'gewoon' Javascript is kan deze in elke reguliere website gebruikt worden en kan je deze zelfs combineren met andere libraries.  <a href="http://p5js.org/get-started/">De officiele 
-tutorial</a> stelt je voor om een texteditor te downloaden (zoals <a href="http://brackets.io/">Brackets</a> or <a href="https://atom.io/">Atom</a>)
+<p>Er zijn talloze manieren om p5.js sketches te maken. Doordat p5.js een 'gewoon' Javascript is kan deze in elke reguliere website gebruikt worden en kan je deze zelfs combineren met andere libraries.  <a href="http://p5js.org/get-started/">De officiële 
+tutorial</a> stelt je voor om een texteditor te downloaden (zoals <a href="http://brackets.io/">Brackets</a> of <a href="https://atom.io/">Atom</a>)
 en daarin je p5.js code te schrijven net als iedere andere programmeertaal. Dat mag/kan ook.</p>
 
-<p>In de lessen zullen in het begin voornamelijk de widget (het venster waar hierboven steeds de code in staat) gebruiken. Maar als je een eigen en groter project wil gaan maken en deze wilt bewaren kan je het makkelijkst de online <a href="https://editor.p5js.org/">p5.js
+<p>In de lessen zullen we in het begin voornamelijk de widget (het venster waar hierboven steeds de code in staat) gebruiken. Maar als je een eigen en groter project wil gaan maken en deze wilt bewaren kan je het makkelijkst de online <a href="https://editor.p5js.org/">p5.js
 web editor</a> gebruiken, een web-based programmeeromgeving speciaal ontwikkeld voor p5.js. Het zal in vrijwel iedere browser moeten werken, ook op je iPad, alleen typt dat vaak lastiger.</p>
 
 <h3 id="anatomy-of-the-web-editor">Anatomie van de web editor</h3>
@@ -400,12 +400,12 @@ web editor</a> gebruiken, een web-based programmeeromgeving speciaal ontwikkeld 
 <p><img src="images/01_tasty_pet.png" alt="Screenshot of p5.js web editor with circled numbers" /></p>
 
 <ol>
-  <li>Het “code” venster. Hier type je je p5.js code.</li>
+  <li>Het “code” venster. Hier typ je je p5.js code.</li>
   <li>Het “console” venster. Hier verschijnen foutmeldingen, maar je kan ook de <code>console.log()</code> functie gebruiken om hier tekst te laten verschijnen als je programma draait. Dit is heel erg fijn bij het debuggen (het fouten uit je code halen). Dus hier komen we nog op terug. </li>
   <li>Het “preview” venster. Je sketch verschijnt hier!</li>
   <li>Controlepaneel. Klik op de “Play” button (▶) om je sketch te “runnen”. Klik op “Stop”
 (⬛︎) om de (code van de) sketch af te breken.</li>
-  <li>De naam van je sketch. Klik op het kleine pennetje rechts om de naam te veranderen. (Wanneer je een nieuwe sketch maakt kiest de computer een willekeurige naam. Als je wilt weten hoe die aan deze naam komt, daar gebruikt het <a href="https://github.com/aceakash/project-name-generator">deze library voor</a>. Maar ik raad aan om altijd een naam te geven die duidelijk maakt wat voor sketch het is, zodat je het makkelijk terugvindt en weer weet wat de code doet.</li>
+  <li>De naam van je sketch. Klik op het kleine pennetje rechts om de naam te veranderen. Wanneer je een nieuwe sketch maakt kiest de computer een willekeurige naam. Als je wilt weten hoe die aan deze naam komt, daar gebruikt het <a href="https://github.com/aceakash/project-name-generator">deze library voor</a>. Maar ik raad aan om altijd een naam te geven die duidelijk maakt wat voor sketch het is, zodat je het makkelijk terugvindt en weer weet wat de code doet.</li>
 </ol>
 
 <h2 id="sharing-your-work">Je werk delen</h2>
@@ -413,10 +413,10 @@ web editor</a> gebruiken, een web-based programmeeromgeving speciaal ontwikkeld 
 <p>Je bent straks natuurlijk heel trots op je code en je kan je werk direct delen vanuit de webeditor. In het <code>File</code> menu van de webeditor, selecteer je <code>Share</code>. Dan krijg je een drietal keuzes:</p>
 
 <ul>
-  <li>Embed: Als je al een website hebt kan je hoogstwaarschijnlijk dit codeblok kopieren en en plakken in je eigen blog of website. (De code is een <code>iframe</code>, dat is een 
+  <li>Embed: Als je al een website hebt kan je hoogstwaarschijnlijk dit codeblok kopiëren en en plakken in je eigen blog of website. (De code is een <code>iframe</code>, dat is een 
 HTML tag dat de webbrowser content kan laten zien van een andere website midden op de pagina van een andere site. Later dit jaar meer over html code.</li>
   <li>Fullscreen: Deze URL (webadres) leidt naar een versie van je sketch dat alleen de output van de code laat zien, dus de "preview" op een verder leeg scherm.</li>
-  <li>Edit: Dit linkt naar je sketch in de webeditor. Zo kan je ook je laten zien wat voor fantastische code je geschreven hebt en zo indruk maken op vrienden en familie (en je docent). </li>
+  <li>Edit: Dit linkt naar je sketch in de webeditor. Zo kan je ook laten zien wat voor fantastische code je geschreven hebt en zo indruk maken op vrienden en familie (en je docent). </li>
 </ul>
 
 </article>
