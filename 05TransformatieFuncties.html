@@ -59,7 +59,7 @@
 
 <h2 id="translation">Translate</h2>
 
-<p>In een eerder voorbeeld maakten we een "offset" variabele om de plek <em>waar</em> een vorm werd getekend op het scherm te veranderen. Hier is bijvoorbeeld een sketch dat een soort van smiley tekent waarbij je de positie van het gezicht kan veranderen door de <code>xoffset</code> en <code>yoffset</code> variablen aan te passen (probeer maar eens):</p>
+<p>In een eerder voorbeeld maakten we een "offset" variabele om de plek <em>waar</em> een vorm werd getekend op het scherm te veranderen. Hier is bijvoorbeeld een sketch dat een soort van smiley tekent waarbij je de positie van het gezicht kan veranderen door de <code>xoffset</code> en <code>yoffset</code> variabelen aan te passen (probeer maar eens):</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 var xoffset = 40;
@@ -81,7 +81,7 @@ function draw() {
 </script>
 <p>Dit is op zich prima, maar er lijkt een hoop herhaling in de code te staan: de namen <code>xoffset</code> en <code>yoffset</code> worden een aantal keer opgeschreven.</p>
 
-<p>Je zult het nu wel doorhebben dat veel programmeurs een <em>hekel</em> hebben aan het continue opnieuw hetzelfde te typen. In dit geval, en ik veel andere gevallen, hebben programmeurs een manier bedacht om deze herhaling te "omzeilen" door de <code>translate()</code> functie te bedenken.</p>
+<p>Je zal nu wel doorhebben dat veel programmeurs een <em>hekel</em> hebben aan het continue opnieuw hetzelfde te typen. In dit geval, en ik veel andere gevallen, hebben programmeurs een manier bedacht om deze herhaling te "omzeilen" door de <code>translate()</code> functie te bedenken.</p>
 
 <p>Voordat ik precies ga uitleggen hoe de <code>translate()</code> werkt, is het misschien behulpzaam om de functie al een keer in actie te zien. Hier is hetzelfde voorbeeld als hierboven, maar nu herschreven met de <code>translate()</code> functie:</p>
 
@@ -104,11 +104,11 @@ function draw() {
   arc(50, 50, 100, 50, 0, PI);
 }
 </script>
-<p>Wat gebeurt er hier? In het kort: de <code>translate()</code> functie verandert het nulpunt van de coordinaten. Voor iedere functie die iets tekent na de <code>translate()</code> functie, is de positie van <code>0, 0</code> op de coordinaten die je als parameters in de <code>translate()</code> functie hebt ingevoerd.</p>
+<p>Wat gebeurt er hier? In het kort: de <code>translate()</code> functie verandert het nulpunt van de coördinaten. Voor iedere functie die iets tekent na de <code>translate()</code> functie, is de positie van <code>0, 0</code> op de coördinaten die je als argumenten in de <code>translate()</code> functie hebt ingevoerd.</p>
 
-<p>Het grote voordeel van het <code>translate()</code> commando is dat je eerst een aantal vormen kan tekenen zonder je druk te maken over de uiteindelijke positie die ze in moeten nemen. Je kan dat stukje code heel simpel kopieren naar een andere sketch zolang je de <code>translate()</code> gebruikt om de positie te veranderen hoef je verder niks aan de code te veranderen.  </p>
+<p>Het grote voordeel van het <code>translate()</code> commando is dat je eerst een aantal vormen kan tekenen zonder je druk te maken over de uiteindelijke positie die ze in moeten nemen. Je kan dat stukje code heel simpel kopiëren naar een andere sketch zolang je de <code>translate()</code> gebruikt om de positie te veranderen hoef je verder niks aan de code te veranderen.</p>
 
-<p>Hier een versie van de bovenstaande sketch waarbij de smiley de muiscursor volgt. Om dit te laten werken is het niet nodig om in iedere vorm (twee ogen en een mond) om daar de <code>mouseX</code> en <code>mouseY</code> functie toe te voegen in ieder vorm; nee, ik moet alleen de <code>translate()</code> functie te veranderen.</p>
+<p>Hier een versie van de bovenstaande sketch waarbij de smiley de muiscursor volgt. Om dit te laten werken is het niet nodig om in iedere vorm (twee ogen en een mond) om daar de <code>mouseX</code> en <code>mouseY</code> functie toe te voegen in ieder vorm; nee, het volstaat om de <code>translate()</code> functie te veranderen.</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -128,7 +128,7 @@ function draw() {
 </script>
 <h2 id="translates-accumulate">Translate telt op!</h2>
 
-<p>Met dit in gedachten denk je misschien: "Ok ik wil TWEE smileys! Een die de muis volgt en een die stil blijft staan in de linkerbovenhoek. Dat ga ik doen!" Je eerste poging zal er misschien zoiets uitzien:</p>
+<p>Met dit in gedachten denk je misschien: "OK ik wil <em>twee</em> smileys! Een die de muis volgt en een die stil blijft staan in de linkerbovenhoek. Dat ga ik doen!" Je eerste poging zal er misschien zo uitzien:</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -163,7 +163,7 @@ in het bovenstaande voorbeeld verplaatst het nulpunt naar de positie van de muis
 
 <h2 id="pushing-and-popping-the-matrix">Het Pushen en poppen van de matrix</h2>
 
-<p>Ondanks dat ik het bovenstaande voorbeeld expres heb laten mislukken is dit gedrag eigenlijk heel fijn. (om te zien waarom probeer eens te bedenken hoe je het gedrag van de bovenstaande sketch eens zou moeten uitvoeren als je dat zou willen. Met andere woorden probeer te bedenken hoe je anders twee gezichten zou willen tekenen die de muis volgen waarbij eentje net naast de andere staat als de <code>translate()</code> functie het nulpunt continue helemaal opnieuw zou zetten.)</p>
+<p>Ondanks dat ik het bovenstaande voorbeeld expres heb laten mislukken is dit gedrag eigenlijk heel fijn. (Om te zien waarom probeer eens te bedenken hoe je het gedrag van de bovenstaande sketch eens zou moeten uitvoeren als je dat zou willen. Met andere woorden probeer te bedenken hoe je anders twee gezichten zou willen tekenen die de muis volgen waarbij eentje net naast de andere staat als de <code>translate()</code> functie het nulpunt continue helemaal opnieuw zou zetten.)</p>
 
 <p>Maar het zou wel handig zijn om transformaties te kunnen <em>isoleren</em>, zodat een deel van de code zijn eigen nulpunt heeft en een ander deel van de code een ander nulpunt ergens anders. Je doet dit door gebruik te maken van twee verschillende functies: de <code>push()</code> en <code>pop()</code>.</p>
 
@@ -221,7 +221,7 @@ wat je maar wilt.</p>
 
 
 
-<p>Wanneer je deze code in je sketch stopt heet dat een “functie definitie.”
+<p>Wanneer je deze code in je sketch stopt heet dat een <em>functie definitie</em>.
 Je kan functie overal in je broncode definieren. Maar leer wel een stijl aan met een logische volgorde. Zodat je code niet van de hak op de tak springt. Dat is heel lastig lezen voor iemand anders. Ik zou functies in p5.js zo veel mogelijk onderaan je code zetten, na <code>setup()</code> en
 <code>draw()</code>. Om vervolgens een functie te gebruiken moet je de functie "aanroepen" ("run" of "call" in het Engels), dus Javascript vertellen dat het de code in de functie moet gaan uitvoeren. Dat doe je door de naam van de functie te schrijven meteen gevolgt door haakjes (<code>()</code>)</p>
 
@@ -292,7 +292,7 @@ function maakSmiley() {
 
 <h2 id="scale">Schalen</h2>
 
-<p>De  <code>translate()</code> functie is niet de enige transformatie die je kan gebruiken bij je tekencommando's. Een andere transformatie is <code>scale()</code>, deze functie schaalt hetgeen je tekent, dus verandert de <em>grootte</em>. Waar <code>translate()</code> bepaalt waar het nulpunt van de coordinaten zich bevinden, zo bepaalt <code>scale()</code> de afstand van het nulpunt. Dus het schaalt vanaf het nulpunt. Misschien makkelijker om even te zien wat er gebeurt. </p>
+<p>De  <code>translate()</code> functie is niet de enige transformatie die je kan gebruiken bij je tekencommando's. Een andere transformatie is <code>scale()</code>, deze functie schaalt hetgeen je tekent, dus verandert de <em>grootte</em>. Waar <code>translate()</code> bepaalt waar het nulpunt van de coördinaten zich bevinden, zo bepaalt <code>scale()</code> de afstand tot het nulpunt. Dus het schaalt vanaf het nulpunt. Misschien makkelijker om even te zien wat er gebeurt. </p>
 
 <p>We gaan verder met het vorige voorbeeld, we roepen weer de <code>maakSmiley()</code> functie op en nu wel 3 keer: een keer op een halve schaal, een keer op normale schaal en een keer op dubbele schaal. </p>
 
@@ -437,7 +437,7 @@ function maakSmiley() {
 <h2 id="rotation">Rotation</h2>
 
 <p>De laatste transformatie die we behandelen is <em>rotatie</em>. De <code>rotate()</code>
-functie verandert de <em>orientatie</em> van het coordinatensysteem. Dit is ook het makkelijkst te begrijpen met een voorbeeld:</p>
+functie verandert de <em>orientatie</em> van het coördinatensysteem. Dit is ook het makkelijkst te begrijpen met een voorbeeld:</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -458,7 +458,7 @@ function draw() {
 }
 </script>
 <p>Zoals je ziet zijn in iedere herhaling van de <code>for</code> loop, de parameters van de <code>line()</code> precies hetzelfde. Het enige verschil is de rotatie. MetThe only difference is the rotation. Bij een rotatie van nul wordt een lijn getekend van het nulpunt <code>(0, 0)</code> naar 350 pixels links.
-Door het coordinatensysteem te roteren blijft het nulpunt gelijk, maar draait de locatie van <code>(350, 0)</code> met de klok mee.</p>
+Door het coördinatensysteem te roteren blijft het nulpunt gelijk, maar draait de locatie van <code>(350, 0)</code> met de klok mee.</p>
 
 <p>Het <code>rotate()</code> commando leest de waarde van de parameter in radialen en niet in graden. Radialen werken met PI. De waarde van PI (~3.14) is een halve cirkel (180 graden), en de waarde van twee keer PI (~6.28) is een heel rondje (360 graden).</p>
 
@@ -516,7 +516,7 @@ function maakSmiley() {
   arc(50, 50, 100, 50, 0, PI);
 }
 </script>
-<p>… op zich prima, maar niet helemaal wat we bedoelde. Wat er hier gebeurt is dat we eerst de <code>rotate()</code> en dan de <code>translate()</code> aanroepen, wat betekent dat eerst het coordinatensysteem gedraaid wordt en <em>dan</em> vindt de translatie plaats <em>binnen de gedraaide coordinaten</em>. Dus de aanroep voor de <code>translate()</code> gaat niet 150 pixels naar rechts en dan 150 pixels naar beneden... Nee; het beweegt 150 pixels langs de orientatie van het coordinatensysteem, en dan 150 pixels haaks van dat punt. </p>
+<p>… op zich prima, maar niet helemaal wat we bedoelde. Wat er hier gebeurt is dat we eerst de <code>rotate()</code> en dan de <code>translate()</code> aanroepen, wat betekent dat eerst het coördinatensysteem gedraaid wordt en <em>dan</em> vindt de translatie plaats <em>binnen de gedraaide coördinaten</em>. Dus de aanroep voor de <code>translate()</code> gaat niet 150 pixels naar rechts en dan 150 pixels naar beneden... Nee; het beweegt 150 pixels langs de orientatie van het coördinatensysteem, en dan 150 pixels haaks van dat punt. </p>
 
 <p>Als we <em>eerst</em> de translatie toepassen (dus dat gebeurt in de standaard orientatie) en pas <em>daarna</em> de rotatie ziet het resultaat er iets meer uit als wat we hadden verwacht: </p>
 
@@ -544,7 +544,7 @@ function maakSmiley() {
   arc(50, 50, 100, 50, 0, PI);
 }
 </script>
-<p>Deze twee voorbeelden laten zien dat, omdat transformaties bij elkaar optellen, is de <em>volgorde van de transformaties</em> van belang. Iedere transformatie heeft op een of andere manier effect op het coordinatensysteem en de daarop volgende transformaties veranderen de al gewijzigde coordinaten nog een keer. </p>
+<p>Deze twee voorbeelden laten zien dat, omdat transformaties bij elkaar optellen, is de <em>volgorde van de transformaties</em> van belang. Iedere transformatie heeft op een of andere manier effect op het coördinatensysteem en de daarop volgende transformaties veranderen de al gewijzigde coördinaten nog een keer. </p>
 
 <p>Al deze veranderingen zijn moeilijk te laten zien en vervolgens uit te leggen. Je moet het vooral uitproberen om ze te leren kennen en te leren te begrijpen. Een vuistregel die meestal werkt voor vrij simpele gevallen: <em>translate</em> eerst (dus verplaats het nulpunt naar de gewenste plek), 
 <em>roteer</em> vervolgens (om de orientatie van de vorm te veranderen en pas als laatste pas de <em>schaal</em> toe (om de vorm te vergroten of te verkleinen).</p>
@@ -553,7 +553,7 @@ function maakSmiley() {
 
 <p>Een probleem dat veel beginnende programmeurs tegenkomen is dat ze al hun code hebben geschreven ten opzichte van het het nulpunt <code>(0, 0)</code>, en alle vormen zijn dus getekend met het nulpunt in de linkerbovenhoek. Deze programmeurs zijn vervolgens verbaasd als sketches zoals hierboven zich ineens raar gaan gedragen als ze de vormen willen transformeren: intuitief denken we "roteer deze vorm" en dan gaan we ervan uit dat de vorm rond zijn middelpunt draait. Maar de vorm draait dus rond het nulpunt (0,0) en deze ligt normaal gesproken in de linkerbovenhoek, en zal na een <code>rotate()</code> de vorm <em>rond</em> de linkerbovenhoek gaan draaien. </p>
 
-<p>In het geval van de bovenstaande sketch is het het makkelijkst om het probleem op te lossen door simpelweg de functie te <em>herschrijven</em> zodat het middelpunt van de smiley ook echt op de coordinaat <code>(0, 0)</code> zit. Om dit voor elkaar te krijgen moeten we even iets raars doen, we moeten <em>negatieve</em> getallen gebruiken voor een aantal coordinaten van de vormen in de sketch. Hier is een nieuwe versie van de sketch waar deze verandering is doorgevoerd: </p>
+<p>In het geval van de bovenstaande sketch is het het makkelijkst om het probleem op te lossen door simpelweg de functie te <em>herschrijven</em> zodat het middelpunt van de smiley ook echt op de coördinaat <code>(0, 0)</code> zit. Om dit voor elkaar te krijgen moeten we even iets raars doen, we moeten <em>negatieve</em> getallen gebruiken voor een aantal coördinaten van de vormen in de sketch. Hier is een nieuwe versie van de sketch waar deze verandering is doorgevoerd: </p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -581,7 +581,7 @@ function maakSmiley() {
 </script>
 <h3 id="the-center-of-the-rectangle">Het middelpunt van een rechthoek</h3>
 
-<p>Je zal waarschijnlijk al gemerkt hebben dat een heel aantal p5.js teken-functies georienteerd zijn rond de linkerbovenhoek van de vorm. De <code>rect()</code> functie bijvoorbeeld, gebruikt de eerste twee parameters als de X- en Y-positie van de linkerbovenhoek. Dit maakt het draaien van een rechthoek rond zijn middelpunt nogal lastig. Gelukkig is er nog een functie beschikbaar, de <code>rectMode()</code>, waarin je kan bepalen of je de eerste twee parameters van de <code>rect()</code> wil gebruiken voor het <em>middelpunt</em> van de rechthoek in plaats van de linkerbovenhoek. Hier een voorbeeld dat het verschil laat zien: </p>
+<p>Je zal waarschijnlijk al gemerkt hebben dat een heel aantal p5.js teken-functies geörienteerd zijn rond de linkerbovenhoek van de vorm. De <code>rect()</code> functie bijvoorbeeld, gebruikt de eerste twee parameters als de X- en Y-positie van de linkerbovenhoek. Dit maakt het draaien van een rechthoek rond zijn middelpunt nogal lastig. Gelukkig is er nog een functie beschikbaar, de <code>rectMode()</code>, waarin je kan bepalen of je de eerste twee parameters van de <code>rect()</code> wil gebruiken voor het <em>middelpunt</em> van de rechthoek in plaats van de linkerbovenhoek. Hier een voorbeeld dat het verschil laat zien: </p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -607,7 +607,7 @@ function draw() {
   pop();
 }
 </script>
-<p>Zoals je kan zien zorgt het aanroepen van <code>rectMode(CENTER)</code> er voor dat p5.js de rechthoek tekent om het middelpunt van de rechthoek, en wordt de rechthoek met <code>rectMode(CORNER)</code> (het standaard gedrag) door p5.js met de gegeven coordinaten in de linkerbovenhoek getekend.</p>
+<p>Zoals je kan zien zorgt het aanroepen van <code>rectMode(CENTER)</code> er voor dat p5.js de rechthoek tekent om het middelpunt van de rechthoek, en wordt de rechthoek met <code>rectMode(CORNER)</code> (het standaard gedrag) door p5.js met de gegeven coördinaten in de linkerbovenhoek getekend.</p>
 
 <h2 id="creepy-denoument">Een griezelige ontknoping</h2>
 
