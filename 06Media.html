@@ -93,48 +93,39 @@ function draw() {
 
 
 <p>Er zijn een paar nieuwe functies en concepten in dit voorbeeld waar we even op in moeten gaan.
-  The first is the <code>preload()</code> function. This is a
-function, like <code>setup()</code> and <code>draw()</code>, that you define in your sketch and that
-is then called by p5.js automatically. The code in <code>preload()</code> gets run
-<em>before</em> <code>setup()</code> or <code>draw()</code> gets called, and generally it’s used to load any
-images (or other media) that you’re going to use in your sketch, in order to
-guarantee that those images have been successfully loaded before the rest of
-the sketch proceeds.</p>
+  De eerste is de <code>preload()</code> functie. Dit is een functie die je, net zoals
+   <code>setup()</code> and <code>draw()</code>, definieert in je sketch en die automatisch wordt aangeroepen door p5.js.
+   De code in <code>preload()</code> wordt uitgevoerd
+<em>vóór</em> <code>setup()</code> en <code>draw()</code> aangeroepen worden, 
+en meestal is het om plaatjes (of andere media) die je in je sketch gaat gebruiken alvast te laden, 
+zodat je zeker weet dat deze bestanden beschikbaar zijn als de rest van de sketch uitgevoerd wordt.</p>
 
-<p>The <code>loadImage()</code> function. This is the
-function that gets the data from the image and makes it available inside of
-your sketch. The function doesn’t draw anything to the screen: it <em>returns</em> the
-image data in a special kind of Javascript value called an <em>object</em>. This
-statement:</p>
+<p>De <code>loadImage()</code> functie. Deze functie haalt de data uit het bestand van het plaatje en maakt die beschikbaar voor gebruik binnen de sketch. 
+De functie zelf tekent niets op het scherm: de functie <em>returns</em> de image data in een Javascript <em>object</em>. Deze code:</p>
 
 <pre><code>kitty = loadImage("kitty.jpg");
 </code></pre>
 
-<p>… <em>assigns</em> that object value to the variable <code>kitty</code>. (There’s nothing
-special about the variable name <code>kitty</code> here—it happens to match the filename
-of the image, but you don’t have to do that if you don’t want to. The variable
-can be named anything you want!)</p>
+<p>… <em>assigns (wijst toe)</em> de waarde van het object aan de variable <code>kitty</code>. (Er is niets speciaals aan de variable naam <code>kitty</code> hier komt het overeen met de bestandsnaam,
+van het plaatje, maar je zou de variabele, als je dat handig vindt, ook een heel andere naam kunnen geven.)</p>
 
-<p>In order to keep our program clean and ensure that the <code>kitty</code> variable is
-available to the <code>draw()</code> function, I declared the <code>kitty</code> variable <em>before</em>
-<code>preload()</code> or <code>setup()</code>. This variable declaration is a little strange, since
-I didn’t actually <em>assign</em> a value to the variable when I declared it. This is
-the equivalent of telling Javascript: “Hey, I’m going to use a variable called
-<code>kitty</code> later—just a heads-up.” (More details about this below.)</p>
+<p>Om onze code netjes en overzichtelijk te houden en om er zeker van te zijn dat de <code>kitty</code> variabele beschikbaar 
+is voor de <code>draw()</code> functie, heb ik de <code>kitty</code> variabele aangemaakt (*declared*)<em>voor</em>
+<code>preload()</code> en <code>setup()</code>. Het aanmaken van een variabele is een beetje vreemd, omdat
+ik er bij het aanmaken geen waarde aan <em>toeken (assign)</em>.
+Het komt erop neer dat we Javascript vertellen: “Hey, ik ga straks gebruik maken van een variabele
+<code>kitty</code>, het is maar dat je het weet.” (Hieronder meer uitleg.)</p>
 
-<p>Finally, to actually draw the image to the screen, I called the <code>image()</code>
-function inside <code>draw()</code>. The <code>image()</code> function takes at least three
-parameters: the first is the image object that you want to draw, and the second
-and third specify the X and Y coordinates of where the image should be drawn.</p>
+<p>Tenslotte, om het plaatje op het scherm te tekenen, roep ik de <code>image()</code>
+functie aan binnen de <code>draw()</code> functie. De <code>image()</code> functie heeft *tenminste* drie 
+parameters: de eerste is het image object dat je wilt tekenen, en de tweede en derde geven de 
+X en Y coördinaten van waar het plaatje getekend moet worden.</p>
 
-<p>The <code>image()</code> function is a bit more versatile than this, however. You can add
-a fourth and fifth parameter to specify how wide and how high (in pixels) to
-draw the image to the screen. Also, Processing has an <code>imageMode()</code> function,
-analogous to the the <code>rectMode()</code> function, that allows you to make it so the
-image’s center is drawn at the X/Y coordinates specified in the call, instead
-of the upper left-hand corner. Here’s a sketch that illustrates both of these
-features:</p>
-
+<p>De <code>image()</code> functie kan echter meer. Je kunt een
+vierde en vijfde parameter opgeven om gewenste breedte en hoogte (in pixels) te specificeren. 
+Bovendien is er een <code>imageMode()</code> functie,
+vergelijkbaar met de <code>rectMode()</code> functie, die je laten kiezen of je de opgegeven X en Y coördinaten wilt gebruiken als *midden* van het plaatje of als *linker bovenhoek*. 
+Hier is een sketch die beide varianten laat zien.
 <script type="text/p5" data-preview-width="400" data-height="400">
 var kitty;
 function preload() {
@@ -151,30 +142,27 @@ function draw() {
         200+cos(frameCount*0.1)*100);
 }
 </script>
-<p>The possibilities… are endless.</p>
+<p>De mogelijkheden … zijn eindeloos.</p>
 
-<h3 id="preload-setup-and-draw">Preload, setup and draw</h3>
+<h3 id="preload-setup-and-draw">Preload, setup en draw</h3>
 
-<p>You might be asking: why not just write this as the first line of the program?</p>
+<p>Misschien vraag je je af: waarom beginnen we het programma niet gewoon met:</p>
 
-<pre><code>var kitty = loadImage("kitty.jpg"); // doesn't work!! whyyyyy
+<pre><code>var kitty = loadImage("kitty.jpg"); // werkt niet!! waarom??
 </code></pre>
 
-<p>That is: why not just call the <code>loadImage()</code> function when we’re declaring the
-variable? This would be tidy and neat, but unfortunately it won’t work. That’s
-because some functions (including most of the <code>load...()</code> functions I discuss
-in this tutorial) can <em>only be called from inside <code>preload()</code></em>. The reasons for
-this are tied to the specific ways that p5.js is implemented and aren’t
-necessarily worth going into, but it’s a good thing to remember.</p>
+<p>Oftewel: waarom niet meteen de <code>loadImage()</code> functie aanroepen bij het declareren (aanmaken) van de variabele? 
+Helder en duidelijk, maar helaas werkt het niet omdat sommige functies (waaronder de meeste <code>load...()</code> functies die ik behandel
+in deze cursus) <em>uitsluitend binnen de <code>preload()</code> functie kunnen worden aangeroepen</em>. Dit komt door de manier waarop p5.js is gebouwd, niet iets om nu diep op in te gaan, maar wel goed om te weten.
+</p>
 
-<p>Well, okay. Technically you <em>can</em> call <code>loadImage()</code> in other contexts, and
-often you’ll see people call it inside of <code>setup()</code> as a kind of shorthand.
-But one thing you don’t want to do is call <code>loadImage()</code> in <code>draw()</code>. Here’s a
-simple sketch to illustrate why:</p>
+<p>Nou ja, je <em>kunt</em> <code>loadImage()</code> op andere plekken aanroepen, en regelmatig zie je dat mensen het in <code>setup()</code> aanroepen als een soort van afsnijden.
+Maar je zult zeker nooit <code>loadImage()</code> in <code>draw()</code> tegenkomen. Hier is een eenvoudige
+ sketch die laat zien waarom:</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
-// this sketch illustrates how NOT to load an image. please see accompanying
-// tutorial!!
+// deze sketch laat zien hoe je NIET een plaatje moet laden!
+// lees de handleiding hierbij!
 var kitty;
 function setup() {
   createCanvas(400, 400);
@@ -185,30 +173,27 @@ function draw() {
   image(kitty, mouseX, mouseY);
 }
 </script>
-<p>Depending on your computer, one of several things might happen when you run
-this sketch. For me: it looks like <em>nothing</em> happens. That’s because p5.js runs
-the <code>draw()</code> function many dozens of times every second, which means that a
-single run of <code>draw()</code> might only take a hundredth of a second. Loading an
-image, on the other hand, even a <em>small</em> image, can take much longer—on the
-order of half a second. So what happens in the sketch above is this: we told
-p5.js to load the image, but before the image even gets loaded, we tell it to
-load the image <em>again</em>. Consequently, no image ever gets displayed!</p>
+<p>Afhankelijk van je computer, kunnen er verschillende dingen gebeuren als je deze sketch uitvoert. 
+Bij mij lijkt het alsof er <em>niets</em> gebeurt. Dat komt doordat p5.js de <code>draw()</code> functie 
+tientallen keren per seconde uitvoert, waarmee één enkele run van <code>draw()</code> niet veel langer duurt dan een honderdste van een seconde. 
+Een plaatje laden, zelfs een klen plaatje, duurt veel langer, bijvoorbeeld een halve seconde. 
+Dus wat er in deze sketch gebeurt is dat we p5.js vragen een plaatje te laden maar, lang voordat dat gelukt is
+we vragen om het plaatje <em>opnieuw</em> te laden. Waardoor het plaatje nooit getoond kan worden.</p>
 
-<p>The thing to remember is that if you call <code>loadImage()</code> anywhere other than
-inside of <code>preload()</code>, p5.js will to run your sketch <em>even before</em> the
-image is loaded. This means that certain attributes of the image (like its
-width or height or pixel data) might not be available in your program until
-after the <code>draw()</code> function has already been called a few times. For this
-reason, it’s always safer to use <code>preload()</code>.</p>
+<p>Wat je moet onthouden bij het aanroepen van <code>loadImage()</code> op andere plekken
+dan binnen <code>preload()</code>, is dat p5.js je sketch zal uitvoeren<em>voordat</em> het
+plaatje geladen is. Dit betekent dat bepaalde attributen van het plaatje (zoals de 
+breedte, hoogte of pixelgegevens) mogelijk niet beschikbaar zijn tot de <code>draw()</code> functie een flink aantal keer uitgevoerd is. 
+Daarom is het een goede gewoonte om gebruik te maken van <code>preload()</code>.</p>
 
-<h3 id="multiple-images">Multiple images</h3>
+<h3 id="multiple-images">Meerdere plaatjes</h3>
 
-<p>You’re not limited to a single image. In fact, you can create as many variables
-to store images as you’d like. You just need to remember to load in the images
-in <code>setup()</code>. In this example, our cat is transformed into a dog when the mouse
-is pressed. (I’m using <a href="/sketches/doggy.jpg">this image</a>, originally from
-<a href="https://flic.kr/p/s1iufR">here</a>, again under a <a href="https://creativecommons.org/licenses/by/2.0/">CC BY
-2.0</a> license.)</p>
+<p>Je bent niet beperkt tot het werken met één beeld. Je kunt zoveel variabelen om beelden in op te slaan aanmaken als je wil. 
+Je moet alleen niet vergeten ze te laden in de <code>preload()</code> (of <code>setup()</code>). 
+Het volgende voorbeeld laat een cat in een hond veranderen als de muis wordt ingedrukt. 
+(Ik gebruik <a href="/sketches/doggy.jpg">dit plaatje</a>, oorspronkelijk van 
+<a href="https://flic.kr/p/s1iufR">hier</a>, opnieuw met een <a href="https://creativecommons.org/licenses/by/2.0/">CC BY
+2.0</a> licentie.)</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 var kitty;
@@ -235,13 +220,12 @@ function draw() {
     }
 }
 </script>
-<h3 id="alpha-channels">Alpha channels</h3>
+<h3 id="alpha-channels">Alpha kanaal</h3>
 
-<p>The images I’ve shown you so far have been in JPEG format. Images in JPEG
-format are compressed and are generally of high quality while having a small
-file size. A limitation of the JPEG format is that it doesn’t store
-<em>transparency</em>. An easy way to illustrate this is by displaying the same kitty
-image twice:</p>
+<p>De plaatjes die we tot nog toe gebruikten waren in JPEG formaat. Afbeeldingen in JPEG
+formaat are gecomprimeerd en hebben in het algemeen een goede kwaliteit bij kleine bestandsgrootte. 
+Een beperking van JPEG is dat het geen <em>doorzichtigheid (transparency)</em> toestaat.
+Je kunt dit eenvoudig zichtbaar maken door een plaatje tweemaal te tekenen:</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 var kitty;
@@ -260,17 +244,18 @@ function draw() {
         200+sin(frameCount*0.06)*100);
 }
 </script>
-<p>You can see that when one kitty gets drawn on top of the other, the entire
-rectangle of the image gets drawn. Which is maybe okay for some purposes, but
-not what we expected.</p>
+<p>Je ziet dat wanneer een kat bovenop de andere wordt getekend de hele rechthoek van de afbeelding wordt getekend.
+Dat zou best handig kunnen zijn in sommige gevallen maar is hier niet wat je verwacht (of wil).
+</p>
 
-<p>In order to help you understand how to draw images with a transparent
-background, I need to introduce the concept of the <em>alpha channel</em>.  The alpha
-channel is a fourth bit of information stored in a pixel, along with its
-red/green/blue value, that determines how transparent a pixel should look on
-the screen. An alpha value of 255 is entirely opaque, and an alpha value of 0
-is totally transparent.  The commands we’ve used so far to control color
-actually all support a fourth parameter to control this. Here’s an example:</p>
+<p>Om te begrijpen hoe je plaatjes met een transparante achtergrond tekent, moet ik het idee van 
+<em>alpha channel (alpha kanaal)</em> uitleggen. 
+Het alpha channel is een vierde stukje informatie dat is opgeslagen in een pixel, naast de RGB-waarden
+(rood, groen, blauw), dat bepaalt hoe doorzichtig een pixel er op het scherm moet uitzien. 
+Een alpha waarde van 255 is volledig ondoorzichtig, en een alpha waarde van 0
+is volledig doorzichtig. 
+The functies die we tot nog toe gebruikt hebben om kleur in te stellen ondersteunen allemaal een vierde parameter om de doorzichtigheid in te stellen.
+Hier is een voorbeeld:</p>
 
 <script type="text/p5" data-preview-width="400" data-height="400">
 function setup() {
@@ -280,19 +265,19 @@ function draw() {
     background(255);
     rectMode(CENTER);
     noStroke();
-    // opaque red rectangle
+    // ondrozichtig rood vierkant
     fill(240, 50, 50);
     rect(width/2, height/2, 300, 300);
-    // vary alpha value of blue rectangle
+    // varieer de alpha waarde van het blauwe vierkant
     fill(50, 50, 240, 128+sin(frameCount*0.05)*128);
     rect(mouseX, mouseY, 100, 100);
 }
 </script>
-<p>In this example, the fourth parameter to <code>fill()</code> controls <em>how transparent the
-fill color is</em>. (The expression with <code>sin()</code> uses the frame count to slowly
-oscillate this value.)</p>
+<p>In dit voorbeeld, bepaalt de vierde parameter van <code>fill()</code> <em>hoe doorzichtig de
+vulkleur is</em>. (De uitdrukking met <code>sin()</code> gebruikt de frame count om deze waarde langzaam op en neer te laten gaan.
+</p>
 
-<h3 id="transparent-pngs">Transparent PNGs</h3>
+<h3 id="transparent-pngs">Transparante PNGs</h3>
 
 <p>There’s another image format, called PNG, which does store transparency
 information. In a PNG, every pixel in the data has a value for its red, blue,
