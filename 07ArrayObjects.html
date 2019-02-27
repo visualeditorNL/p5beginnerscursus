@@ -164,7 +164,7 @@ function draw() {
   }
 }
 </script>
-<p>Dit is heel veel nieuwe informatie! Laten we de code stap voor stap doornemen. Als eerste is er de There’s a lot of new stuff in here, so let’s pick it apart one piece at a time.
+<p>Dit is heel veel nieuwe informatie! Laten we de code stap voor stap doornemen. Als eerste is er de 
 <em>declaratie</em> (het aanmaken) van de array:</p>
 
 <pre><code>var rectY = [0, 15, 30];
@@ -189,7 +189,7 @@ Dus, in een loop, tekent dit statement: </p>
 <pre><code>rect((i+1)*100, rectY[i], 50, 25);
 </code></pre>
 
-<p>… een rechthoek dat gebruik maakt van de waarde die is opgeslleeftijdn op de specifieke index van de array  (<code>0</code>, <code>1</code>, of <code>2</code>). Deze indexwaarde kan ook aangepast worden, met de onderstaande regel: </p>
+<p>… een rechthoek dat gebruik maakt van de waarde die is opgeslagen op de specifieke index van de array  (<code>0</code>, <code>1</code>, of <code>2</code>). Deze indexwaarde kan ook aangepast worden, met de onderstaande regel: </p>
 
 <pre><code>rectY[i] += 1;
 </code></pre>
@@ -208,7 +208,7 @@ Dus, in een loop, tekent dit statement: </p>
 <pre><code>var helemaalNietsInHier = [];
 </code></pre>
 
-<p>Een array heeft een bepaald aantal <em>waarden</em> in zich. Om te zien hoeveel zleeftijdn we hierboven al dat je de <code>.length</code> attribuut konden gebruiken:</p>
+<p>Een array heeft een bepaald aantal <em>waarden</em> in zich. Om te zien hoeveel zagen we hierboven al dat je de <code>.length</code> attribuut konden gebruiken:</p>
 
 <pre><code>console.log(stuff.length); // geeft 4
 console.log(helemaalNietsInHier.length); // geeft 0
@@ -379,7 +379,7 @@ function mousePressed() {
 
 <h2 id="objects">Objecten</h2>
 
-<p>Het nadeel van arrays-in-arrays is dat je al snel vergeet wat de elementen in de binnenste arrays ook al weer betekenden. De getallen zelf zeggen niet zo veel (waarom is de X-coordinaat opgeslleeftijdn op index 0? Wat heeft 'X' te maken met '0'?). Zou het niet handig zijn als er een manier in Javascript was om data in een datastructuur te stoppen dat <em>lijkt</em> op een array in die zin dat het meerdere waarden kan bevatten, maar dan met de mogelijkheid om de elementen een begrijpbare naam te geven.</p>
+<p>Het nadeel van arrays-in-arrays is dat je al snel vergeet wat de elementen in de binnenste arrays ook al weer betekenden. De getallen zelf zeggen niet zo veel (waarom is de X-coordinaat opgeslagen op index 0? Wat heeft 'X' te maken met '0'?). Zou het niet handig zijn als er een manier in Javascript was om data in een datastructuur te stoppen dat <em>lijkt</em> op een array in die zin dat het meerdere waarden kan bevatten, maar dan met de mogelijkheid om de elementen een begrijpbare naam te geven.</p>
 
 <p>Er blijkt uiteraard zo'n datastructuur te bestaan! (anders was ik er vast niet over begonnen). Het heet een <em>object</em>. Een object kan meerdere waarden bevatten, net zoals een array, maar alle individuele waarden kunnen een <em>key</em> krijgen, een naam. Objects zijn verder net als iedere andere waarde in Javascript: je kan ze in variabelen opslaan, ze in arrays stoppen, of zelfs objecten in objecten opslaan.</p>
 
